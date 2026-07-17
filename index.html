@@ -5,897 +5,958 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Tres generaciones, un mismo viaje — Esencia Vietnam</title>
 <style>
-  :root{
-    --green-deep:#1f3d33;
-    --green-mid:#2c5445;
-    --gold:#b08d57;
-    --gold-light:#d9bd8e;
-    --cream:#faf6ee;
-    --cream-card:#ffffff;
-    --ink:#26302c;
-    --muted:#5c6b63;
-  }
-  *{box-sizing:border-box;}
-  body{
-    margin:0;
-    font-family:'Georgia','Times New Roman',serif;
-    background:var(--cream);
-    color:var(--ink);
-    line-height:1.6;
-  }
-  .sans{font-family:'Segoe UI',Arial,sans-serif;}
-  a{color:inherit;}
-  .wrap{max-width:920px;margin:0 auto;padding:0 24px;}
-  .btn{
-    display:inline-block;
-    background:var(--gold);
-    color:#fff;
-    font-family:'Segoe UI',Arial,sans-serif;
-    font-weight:600;
-    letter-spacing:.02em;
-    padding:16px 32px;
-    border-radius:999px;
-    text-decoration:none;
-    box-shadow:0 6px 18px rgba(176,141,87,.35);
-    transition:transform .15s ease, box-shadow .15s ease;
-    border:none;
-    cursor:pointer;
-    font-size:16px;
-  }
-  .btn:hover{transform:translateY(-2px);box-shadow:0 10px 22px rgba(176,141,87,.45);}
-  .btn.outline{
-    background:transparent;
-    border:2px solid #fff;
-    color:#fff;
-    box-shadow:none;
-  }
-
-  /* HERO */
-  header.hero{
-    background:linear-gradient(160deg,var(--green-deep),var(--green-mid));
-    color:#f6f1e6;
-    padding:56px 0 72px;
-    text-align:center;
-    position:relative;
-    overflow:hidden;
-  }
-  header.hero::after{
-    content:"";
-    position:absolute;inset:0;
-    background:
-      radial-gradient(circle at 15% 20%, rgba(217,189,142,.12), transparent 40%),
-      radial-gradient(circle at 85% 80%, rgba(217,189,142,.10), transparent 45%);
-    pointer-events:none;
-  }
-  .eyebrow{
-    font-family:'Segoe UI',Arial,sans-serif;
-    text-transform:uppercase;
-    letter-spacing:.18em;
-    font-size:13px;
-    color:var(--gold-light);
-    margin-bottom:18px;
-  }
-  h1.headline{
-    font-size:clamp(28px,4.2vw,46px);
-    margin:0 0 20px;
-    font-weight:700;
-    line-height:1.25;
-  }
-  p.subhead{
-    font-family:'Segoe UI',Arial,sans-serif;
-    font-size:17px;
-    color:#e4ded0;
-    max-width:640px;
-    margin:0 auto 34px;
-  }
-  .badgebar{
-    font-family:'Segoe UI',Arial,sans-serif;
-    font-size:14px;
-    color:var(--gold-light);
-    margin-top:22px;
-    display:flex;
-    flex-wrap:wrap;
-    gap:8px 22px;
-    justify-content:center;
-  }
-
-  section{padding:64px 0;}
-  h2.kicker{
-    font-family:'Segoe UI',Arial,sans-serif;
-    text-transform:uppercase;
-    letter-spacing:.14em;
-    font-size:13px;
-    color:var(--gold);
-    margin:0 0 10px;
-    text-align:center;
-  }
-  h2.title{
-    font-size:clamp(24px,3vw,34px);
-    text-align:center;
-    margin:0 0 36px;
-    color:var(--green-deep);
-  }
-
-  /* PROBLEM */
-  section.problem{background:var(--cream);}
-  .problem-text{
-    max-width:700px;margin:0 auto;
-    font-size:18px;
-    color:var(--ink);
-  }
-  .problem-text p{margin:0 0 18px;}
-
-  /* TRUST */
-  section.trust{background:#fff;border-top:1px solid #eee2cc;border-bottom:1px solid #eee2cc;}
-  .trust-grid{display:flex;gap:36px;align-items:flex-start;flex-wrap:wrap;}
-  .trust-col{flex:1;min-width:260px;}
-  .stat-row{display:flex;gap:28px;margin-top:20px;flex-wrap:wrap;}
-  .stat{font-family:'Segoe UI',Arial,sans-serif;}
-  .stat .num{font-size:30px;font-weight:700;color:var(--green-deep);display:block;}
-  .stat .lbl{font-size:13px;color:var(--muted);}
-
-  /* STORY */
-  section.story{background:var(--cream);}
-  blockquote.review{
-    background:var(--cream-card);
-    border-left:4px solid var(--gold);
-    padding:26px 30px;
-    margin:0 auto;
-    max-width:700px;
-    font-style:italic;
-    font-size:17px;
-    border-radius:4px;
-    box-shadow:0 4px 18px rgba(31,61,51,.06);
-  }
-  blockquote.review cite{
-    font-style:normal;
-    font-family:'Segoe UI',Arial,sans-serif;
-    font-size:13px;
-    color:var(--muted);
-  }
-  .reviewer{
-    display:flex;
-    align-items:center;
-    gap:12px;
-    margin-top:16px;
-  }
-  .avatar{
-    width:38px;
-    height:38px;
-    min-width:38px;
-    border-radius:50%;
-    background:var(--green-deep);
-    color:#f3ede1;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-family:'Segoe UI',Arial,sans-serif;
-    font-weight:700;
-    font-size:15px;
-  }
-  .story-lead{max-width:700px;margin:0 auto 26px;font-size:17px;}
-  .story-link{
-    display:block;text-align:center;margin-top:18px;
-    font-family:'Segoe UI',Arial,sans-serif;font-size:14px;
-    color:var(--green-mid);text-decoration:underline;
-  }
-
-  /* BENEFITS */
-  section.benefits{background:#fff;}
-  .cards{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
-    gap:22px;
-  }
-  .card{
-    background:var(--cream);
-    border:1px solid #eee2cc;
-    border-radius:10px;
-    padding:24px;
-  }
-  .card h3{
-    margin:0 0 10px;
-    font-size:17px;
-    color:var(--green-deep);
-  }
-  .card p{
-    margin:0;
-    font-size:15px;
-    color:var(--ink);
-    font-family:'Segoe UI',Arial,sans-serif;
-  }
-  .stack-note{
-    margin-top:34px;
-    background:var(--green-deep);
-    color:#f3ede1;
-    padding:26px 30px;
-    border-radius:10px;
-    font-family:'Segoe UI',Arial,sans-serif;
-    font-size:15px;
-    text-align:center;
-  }
-
-  /* ITINERARY */
-  section.itinerary{background:var(--cream);}
-  .day-list{
-    display:flex;
-    flex-direction:column;
-    gap:0;
-    max-width:820px;
-    margin:0 auto;
-  }
-  .day-row{
-    display:grid;
-    grid-template-columns:64px 1fr;
-    gap:22px;
-    position:relative;
-    padding-bottom:40px;
-  }
-  .day-row:last-child{padding-bottom:0;}
-  .day-marker{
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-  }
-  .day-num{
-    width:44px;height:44px;
-    border-radius:50%;
-    background:var(--green-deep);
-    color:var(--gold-light);
-    font-family:'Segoe UI',Arial,sans-serif;
-    font-weight:700;
-    font-size:15px;
-    display:flex;align-items:center;justify-content:center;
-    flex-shrink:0;
-  }
-  .day-line{
-    flex:1;
-    width:2px;
-    background:repeating-linear-gradient(to bottom, var(--gold-light) 0 6px, transparent 6px 12px);
-    margin-top:8px;
-  }
-  .day-row:last-child .day-line{display:none;}
-  .day-card{
-    background:#fff;
-    border:1px solid #eee2cc;
-    border-radius:14px;
-    overflow:hidden;
-    box-shadow:0 4px 16px rgba(31,61,51,.05);
-  }
-  .day-illus{
-    display:block;
-    width:100%;
-    height:auto;
-  }
-  img.day-illus{
-    height:210px;
-    object-fit:cover;
-  }
-  .photo-credit{
-    display:block;
-    font-family:'Segoe UI',Arial,sans-serif;
-    font-size:10px;
-    color:var(--muted);
-    text-align:right;
-    padding:4px 10px 0;
-    background:#fff;
-  }
-  .photo-credit a{color:var(--muted);}
-  .day-body{padding:18px 22px 20px;}
-  .day-body h3{
-    margin:0 0 6px;
-    font-size:17px;
-    color:var(--green-deep);
-  }
-  .day-body p{
-    margin:0 0 10px;
-    font-size:14.5px;
-    color:var(--ink);
-    font-family:'Segoe UI',Arial,sans-serif;
-  }
-  .meal-pills{display:flex;gap:6px;flex-wrap:wrap;}
-  .meal-pill{
-    font-family:'Segoe UI',Arial,sans-serif;
-    font-size:11.5px;
-    font-weight:600;
-    letter-spacing:.04em;
-    color:var(--green-deep);
-    background:var(--cream);
-    border:1px solid var(--gold-light);
-    border-radius:999px;
-    padding:3px 11px;
-  }
-
-  /* FAQ */
-  section.faq{background:var(--cream);}
-  .faq-item{
-    background:#fff;
-    border:1px solid #eee2cc;
-    border-radius:10px;
-    padding:20px 24px;
-    margin-bottom:14px;
-  }
-  .faq-item h4{
-    margin:0 0 8px;
-    font-size:16px;
-    color:var(--green-deep);
-    font-family:'Segoe UI',Arial,sans-serif;
-  }
-  .faq-item p{margin:0;font-size:15px;color:var(--ink);}
-
-  /* REASON */
-  section.reason{background:#fff;text-align:center;}
-  .reason-text{max-width:650px;margin:0 auto;font-size:17px;}
-
-  /* PRICING */
-  section.pricing{background:var(--green-deep);color:#f3ede1;}
-  section.pricing h2.title{color:#fff;}
-  section.pricing h2.kicker{color:var(--gold-light);}
-  .price-card{
-    background:rgba(255,255,255,.06);
-    border:1px solid rgba(217,189,142,.35);
-    border-radius:14px;
-    padding:38px;
-    max-width:640px;
-    margin:0 auto;
-    text-align:center;
-  }
-  .price-card p{font-size:16px;color:#e4ded0;}
-  .price-benchmark{
-    font-family:'Segoe UI',Arial,sans-serif;
-    font-size:14px;
-    color:var(--gold-light);
-    margin-top:16px;
-  }
-  .price-card .cta-row{margin-top:26px;}
-  .price-figures{
-    font-family:'Segoe UI',Arial,sans-serif;
-    margin:20px 0 8px;
-  }
-  .price-old{
-    font-size:19px;
-    text-decoration:line-through;
-    color:#c9beaa;
-    opacity:.75;
-  }
-  .price-now{
-    font-size:clamp(40px,6vw,56px);
-    font-weight:700;
-    color:#fff;
-    line-height:1.1;
-    margin:2px 0 2px;
-  }
-  .price-unit{font-size:14px;color:#e4ded0;}
-  .deadline-badge{
-    display:inline-block;
-    background:var(--gold);
-    color:var(--green-deep);
-    font-weight:700;
-    font-size:13px;
-    letter-spacing:.02em;
-    padding:7px 18px;
-    border-radius:999px;
-    margin-top:16px;
-  }
-
-  /* TESTIMONIALS */
-  section.testimonials{background:#fff;}
-  .rating-line{
-    text-align:center;
-    font-family:'Segoe UI',Arial,sans-serif;
-    margin-bottom:30px;
-  }
-  .rating-line .stars{color:var(--gold);font-size:22px;letter-spacing:2px;}
-  .rating-line .num{font-weight:700;color:var(--green-deep);}
-  .review-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:22px;}
-
-  /* SCARCITY */
-  section.scarcity{background:var(--cream);text-align:center;}
-  .scarcity-box{
-    max-width:600px;margin:0 auto;
-    background:#fff;
-    border:1px dashed var(--gold);
-    border-radius:12px;
-    padding:28px;
-    font-size:16px;
-  }
-
-  /* FINAL CTA */
-  section.finalcta{
-    background:linear-gradient(160deg,var(--green-mid),var(--green-deep));
-    color:#f6f1e6;
-    text-align:center;
-  }
-  .contact-list{
-    font-family:'Segoe UI',Arial,sans-serif;
-    margin:26px 0 34px;
-    font-size:16px;
-    line-height:2;
-  }
-  .lead-form{
-    background:rgba(255,255,255,.07);
-    border:1px solid rgba(217,189,142,.35);
-    border-radius:16px;
-    padding:32px;
-    max-width:480px;
-    margin:34px auto 0;
-    text-align:left;
-  }
-  .lead-form .field{margin-bottom:16px;}
-  .lead-form label{
-    display:block;
-    font-family:'Segoe UI',Arial,sans-serif;
-    font-size:12.5px;
-    text-transform:uppercase;
-    letter-spacing:.06em;
-    color:var(--gold-light);
-    margin-bottom:6px;
-  }
-  .lead-form input,
-  .lead-form textarea{
-    width:100%;
-    padding:11px 13px;
-    border-radius:8px;
-    border:1px solid rgba(255,255,255,.28);
-    background:rgba(255,255,255,.08);
-    color:#fff;
-    font-family:'Segoe UI',Arial,sans-serif;
-    font-size:15px;
-  }
-  .lead-form input::placeholder,
-  .lead-form textarea::placeholder{color:rgba(246,241,230,.5);}
-  .lead-form textarea{resize:vertical;min-height:70px;}
-  .lead-form button[type="submit"]{
-    width:100%;
-    margin-top:6px;
-    font-size:16px;
-  }
-  .lead-form-note{
-    font-family:'Segoe UI',Arial,sans-serif;
-    font-size:12.5px;
-    color:rgba(246,241,230,.7);
-    margin-top:12px;
-    text-align:center;
-  }
-  .divider-or{
-    font-family:'Segoe UI',Arial,sans-serif;
-    font-size:12.5px;
-    color:rgba(246,241,230,.6);
-    text-align:center;
-    margin:28px 0 6px;
-    text-transform:uppercase;
-    letter-spacing:.08em;
-  }
-  .contact-list a{text-decoration:none;color:var(--gold-light);}
-
-  footer{
-    background:var(--green-deep);
-    color:#cbd3ce;
-    font-family:'Segoe UI',Arial,sans-serif;
-    font-size:12px;
-    text-align:center;
-    padding:22px 0;
-  }
-
-  /* SNOWFALL */
-  #snow{
-    position:fixed;
-    inset:0;
-    width:100%;
-    height:100%;
-    pointer-events:none;
-    z-index:9999;
-  }
-
-  @media (max-width:640px){
-    section{padding:44px 0;}
-    .trust-grid{flex-direction:column;}
-  }
+:root{
+--green-deep:#1f3d33;
+--green-mid:#2c5445;
+--gold:#b08d57;
+--gold-light:#d9bd8e;
+--cream:#faf6ee;
+--cream-card:#ffffff;
+--ink:#26302c;
+--muted:#5c6b63;
+}
+*{box-sizing:border-box;}
+body{
+margin:0;
+font-family:'Georgia','Times New Roman',serif;
+background:var(--cream);
+color:var(--ink);
+line-height:1.6;
+}
+.sans{font-family:'Segoe UI',Arial,sans-serif;}
+a{color:inherit;}
+.wrap{max-width:920px;margin:0 auto;padding:0 24px;}
+.btn{
+display:inline-block;
+background:var(--gold);
+color:#fff;
+font-family:'Segoe UI',Arial,sans-serif;
+font-weight:600;
+letter-spacing:.02em;
+padding:16px 32px;
+border-radius:999px;
+text-decoration:none;
+box-shadow:0 6px 18px rgba(176,141,87,.35);
+transition:transform .15s ease, box-shadow .15s ease;
+border:none;
+cursor:pointer;
+font-size:16px;
+}
+.btn:hover{transform:translateY(-2px);box-shadow:0 10px 22px rgba(176,141,87,.45);}
+.btn.outline{
+background:transparent;
+border:2px solid #fff;
+color:#fff;
+box-shadow:none;
+}
+/* HERO */
+header.hero{
+background:linear-gradient(160deg,var(--green-deep),var(--green-mid));
+color:#f6f1e6;
+padding:56px 0 72px;
+text-align:center;
+position:relative;
+overflow:hidden;
+}
+header.hero::after{
+content:"";
+position:absolute;inset:0;
+background:
+radial-gradient(circle at 15% 20%, rgba(217,189,142,.12), transparent 40%),
+radial-gradient(circle at 85% 80%, rgba(217,189,142,.10), transparent 45%);
+pointer-events:none;
+}
+.eyebrow{
+font-family:'Segoe UI',Arial,sans-serif;
+text-transform:uppercase;
+letter-spacing:.18em;
+font-size:13px;
+color:var(--gold-light);
+margin-bottom:18px;
+}
+h1.headline{
+font-size:clamp(28px,4.2vw,46px);
+margin:0 0 20px;
+font-weight:700;
+line-height:1.25;
+}
+p.subhead{
+font-family:'Segoe UI',Arial,sans-serif;
+font-size:17px;
+color:#e4ded0;
+max-width:640px;
+margin:0 auto 34px;
+}
+.badgebar{
+font-family:'Segoe UI',Arial,sans-serif;
+font-size:14px;
+color:var(--gold-light);
+margin-top:22px;
+display:flex;
+flex-wrap:wrap;
+gap:8px 22px;
+justify-content:center;
+}
+section{padding:64px 0;}
+h2.kicker{
+font-family:'Segoe UI',Arial,sans-serif;
+text-transform:uppercase;
+letter-spacing:.14em;
+font-size:13px;
+color:var(--gold);
+margin:0 0 10px;
+text-align:center;
+}
+h2.title{
+font-size:clamp(24px,3vw,34px);
+text-align:center;
+margin:0 0 36px;
+color:var(--green-deep);
+}
+/* PROBLEM */
+section.problem{background:var(--cream);}
+.problem-text{
+max-width:700px;margin:0 auto;
+font-size:18px;
+color:var(--ink);
+}
+.problem-text p{margin:0 0 18px;}
+/* TRUST */
+section.trust{background:#fff;border-top:1px solid #eee2cc;border-bottom:1px solid #eee2cc;}
+.trust-grid{display:flex;gap:36px;align-items:flex-start;flex-wrap:wrap;}
+.trust-col{flex:1;min-width:260px;}
+.stat-row{display:flex;gap:28px;margin-top:20px;flex-wrap:wrap;}
+.stat{font-family:'Segoe UI',Arial,sans-serif;}
+.stat .num{font-size:30px;font-weight:700;color:var(--green-deep);display:block;}
+.stat .lbl{font-size:13px;color:var(--muted);}
+/* STORY */
+section.story{background:var(--cream);}
+blockquote.review{
+background:var(--cream-card);
+border-left:4px solid var(--gold);
+padding:26px 30px;
+margin:0 auto;
+max-width:700px;
+font-style:italic;
+font-size:17px;
+border-radius:4px;
+box-shadow:0 4px 18px rgba(31,61,51,.06);
+}
+blockquote.review cite{
+font-style:normal;
+font-family:'Segoe UI',Arial,sans-serif;
+font-size:13px;
+color:var(--muted);
+}
+.reviewer{
+display:flex;
+align-items:center;
+gap:12px;
+margin-top:16px;
+}
+.avatar{
+width:38px;
+height:38px;
+min-width:38px;
+border-radius:50%;
+background:var(--green-deep);
+color:#f3ede1;
+display:flex;
+align-items:center;
+justify-content:center;
+font-family:'Segoe UI',Arial,sans-serif;
+font-weight:700;
+font-size:15px;
+}
+.story-lead{max-width:700px;margin:0 auto 26px;font-size:17px;}
+.story-link{
+display:block;text-align:center;margin-top:18px;
+font-family:'Segoe UI',Arial,sans-serif;font-size:14px;
+color:var(--green-mid);text-decoration:underline;
+}
+/* BENEFITS */
+section.benefits{background:#fff;}
+.cards{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+gap:22px;
+}
+.card{
+background:var(--cream);
+border:1px solid #eee2cc;
+border-radius:10px;
+padding:24px;
+}
+.card h3{
+margin:0 0 10px;
+font-size:17px;
+color:var(--green-deep);
+}
+.card p{
+margin:0;
+font-size:15px;
+color:var(--ink);
+font-family:'Segoe UI',Arial,sans-serif;
+}
+.stack-note{
+margin-top:34px;
+background:var(--green-deep);
+color:#f3ede1;
+padding:26px 30px;
+border-radius:10px;
+font-family:'Segoe UI',Arial,sans-serif;
+font-size:15px;
+text-align:center;
+}
+/* ITINERARY */
+section.itinerary{background:var(--cream);}
+.day-list{
+display:flex;
+flex-direction:column;
+gap:0;
+max-width:820px;
+margin:0 auto;
+}
+.day-row{
+display:grid;
+grid-template-columns:64px 1fr;
+gap:22px;
+position:relative;
+padding-bottom:40px;
+}
+.day-row:last-child{padding-bottom:0;}
+.day-marker{
+display:flex;
+flex-direction:column;
+align-items:center;
+}
+.day-num{
+width:44px;height:44px;
+border-radius:50%;
+background:var(--green-deep);
+color:var(--gold-light);
+font-family:'Segoe UI',Arial,sans-serif;
+font-weight:700;
+font-size:15px;
+display:flex;align-items:center;justify-content:center;
+flex-shrink:0;
+}
+.day-line{
+flex:1;
+width:2px;
+background:repeating-linear-gradient(to bottom, var(--gold-light) 0 6px, transparent 6px 12px);
+margin-top:8px;
+}
+.day-row:last-child .day-line{display:none;}
+.day-card{
+background:#fff;
+border:1px solid #eee2cc;
+border-radius:14px;
+overflow:hidden;
+box-shadow:0 4px 16px rgba(31,61,51,.05);
+}
+.day-illus{
+display:block;
+width:100%;
+height:auto;
+}
+img.day-illus{
+height:210px;
+object-fit:cover;
+}
+.photo-credit{
+display:block;
+font-family:'Segoe UI',Arial,sans-serif;
+font-size:10px;
+color:var(--muted);
+text-align:right;
+padding:4px 10px 0;
+background:#fff;
+}
+.photo-credit a{color:var(--muted);}
+.day-body{padding:18px 22px 20px;}
+.day-body h3{
+margin:0 0 6px;
+font-size:17px;
+color:var(--green-deep);
+}
+.day-body p{
+margin:0 0 10px;
+font-size:14.5px;
+color:var(--ink);
+font-family:'Segoe UI',Arial,sans-serif;
+}
+.meal-pills{display:flex;gap:6px;flex-wrap:wrap;}
+.meal-pill{
+font-family:'Segoe UI',Arial,sans-serif;
+font-size:11.5px;
+font-weight:600;
+letter-spacing:.04em;
+color:var(--green-deep);
+background:var(--cream);
+border:1px solid var(--gold-light);
+border-radius:999px;
+padding:3px 11px;
+}
+/* FAQ */
+section.faq{background:var(--cream);}
+.faq-item{
+background:#fff;
+border:1px solid #eee2cc;
+border-radius:10px;
+padding:20px 24px;
+margin-bottom:14px;
+}
+.faq-item h4{
+margin:0 0 8px;
+font-size:16px;
+color:var(--green-deep);
+font-family:'Segoe UI',Arial,sans-serif;
+}
+.faq-item p{margin:0;font-size:15px;color:var(--ink);}
+/* QUIZ */
+section.quiz{background:#fff;border-top:1px solid #eee2cc;border-bottom:1px solid #eee2cc;}
+.btn.outline-dark{background:transparent;border:2px solid var(--green-deep);color:var(--green-deep);box-shadow:none;}
+.quiz-box{max-width:600px;margin:0 auto;background:var(--cream);border:1px solid #eee2cc;border-radius:14px;padding:32px;}
+.quiz-progress{display:flex;gap:6px;justify-content:center;margin-bottom:26px;}
+.quiz-dot{width:9px;height:9px;border-radius:50%;background:#e6dcc5;}
+.quiz-dot.active{background:var(--gold);}
+.quiz-q-text{font-size:19px;color:var(--green-deep);margin:0 0 20px;}
+.quiz-option{display:block;width:100%;text-align:left;padding:14px 18px;margin-bottom:10px;border:1px solid #eee2cc;border-radius:10px;background:#fff;font-family:'Segoe UI',Arial,sans-serif;font-size:15px;color:var(--ink);cursor:pointer;transition:border-color .15s ease;}
+.quiz-option:hover{border-color:var(--gold);}
+.quiz-nav{margin-top:6px;text-align:center;}
+/* REASON */
+section.reason{background:#fff;text-align:center;}
+.reason-text{max-width:650px;margin:0 auto;font-size:17px;}
+/* PRICING */
+section.pricing{background:var(--green-deep);color:#f3ede1;}
+section.pricing h2.title{color:#fff;}
+section.pricing h2.kicker{color:var(--gold-light);}
+.price-card{
+background:rgba(255,255,255,.06);
+border:1px solid rgba(217,189,142,.35);
+border-radius:14px;
+padding:38px;
+max-width:640px;
+margin:0 auto;
+text-align:center;
+}
+.price-card p{font-size:16px;color:#e4ded0;}
+.price-benchmark{
+font-family:'Segoe UI',Arial,sans-serif;
+font-size:14px;
+color:var(--gold-light);
+margin-top:16px;
+}
+.price-card .cta-row{margin-top:26px;}
+.price-figures{
+font-family:'Segoe UI',Arial,sans-serif;
+margin:20px 0 8px;
+}
+.price-old{
+font-size:19px;
+text-decoration:line-through;
+color:#c9beaa;
+opacity:.75;
+}
+.price-now{
+font-size:clamp(40px,6vw,56px);
+font-weight:700;
+color:#fff;
+line-height:1.1;
+margin:2px 0 2px;
+}
+.price-unit{font-size:14px;color:#e4ded0;}
+.deadline-badge{
+display:inline-block;
+background:var(--gold);
+color:var(--green-deep);
+font-weight:700;
+font-size:13px;
+letter-spacing:.02em;
+padding:7px 18px;
+border-radius:999px;
+margin-top:16px;
+}
+/* TESTIMONIALS */
+section.testimonials{background:#fff;}
+.rating-line{
+text-align:center;
+font-family:'Segoe UI',Arial,sans-serif;
+margin-bottom:30px;
+}
+.rating-line .stars{color:var(--gold);font-size:22px;letter-spacing:2px;}
+.rating-line .num{font-weight:700;color:var(--green-deep);}
+.review-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:22px;}
+/* SCARCITY */
+section.scarcity{background:var(--cream);text-align:center;}
+.scarcity-box{
+max-width:600px;margin:0 auto;
+background:#fff;
+border:1px dashed var(--gold);
+border-radius:12px;
+padding:28px;
+font-size:16px;
+}
+/* FINAL CTA */
+section.finalcta{
+background:linear-gradient(160deg,var(--green-mid),var(--green-deep));
+color:#f6f1e6;
+text-align:center;
+}
+.contact-list{
+font-family:'Segoe UI',Arial,sans-serif;
+margin:26px 0 34px;
+font-size:16px;
+line-height:2;
+}
+.lead-form{
+background:rgba(255,255,255,.07);
+border:1px solid rgba(217,189,142,.35);
+border-radius:16px;
+padding:32px;
+max-width:480px;
+margin:34px auto 0;
+text-align:left;
+}
+.lead-form .field{margin-bottom:16px;}
+.lead-form label{
+display:block;
+font-family:'Segoe UI',Arial,sans-serif;
+font-size:12.5px;
+text-transform:uppercase;
+letter-spacing:.06em;
+color:var(--gold-light);
+margin-bottom:6px;
+}
+.lead-form input,
+.lead-form textarea{
+width:100%;
+padding:11px 13px;
+border-radius:8px;
+border:1px solid rgba(255,255,255,.28);
+background:rgba(255,255,255,.08);
+color:#fff;
+font-family:'Segoe UI',Arial,sans-serif;
+font-size:15px;
+}
+.lead-form input::placeholder,
+.lead-form textarea::placeholder{color:rgba(246,241,230,.5);}
+.lead-form textarea{resize:vertical;min-height:70px;}
+.lead-form button[type="submit"]{
+width:100%;
+margin-top:6px;
+font-size:16px;
+}
+.lead-form-note{
+font-family:'Segoe UI',Arial,sans-serif;
+font-size:12.5px;
+color:rgba(246,241,230,.7);
+margin-top:12px;
+text-align:center;
+}
+.divider-or{
+font-family:'Segoe UI',Arial,sans-serif;
+font-size:12.5px;
+color:rgba(246,241,230,.6);
+text-align:center;
+margin:28px 0 6px;
+text-transform:uppercase;
+letter-spacing:.08em;
+}
+.contact-list a{text-decoration:none;color:var(--gold-light);}
+footer{
+background:var(--green-deep);
+color:#cbd3ce;
+font-family:'Segoe UI',Arial,sans-serif;
+font-size:12px;
+text-align:center;
+padding:22px 0;
+}
+/* SNOWFALL */
+#snow{
+position:fixed;
+inset:0;
+width:100%;
+height:100%;
+pointer-events:none;
+z-index:9999;
+}
+@media (max-width:640px){
+section{padding:44px 0;}
+.trust-grid{flex-direction:column;}
+}
 </style>
 </head>
 <body>
-
 <canvas id="snow"></canvas>
-
 <header class="hero">
-  <div class="wrap">
-    <div class="eyebrow">Esencia Vietnam</div>
-    <h1 class="headline">Tres generaciones, un mismo viaje — donde se respeta el ritmo de cada uno, sin que nadie tenga que forzar el suyo.</h1>
-    <p class="subhead">5 días / 4 noches por Da Nang, Hoi An y Hue · Guía en español e inglés · Vehículo privado · Hoteles 4–5★ con habitaciones cercanas · Asistencia médica 24/7 · Un precio claro, todo incluido.</p>
-    <a class="btn" href="#final-cta">Solicita la propuesta personalizada de tu familia</a>
-    <div class="badgebar">
-      <span>★ 5.0 / 5 en Tripadvisor</span>
-      <span>·</span>
-      <span>Travellers' Choice 2026</span>
-      <span>·</span>
-      <span>282 reseñas reales de viajeros</span>
-    </div>
-  </div>
+<div class="wrap">
+<div class="eyebrow">Esencia Vietnam</div>
+<h1 class="headline">Tres generaciones, un mismo viaje — donde se respeta el ritmo de cada uno, sin que nadie tenga que forzar el suyo.</h1>
+<p class="subhead">5 días / 4 noches por Da Nang, Hoi An y Hue · Guía en español e inglés · Vehículo privado · Hoteles 4–5★ con habitaciones cercanas · Asistencia médica 24/7 · Un precio claro, todo incluido.</p>
+<div style="display:flex; gap:12px; justify-content:center; flex-wrap:wrap; margin-top:10px;">
+<a class="btn" href="#final-cta">Solicita la propuesta personalizada de tu familia</a>
+<a class="btn outline" href="#quiz">¿No estás seguro? Descúbrelo en 1 minuto</a>
+</div>
+<div class="badgebar">
+<span>★ 5.0 / 5 en Tripadvisor</span>
+<span>·</span>
+<span>Travellers' Choice 2026</span>
+<span>·</span>
+<span>282 reseñas reales de viajeros</span>
+</div>
+</div>
 </header>
-
+<section class="quiz" id="quiz">
+<div class="wrap">
+<h2 class="kicker">Antes de escribirnos</h2>
+<h2 class="title">Descubre en 1 minuto qué viaje le conviene a tu familia</h2>
+<div class="quiz-box" id="quiz-box">
+<div class="quiz-progress" id="quiz-progress"></div>
+<div id="quiz-question"></div>
+<div class="quiz-nav"><button type="button" class="btn outline-dark" id="quiz-back" style="display:none;">Atrás</button></div>
+</div>
+</div>
+</section>
 <section class="problem">
-  <div class="wrap">
-    <h2 class="kicker">¿Te suena familiar?</h2>
-    <h2 class="title">Cada año que pasa, el viaje es un poco más difícil de planear</h2>
-    <div class="problem-text">
-      <p>Tu familia lleva tiempo soñando con esto — abuelos, padres e hijos, todos juntos, en Vietnam. Pero en el momento en que te sientas a planearlo de verdad, aparecen siempre las mismas preguntas:</p>
-      <p>¿Aguantarán mis padres un día entero de recorrido? ¿Se aburrirán los niños parados frente a templos y cascos antiguos? ¿Quién termina de "jefe de tour" para todos los demás, mientras también intenta disfrutar el viaje? ¿Y si terminas en uno de esos tours que discretamente te llevan a tiendas con comisión?</p>
-      <p>Cuanto más se posterga, más pequeña se vuelve la ventana para que las tres generaciones viajen juntas, en su mejor momento.</p>
-    </div>
-  </div>
+<div class="wrap">
+<h2 class="kicker">¿Te suena familiar?</h2>
+<h2 class="title">Cada año que pasa, el viaje es un poco más difícil de planear</h2>
+<div class="problem-text">
+<p>Tu familia lleva tiempo soñando con esto — abuelos, padres e hijos, todos juntos, en Vietnam. Pero en el momento en que te sientas a planearlo de verdad, aparecen siempre las mismas preguntas:</p>
+<p>¿Aguantarán mis padres un día entero de recorrido? ¿Se aburrirán los niños parados frente a templos y cascos antiguos? ¿Quién termina de "jefe de tour" para todos los demás, mientras también intenta disfrutar el viaje? ¿Y si terminas en uno de esos tours que discretamente te llevan a tiendas con comisión?</p>
+<p>Cuanto más se posterga, más pequeña se vuelve la ventana para que las tres generaciones viajen juntas, en su mejor momento.</p>
+</div>
+</div>
 </section>
-
 <section class="trust">
-  <div class="wrap">
-    <h2 class="kicker">Por qué confiar este viaje a nosotros</h2>
-    <h2 class="title">Experiencia real, no un guion</h2>
-    <div class="trust-grid">
-      <div class="trust-col">
-        <p>Detrás de cada itinerario está <b>Nguyễn Thị Diệu Linh</b>, quien ha guiado personalmente a <b>más de 100 grupos internacionales</b> por Vietnam desde 2022 — incluyendo viajeros de habla hispana — antes de encargarse de la planificación de viajes familiares para Esencia Vietnam.</p>
-        <p>El equipo detrás de Esencia Vietnam tiene actualmente una calificación de <b>5.0 / 5 sobre 282 reseñas</b> en Tripadvisor y el reconocimiento <b>Travellers' Choice 2026</b> — una distinción que Tripadvisor otorga solo a un grupo selecto de operadores, según la opinión de viajeros reales.</p>
-      </div>
-      <div class="trust-col">
-        <div class="stat-row">
-          <div class="stat"><span class="num">100+</span><span class="lbl">grupos internacionales guiados desde 2022</span></div>
-          <div class="stat"><span class="num">5.0★</span><span class="lbl">calificación / 282 reseñas en Tripadvisor</span></div>
-          <div class="stat"><span class="num">2026</span><span class="lbl">Premio Travellers' Choice</span></div>
-        </div>
-      </div>
-    </div>
-  </div>
+<div class="wrap">
+<h2 class="kicker">Por qué confiar este viaje a nosotros</h2>
+<h2 class="title">Experiencia real, no un guion</h2>
+<div class="trust-grid">
+<div class="trust-col">
+<p>Detrás de cada itinerario está <b>Nguyễn Thị Diệu Linh</b>, quien ha guiado personalmente a <b>más de 100 grupos internacionales</b> por Vietnam desde 2022 — incluyendo viajeros de habla hispana — antes de encargarse de la planificación de viajes familiares para Esencia Vietnam.</p>
+<p>El equipo detrás de Esencia Vietnam tiene actualmente una calificación de <b>5.0 / 5 sobre 282 reseñas</b> en Tripadvisor y el reconocimiento <b>Travellers' Choice 2026</b> — una distinción que Tripadvisor otorga solo a un grupo selecto de operadores, según la opinión de viajeros reales.</p>
+</div>
+<div class="trust-col">
+<div class="stat-row">
+<div class="stat"><span class="num">100+</span><span class="lbl">grupos internacionales guiados desde 2022</span></div>
+<div class="stat"><span class="num">5.0★</span><span class="lbl">calificación / 282 reseñas en Tripadvisor</span></div>
+<div class="stat"><span class="num">2026</span><span class="lbl">Premio Travellers' Choice</span></div>
+</div>
+</div>
+</div>
+</div>
 </section>
-
 <section class="story">
-  <div class="wrap">
-    <h2 class="kicker">Una familia real, un viaje real</h2>
-    <h2 class="title">Contado por alguien que lo vivió de verdad</h2>
-    <p class="story-lead">En julio de 2026, una familia de Singapur reservó un tour privado de 7 días por Hue, Da Nang y Hoi An. Antes de viajar, su mayor preocupación era simplemente coordinar a todo el grupo. Esto es lo que escribieron, públicamente, en Tripadvisor:</p>
-    <blockquote class="review">
-      "Un agradecimiento especial a Becky, cuya comunicación rápida y cercana por WhatsApp hizo que toda la planificación previa al viaje fuera sencilla — desde ajustar el itinerario hasta enviarnos, de forma proactiva, recordatorios sobre el clima local, qué empacar y la confirmación del vuelo, días antes de volar."
-      <div class="reviewer">
-        <div class="avatar">Y</div>
-        <cite>YC77 · viaje en familia, Da Nang–Hoi An–Hue (Tripadvisor, junio 2026)</cite>
-      </div>
-    </blockquote>
-    <p class="story-lead" style="margin-top:26px;">Esa misma dedicación — coordinación cercana antes del viaje, atención real durante el recorrido — es lo que ofrecemos a cada familia que viaja por el centro de Vietnam con Esencia Vietnam.</p>
-    <a class="story-link" href="https://www.tripadvisor.com.vn/Attraction_Review-g293924-d28038416-Reviews-Piu_Piu_Travel-Hanoi.html" target="_blank" rel="noopener">Leer la reseña completa en Tripadvisor →</a>
-  </div>
+<div class="wrap">
+<h2 class="kicker">Una familia real, un viaje real</h2>
+<h2 class="title">Contado por alguien que lo vivió de verdad</h2>
+<p class="story-lead">En julio de 2026, una familia de Singapur reservó un tour privado de 7 días por Hue, Da Nang y Hoi An. Antes de viajar, su mayor preocupación era simplemente coordinar a todo el grupo. Esto es lo que escribieron, públicamente, en Tripadvisor:</p>
+<blockquote class="review">
+"Un agradecimiento especial a Becky, cuya comunicación rápida y cercana por WhatsApp hizo que toda la planificación previa al viaje fuera sencilla — desde ajustar el itinerario hasta enviarnos, de forma proactiva, recordatorios sobre el clima local, qué empacar y la confirmación del vuelo, días antes de volar."
+<div class="reviewer">
+<div class="avatar">Y</div>
+<cite>YC77 · viaje en familia, Da Nang–Hoi An–Hue (Tripadvisor, junio 2026)</cite>
+</div>
+</blockquote>
+<p class="story-lead" style="margin-top:26px;">Esa misma dedicación — coordinación cercana antes del viaje, atención real durante el recorrido — es lo que ofrecemos a cada familia que viaja por el centro de Vietnam con Esencia Vietnam.</p>
+<a class="story-link" href="https://www.tripadvisor.com.vn/Attraction_Review-g293924-d28038416-Reviews-Piu_Piu_Travel-Hanoi.html" target="_blank" rel="noopener">Leer la reseña completa en Tripadvisor →</a>
+</div>
 </section>
-
 <section class="benefits">
-  <div class="wrap">
-    <h2 class="kicker">Lo que tu familia realmente recibe</h2>
-    <h2 class="title">Cada detalle, traducido en un beneficio real</h2>
-    <div class="cards">
-      <div class="card">
-        <h3>Un ritmo tranquilo y profundo</h3>
-        <p>Máximo 2 paradas principales al día, con una pausa larga al mediodía — así los abuelos nunca terminan el día agotados.</p>
-      </div>
-      <div class="card">
-        <h3>Una experiencia local práctica, cada día</h3>
-        <p>Clases de faroles en Hoi An, cocina con una familia local, cerámica de Thanh Ha, paseos en barca cesta por el bosque de cocoteros — recuerdos que las tres generaciones construyen juntas.</p>
-      </div>
-      <div class="card">
-        <h3>Guía bilingüe (español/inglés) que también sabe hablarles a los niños</h3>
-        <p>Para que nadie se pierda en la traducción, y nadie se aburra en las paradas históricas.</p>
-      </div>
-      <div class="card">
-        <h3>Vehículo privado, mismo conductor todo el viaje, silla infantil de seguridad</h3>
-        <p>Trayectos suaves, paradas cuando se necesiten — nadie llega agotado.</p>
-      </div>
-      <div class="card">
-        <h3>Hoteles 4–5★ con habitaciones cercanas, y piscina</h3>
-        <p>Cada generación tiene su propio espacio, sin sentirse nunca lejos de los demás.</p>
-      </div>
-      <div class="card">
-        <h3>Un menú flexible</h3>
-        <p>Platos suaves para los mayores, opciones sencillas para los más pequeños y exigentes.</p>
-      </div>
-      <div class="card">
-        <h3>Seguro de viaje + asistencia médica 24/7</h3>
-        <p>La preocupación número uno de cualquier familia que viaja con padres mayores — resuelta.</p>
-      </div>
-      <div class="card">
-        <h3>Un precio claro y cerrado — sin paradas comerciales con comisión</h3>
-        <p>Transparencia total, desde la primera cotización hasta el último día.</p>
-      </div>
-      <div class="card">
-        <h3>Una sesión de fotos familiar profesional</h3>
-        <p>Retratos en áo dài, el casco antiguo de noche — el recuerdo que toda tu familia querrá mostrar.</p>
-      </div>
-      <div class="card">
-        <h3>Una videollamada de planificación antes del viaje</h3>
-        <p>Para que cada duda quede resuelta antes de aterrizar.</p>
-      </div>
-    </div>
-    <div class="stack-note">Reservado por separado, esto significaría coordinar entre 6 y 7 servicios distintos por tu cuenta. Con Esencia Vietnam, llega como un solo paquete, coordinado de principio a fin.</div>
-  </div>
+<div class="wrap">
+<h2 class="kicker">Lo que tu familia realmente recibe</h2>
+<h2 class="title">Cada detalle, traducido en un beneficio real</h2>
+<div class="cards">
+<div class="card">
+<h3>Un ritmo tranquilo y profundo</h3>
+<p>Máximo 2 paradas principales al día, con una pausa larga al mediodía — así los abuelos nunca terminan el día agotados.</p>
+</div>
+<div class="card">
+<h3>Una experiencia local práctica, cada día</h3>
+<p>Clases de faroles en Hoi An, cocina con una familia local, cerámica de Thanh Ha, paseos en barca cesta por el bosque de cocoteros — recuerdos que las tres generaciones construyen juntas.</p>
+</div>
+<div class="card">
+<h3>Guía bilingüe (español/inglés) que también sabe hablarles a los niños</h3>
+<p>Para que nadie se pierda en la traducción, y nadie se aburra en las paradas históricas.</p>
+</div>
+<div class="card">
+<h3>Vehículo privado, mismo conductor todo el viaje, silla infantil de seguridad</h3>
+<p>Trayectos suaves, paradas cuando se necesiten — nadie llega agotado.</p>
+</div>
+<div class="card">
+<h3>Hoteles 4–5★ con habitaciones cercanas, y piscina</h3>
+<p>Cada generación tiene su propio espacio, sin sentirse nunca lejos de los demás.</p>
+</div>
+<div class="card">
+<h3>Un menú flexible</h3>
+<p>Platos suaves para los mayores, opciones sencillas para los más pequeños y exigentes.</p>
+</div>
+<div class="card">
+<h3>Seguro de viaje + asistencia médica 24/7</h3>
+<p>La preocupación número uno de cualquier familia que viaja con padres mayores — resuelta.</p>
+</div>
+<div class="card">
+<h3>Un precio claro y cerrado — sin paradas comerciales con comisión</h3>
+<p>Transparencia total, desde la primera cotización hasta el último día.</p>
+</div>
+<div class="card">
+<h3>Una sesión de fotos familiar profesional</h3>
+<p>Retratos en áo dài, el casco antiguo de noche — el recuerdo que toda tu familia querrá mostrar.</p>
+</div>
+<div class="card">
+<h3>Una videollamada de planificación antes del viaje</h3>
+<p>Para que cada duda quede resuelta antes de aterrizar.</p>
+</div>
+</div>
+<div class="stack-note">Reservado por separado, esto significaría coordinar entre 6 y 7 servicios distintos por tu cuenta. Con Esencia Vietnam, llega como un solo paquete, coordinado de principio a fin.</div>
+</div>
 </section>
-
 <section class="itinerary">
-  <div class="wrap">
-    <h2 class="kicker">El itinerario</h2>
-    <h2 class="title">Tus 5 días, día a día</h2>
-    <div class="day-list">
-
-      <div class="day-row">
-        <div class="day-marker"><div class="day-num">1</div><div class="day-line"></div></div>
-        <div class="day-card">
-          <img class="day-illus" src="images/day1-da-nang.jpg" alt="Puente del Dragón y horizonte de Da Nang de noche">
-          <span class="photo-credit">Foto: Vivu Vietnam / Wikimedia Commons, <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC BY-SA 4.0</a></span>
-          <div class="day-body">
-            <h3>Llegada a Da Nang</h3>
-            <p>Aterriza en Da Nang y instálate — la primera noche se deja tranquila a propósito, para que todos empiecen el viaje descansados.</p>
-            <div class="meal-pills"></div>
-          </div>
-        </div>
-      </div>
-
-      <div class="day-row">
-        <div class="day-marker"><div class="day-num">2</div><div class="day-line"></div></div>
-        <div class="day-card">
-          <img class="day-illus" src="images/day2-hoi-an.jpg" alt="Casa amarilla con faroles en el casco antiguo de Hoi An">
-          <span class="photo-credit">Foto: Steffen Schmitz (Carschten) / Wikimedia Commons, <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC BY-SA 4.0</a></span>
-          <div class="day-body">
-            <h3>Pagoda Linh Ung · Montaña de Mármol · Aldea de Cam Thanh · Casco antiguo de Hoi An</h3>
-            <p>Una pagoda en la colina, cuevas y miradores de mármol, un paseo en barca cesta por la aldea de cocoteros, y luego las calles iluminadas con faroles de Hoi An al anochecer.</p>
-            <div class="meal-pills"><span class="meal-pill">Desayuno</span><span class="meal-pill">Almuerzo</span><span class="meal-pill">Cena</span></div>
-          </div>
-        </div>
-      </div>
-
-      <div class="day-row">
-        <div class="day-marker"><div class="day-num">3</div><div class="day-line"></div></div>
-        <div class="day-card">
-          <img class="day-illus" src="images/day3-ba-na-hills.jpg" alt="Puente Dorado de Ba Na Hills al atardecer">
-          <span class="photo-credit">Foto: Vivu Vietnam / Wikimedia Commons, <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC BY-SA 4.0</a></span>
-          <div class="day-body">
-            <h3>Tour de día completo a Ba Na Hills</h3>
-            <p>Teleférico sobre las nubes, el Puente Dorado y los jardines en la colina — un día completo pero tranquilo, con muchos lugares para descansar entre paradas.</p>
-            <div class="meal-pills"><span class="meal-pill">Desayuno</span><span class="meal-pill">Almuerzo</span></div>
-          </div>
-        </div>
-      </div>
-
-      <div class="day-row">
-        <div class="day-marker"><div class="day-num">4</div><div class="day-line"></div></div>
-        <div class="day-card">
-          <img class="day-illus" src="images/day4-hue.jpg" alt="Cổng Ngọ Môn, Kinh thành Huế">
-          <span class="photo-credit">Foto: ElonggnolE / Wikimedia Commons, <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC BY-SA 4.0</a></span>
-          <div class="day-body">
-            <h3>Tour de día completo por Hue</h3>
-            <p>La Ciudadela Imperial y las tumbas reales junto al Río de los Perfumes — un día más pausado y lleno de historia, con largos descansos incluidos.</p>
-            <div class="meal-pills"><span class="meal-pill">Desayuno</span><span class="meal-pill">Almuerzo</span></div>
-          </div>
-        </div>
-      </div>
-
-      <div class="day-row">
-        <div class="day-marker"><div class="day-num">5</div></div>
-        <div class="day-card">
-          <img class="day-illus" src="images/day5-danang-departure.jpg" alt="Vista aérea de la playa My Khe, Da Nang">
-          <span class="photo-credit">Foto: Jpatokal / Wikimedia Commons, <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC BY-SA 4.0</a></span>
-          <div class="day-body">
-            <h3>Salida desde Da Nang</h3>
-            <p>Una mañana tranquila antes del traslado al aeropuerto — sin prisas de última hora, sin estrés.</p>
-            <div class="meal-pills"><span class="meal-pill">Desayuno</span></div>
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </div>
+<div class="wrap">
+<h2 class="kicker">El itinerario</h2>
+<h2 class="title">Tus 5 días, día a día</h2>
+<div class="day-list">
+<div class="day-row">
+<div class="day-marker"><div class="day-num">1</div><div class="day-line"></div></div>
+<div class="day-card">
+<img class="day-illus" src="images/day1-da-nang.jpg" alt="Puente del Dragón y horizonte de Da Nang de noche">
+<span class="photo-credit">Foto: Vivu Vietnam / Wikimedia Commons, <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC BY-SA 4.0</a></span>
+<div class="day-body">
+<h3>Llegada a Da Nang</h3>
+<p>Aterriza en Da Nang y instálate — la primera noche se deja tranquila a propósito, para que todos empiecen el viaje descansados.</p>
+<div class="meal-pills"></div>
+</div>
+</div>
+</div>
+<div class="day-row">
+<div class="day-marker"><div class="day-num">2</div><div class="day-line"></div></div>
+<div class="day-card">
+<img class="day-illus" src="images/day2-hoi-an.jpg" alt="Casa amarilla con faroles en el casco antiguo de Hoi An">
+<span class="photo-credit">Foto: Steffen Schmitz (Carschten) / Wikimedia Commons, <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC BY-SA 4.0</a></span>
+<div class="day-body">
+<h3>Pagoda Linh Ung · Montaña de Mármol · Aldea de Cam Thanh · Casco antiguo de Hoi An</h3>
+<p>Una pagoda en la colina, cuevas y miradores de mármol, un paseo en barca cesta por la aldea de cocoteros, y luego las calles iluminadas con faroles de Hoi An al anochecer.</p>
+<div class="meal-pills"><span class="meal-pill">Desayuno</span><span class="meal-pill">Almuerzo</span><span class="meal-pill">Cena</span></div>
+</div>
+</div>
+</div>
+<div class="day-row">
+<div class="day-marker"><div class="day-num">3</div><div class="day-line"></div></div>
+<div class="day-card">
+<img class="day-illus" src="images/day3-ba-na-hills.jpg" alt="Puente Dorado de Ba Na Hills al atardecer">
+<span class="photo-credit">Foto: Vivu Vietnam / Wikimedia Commons, <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC BY-SA 4.0</a></span>
+<div class="day-body">
+<h3>Tour de día completo a Ba Na Hills</h3>
+<p>Teleférico sobre las nubes, el Puente Dorado y los jardines en la colina — un día completo pero tranquilo, con muchos lugares para descansar entre paradas.</p>
+<div class="meal-pills"><span class="meal-pill">Desayuno</span><span class="meal-pill">Almuerzo</span></div>
+</div>
+</div>
+</div>
+<div class="day-row">
+<div class="day-marker"><div class="day-num">4</div><div class="day-line"></div></div>
+<div class="day-card">
+<img class="day-illus" src="images/day4-hue.jpg" alt="Cổng Ngọ Môn, Kinh thành Huế">
+<span class="photo-credit">Foto: ElonggnolE / Wikimedia Commons, <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC BY-SA 4.0</a></span>
+<div class="day-body">
+<h3>Tour de día completo por Hue</h3>
+<p>La Ciudadela Imperial y las tumbas reales junto al Río de los Perfumes — un día más pausado y lleno de historia, con largos descansos incluidos.</p>
+<div class="meal-pills"><span class="meal-pill">Desayuno</span><span class="meal-pill">Almuerzo</span></div>
+</div>
+</div>
+</div>
+<div class="day-row">
+<div class="day-marker"><div class="day-num">5</div></div>
+<div class="day-card">
+<img class="day-illus" src="images/day5-danang-departure.jpg" alt="Vista aérea de la playa My Khe, Da Nang">
+<span class="photo-credit">Foto: Jpatokal / Wikimedia Commons, <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC BY-SA 4.0</a></span>
+<div class="day-body">
+<h3>Salida desde Da Nang</h3>
+<p>Una mañana tranquila antes del traslado al aeropuerto — sin prisas de última hora, sin estrés.</p>
+<div class="meal-pills"><span class="meal-pill">Desayuno</span></div>
+</div>
+</div>
+</div>
+</div>
+</div>
 </section>
-
 <section class="faq">
-  <div class="wrap">
-    <h2 class="kicker">Antes de que preguntes</h2>
-    <h2 class="title">Las preguntas que toda familia nos hace primero</h2>
-    <div class="faq-item">
-      <h4>¿Podrán mis padres seguir el ritmo del viaje?</h4>
-      <p>Cada día está diseñado con un máximo de 2 paradas y tiempo real de descanso — el ritmo se adapta a ellos, no al revés.</p>
-    </div>
-    <div class="faq-item">
-      <h4>¿Se van a aburrir los niños?</h4>
-      <p>Cada día incluye una actividad práctica — cerámica, faroles, paseos en barca — pensada para que los niños toquen, hagan y jueguen, no solo miren.</p>
-    </div>
-    <div class="faq-item">
-      <h4>¿Nos van a llevar a tiendas con comisión?</h4>
-      <p>No. Nuestro precio es cerrado y no incluye paradas comerciales por comisión — es parte de nuestro compromiso de transparencia.</p>
-    </div>
-    <div class="faq-item">
-      <h4>¿Qué pasa si surge un problema de salud con mis padres?</h4>
-      <p>El seguro de viaje y la asistencia médica 24/7 están incluidos durante todo el recorrido.</p>
-    </div>
-    <div class="faq-item">
-      <h4>¿De verdad hablan español, o es a través de un traductor?</h4>
-      <p>La planificación y la guía en el terreno se hacen directamente en español — sin intermediarios.</p>
-    </div>
-  </div>
+<div class="wrap">
+<h2 class="kicker">Antes de que preguntes</h2>
+<h2 class="title">Las preguntas que toda familia nos hace primero</h2>
+<div class="faq-item">
+<h4>¿Podrán mis padres seguir el ritmo del viaje?</h4>
+<p>Cada día está diseñado con un máximo de 2 paradas y tiempo real de descanso — el ritmo se adapta a ellos, no al revés.</p>
+</div>
+<div class="faq-item">
+<h4>¿Se van a aburrir los niños?</h4>
+<p>Cada día incluye una actividad práctica — cerámica, faroles, paseos en barca — pensada para que los niños toquen, hagan y jueguen, no solo miren.</p>
+</div>
+<div class="faq-item">
+<h4>¿Nos van a llevar a tiendas con comisión?</h4>
+<p>No. Nuestro precio es cerrado y no incluye paradas comerciales por comisión — es parte de nuestro compromiso de transparencia.</p>
+</div>
+<div class="faq-item">
+<h4>¿Qué pasa si surge un problema de salud con mis padres?</h4>
+<p>El seguro de viaje y la asistencia médica 24/7 están incluidos durante todo el recorrido.</p>
+</div>
+<div class="faq-item">
+<h4>¿De verdad hablan español, o es a través de un traductor?</h4>
+<p>La planificación y la guía en el terreno se hacen directamente en español — sin intermediarios.</p>
+</div>
+<div class="faq-item" id="cancel-policy">
+<h4>¿Cuál es la política de depósito y cancelación?</h4>
+<p>Para confirmar tu reserva se solicita un depósito del 50% del valor del tour. Si necesitas cancelar: con más de 31 días de anticipación se retiene el 30% del precio (reembolso del 70%); entre 8 y 30 días antes, se retiene el 50% (reembolso del 50%); con 7 días o menos, no hay reembolso. Los vuelos reservados por nosotros no son reembolsables en ningún momento, y el monto reembolsado no incluye las comisiones de transacción internacional.</p>
+<p>¿Prefieres cambiar la fecha en lugar de cancelar? Puedes reprogramar tu viaje sin cargo de cancelación si lo solicitas con más de 60 días de anticipación a la fecha original — el precio se actualizará según la tarifa vigente en el momento del cambio. Los casos de fuerza mayor (por ejemplo, una emergencia de salud) se explican con más detalle en el itinerario completo que te enviamos tras tu solicitud.</p>
+</div>
+</div>
 </section>
-
 <section class="reason">
-  <div class="wrap">
-    <h2 class="kicker">Por qué ahora</h2>
-    <h2 class="title">Un producto recién lanzado, no un tour genérico</h2>
-    <p class="reason-text">Esencia Vietnam es un diseño de viaje que acabamos de lanzar, creado específicamente para familias hispanohablantes de tres generaciones — no un tour masivo con algunos detalles añadidos. Como estamos en esta primera fase, trabajamos de cerca con un número limitado de familias para perfeccionar cada detalle.</p>
-  </div>
+<div class="wrap">
+<h2 class="kicker">Por qué ahora</h2>
+<h2 class="title">Un producto recién lanzado, no un tour genérico</h2>
+<p class="reason-text">Esencia Vietnam es un diseño de viaje que acabamos de lanzar, creado específicamente para familias hispanohablantes de tres generaciones — no un tour masivo con algunos detalles añadidos. Como estamos en esta primera fase, trabajamos de cerca con un número limitado de familias para perfeccionar cada detalle.</p>
+</div>
 </section>
-
 <section class="pricing" id="pricing">
-  <div class="wrap">
-    <h2 class="kicker">Inversión</h2>
-    <h2 class="title">Un precio claro para tu familia</h2>
-    <div class="price-card">
-      <p>Tour privado de 5 días / 4 noches, todo incluido según el itinerario — mismo precio, sin sorpresas ni cargos ocultos.</p>
-      <div class="price-figures">
-        <div class="price-old">Precio regular: 425 USD por persona</div>
-        <div class="price-now">325 USD <span class="price-unit">por persona</span></div>
-      </div>
-      <div class="deadline-badge">Precio de lanzamiento válido hasta el 31 de julio de 2026</div>
-      <div class="cta-row"><a class="btn" href="#final-cta">Quiero reservar con este precio</a></div>
-    </div>
-  </div>
+<div class="wrap">
+<h2 class="kicker">Inversión</h2>
+<h2 class="title">Un precio claro para tu familia</h2>
+<div class="price-card">
+<p>Tour privado de 5 días / 4 noches, todo incluido según el itinerario — mismo precio, sin sorpresas ni cargos ocultos.</p>
+<div class="price-figures">
+<div class="price-old">Precio regular: 425 USD por persona</div>
+<div class="price-now">325 USD <span class="price-unit">por persona</span></div>
+</div>
+<div class="deadline-badge">Precio de lanzamiento válido hasta el 31 de julio de 2026</div>
+<div class="price-benchmark">Depósito del 50% para confirmar · <a href="#cancel-policy" style="color:var(--gold-light); text-decoration:underline;">ver política de cancelación</a></div>
+<div class="cta-row"><a class="btn" href="#final-cta">Quiero reservar con este precio</a></div>
+</div>
+</div>
 </section>
-
 <section class="testimonials">
-  <div class="wrap">
-    <h2 class="kicker">Lo que dicen las familias</h2>
-    <h2 class="title">Reseñas reales, familias reales</h2>
-    <div class="rating-line"><span class="stars">★★★★★</span> <span class="num">5.0/5</span> — 282 reseñas en Tripadvisor · Travellers' Choice 2026</div>
-    <div class="review-grid">
-      <blockquote class="review">
-        "Un agradecimiento especial a Becky, cuya comunicación rápida y cercana por WhatsApp hizo que toda la planificación previa al viaje fuera sencilla — desde ajustar el itinerario hasta enviarnos recordatorios sobre el clima local, qué empacar y la confirmación del vuelo, días antes de volar."
-        <div class="reviewer">
-          <div class="avatar">Y</div>
-          <cite>YC77 · viaje en familia, Da Nang–Hoi An–Hue</cite>
-        </div>
-      </blockquote>
-      <blockquote class="review">
-        "Somos un grupo familiar de 5 personas viajando con un niño... Chris fue muy conocedor, cercano, e hizo que cada parada fuera interesante... Al ser un tour privado, la agencia fue muy flexible y adaptó el itinerario a nuestros intereses y nuestro ritmo."
-        <div class="reviewer">
-          <div class="avatar">T</div>
-          <cite>Tanya R · tour de 6 días por el centro de Vietnam</cite>
-        </div>
-      </blockquote>
-    </div>
-    <a class="story-link" href="https://www.tripadvisor.com.vn/Attraction_Review-g293924-d28038416-Reviews-Piu_Piu_Travel-Hanoi.html" target="_blank" rel="noopener">Ver las 282 reseñas en Tripadvisor →</a>
-  </div>
+<div class="wrap">
+<h2 class="kicker">Lo que dicen las familias</h2>
+<h2 class="title">Reseñas reales, familias reales</h2>
+<div class="rating-line"><span class="stars">★★★★★</span> <span class="num">5.0/5</span> — 282 reseñas en Tripadvisor · Travellers' Choice 2026</div>
+<div class="review-grid">
+<blockquote class="review">
+"Un agradecimiento especial a Becky, cuya comunicación rápida y cercana por WhatsApp hizo que toda la planificación previa al viaje fuera sencilla — desde ajustar el itinerario hasta enviarnos recordatorios sobre el clima local, qué empacar y la confirmación del vuelo, días antes de volar."
+<div class="reviewer">
+<div class="avatar">Y</div>
+<cite>YC77 · viaje en familia, Da Nang–Hoi An–Hue</cite>
+</div>
+</blockquote>
+<blockquote class="review">
+"Somos un grupo familiar de 5 personas viajando con un niño... Chris fue muy conocedor, cercano, e hizo que cada parada fuera interesante... Al ser un tour privado, la agencia fue muy flexible y adaptó el itinerario a nuestros intereses y nuestro ritmo."
+<div class="reviewer">
+<div class="avatar">T</div>
+<cite>Tanya R · tour de 6 días por el centro de Vietnam</cite>
+</div>
+</blockquote>
+</div>
+<a class="story-link" href="https://www.tripadvisor.com.vn/Attraction_Review-g293924-d28038416-Reviews-Piu_Piu_Travel-Hanoi.html" target="_blank" rel="noopener">Ver las 282 reseñas en Tripadvisor →</a>
+</div>
 </section>
-
 <section class="scarcity">
-  <div class="wrap">
-    <h2 class="kicker">Nota de esta fase de lanzamiento</h2>
-    <h2 class="title">Por qué no podemos aceptar a todas las familias de inmediato</h2>
-    <div class="scarcity-box">
-      Al ser una línea de producto nueva y muy personalizada, cada itinerario se coordina de forma individual — por eso solo podemos confirmar un número limitado de salidas cada mes durante esta fase de lanzamiento. El precio de lanzamiento de 325 USD por persona (regular 425 USD) es válido para reservas confirmadas hasta el <b>31 de julio de 2026</b>.
-    </div>
-  </div>
+<div class="wrap">
+<h2 class="kicker">Nota de esta fase de lanzamiento</h2>
+<h2 class="title">Por qué no podemos aceptar a todas las familias de inmediato</h2>
+<div class="scarcity-box">
+Al ser una línea de producto nueva y muy personalizada, cada itinerario se coordina de forma individual — por eso solo podemos confirmar un número limitado de salidas cada mes durante esta fase de lanzamiento. El precio de lanzamiento de 325 USD por persona (regular 425 USD) es válido para reservas confirmadas hasta el <b>31 de julio de 2026</b>.
+</div>
+</div>
 </section>
-
 <section class="finalcta" id="final-cta">
-  <div class="wrap">
-    <h2 class="kicker" style="color:var(--gold-light);">Empecemos a planear</h2>
-    <h2 class="title" style="color:#fff;">Reserva tu llamada de planificación gratuita</h2>
-    <p class="subhead" style="color:#e4ded0;">Cuéntanos tus fechas y el tamaño de tu familia — te enviamos un itinerario y una cotización personalizada en menos de 24 horas.</p>
-
-    <form class="lead-form" id="lead-form">
-      <div class="field">
-        <label for="lf-name">Nombre</label>
-        <input id="lf-name" type="text" placeholder="Tu nombre" required>
-      </div>
-      <div class="field">
-        <label for="lf-pax">Número de personas (por generación)</label>
-        <input id="lf-pax" type="text" placeholder="Ej: 2 abuelos, 2 padres, 2 niños" required>
-      </div>
-      <div class="field">
-        <label for="lf-dates">Fechas aproximadas de viaje</label>
-        <input id="lf-dates" type="text" placeholder="Ej: última semana de agosto 2026" required>
-      </div>
-      <div class="field">
-        <label for="lf-contact">Tu WhatsApp o correo</label>
-        <input id="lf-contact" type="text" placeholder="Para responderte directamente" required>
-      </div>
-      <div class="field">
-        <label for="lf-msg">Algo más que debamos saber (opcional)</label>
-        <textarea id="lf-msg" placeholder="Movilidad reducida, alergias, intereses especiales..."></textarea>
-      </div>
-      <button type="submit" class="btn">Enviar mi solicitud por WhatsApp</button>
-      <p class="lead-form-note">Al enviar, se abrirá WhatsApp con tu mensaje ya redactado — solo tienes que confirmarlo. Respondemos en menos de 24 horas.</p>
-    </form>
-
-    <div class="divider-or">o escríbenos directamente</div>
-    <div class="contact-list">
-      📱 WhatsApp: <a href="tel:+84829973678">+84 82 997 3678</a><br>
-      ✉️ Correo: <a href="mailto:piutravel9818@gmail.com?subject=Tres%20Generaciones%2C%20Un%20Mismo%20Viaje%20-%20Solicitud%20de%20Viaje%20Familiar">piutravel9818@gmail.com</a><br>
-      🌐 Sitio web: <a href="https://piupiutravel.com/" target="_blank" rel="noopener">piupiutravel.com</a>
-    </div>
-  </div>
+<div class="wrap">
+<h2 class="kicker" style="color:var(--gold-light);">Empecemos a planear</h2>
+<h2 class="title" style="color:#fff;">Reserva tu llamada de planificación gratuita</h2>
+<p class="subhead" style="color:#e4ded0;">Cuéntanos tus fechas y el tamaño de tu familia — te enviamos un itinerario y una cotización personalizada en menos de 24 horas.</p>
+<form class="lead-form" id="lead-form">
+<div class="field">
+<label for="lf-name">Nombre</label>
+<input id="lf-name" type="text" placeholder="Tu nombre" required>
+</div>
+<div class="field">
+<label for="lf-pax">Número de personas (por generación)</label>
+<input id="lf-pax" type="text" placeholder="Ej: 2 abuelos, 2 padres, 2 niños" required>
+</div>
+<div class="field">
+<label for="lf-dates">Fechas aproximadas de viaje</label>
+<input id="lf-dates" type="text" placeholder="Ej: última semana de agosto 2026" required>
+</div>
+<div class="field">
+<label for="lf-contact">Tu WhatsApp o correo</label>
+<input id="lf-contact" type="text" placeholder="Para responderte directamente" required>
+</div>
+<div class="field">
+<label for="lf-msg">Algo más que debamos saber (opcional)</label>
+<textarea id="lf-msg" placeholder="Movilidad reducida, alergias, intereses especiales..."></textarea>
+</div>
+<button type="submit" class="btn">Enviar mi solicitud por WhatsApp</button>
+<p class="lead-form-note">Al enviar, se abrirá WhatsApp con tu mensaje ya redactado — solo tienes que confirmarlo. Respondemos en menos de 24 horas.</p>
+</form>
+<div class="divider-or">o escríbenos directamente</div>
+<div class="contact-list">
+📱 WhatsApp: <a href="tel:+84829973678">+84 82 997 3678</a><br>
+✉️ Correo: <a href="mailto:piutravel9818@gmail.com?subject=Tres%20Generaciones%2C%20Un%20Mismo%20Viaje%20-%20Solicitud%20de%20Viaje%20Familiar">piutravel9818@gmail.com</a><br>
+🌐 Sitio web: <a href="https://piupiutravel.com/" target="_blank" rel="noopener">piupiutravel.com</a>
+</div>
+</div>
 </section>
-
 <footer>
-  Esencia Vietnam · Hanói, Vietnam
+Esencia Vietnam · Hanói, Vietnam
 </footer>
-
 <script>
 (function(){
-  var canvas = document.getElementById('snow');
-  var ctx = canvas.getContext('2d');
-  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var w, h, flakes = [];
-  var COUNT = 70;
-
-  function resize(){
-    w = canvas.width = window.innerWidth;
-    h = canvas.height = window.innerHeight;
-  }
-  window.addEventListener('resize', resize);
-  resize();
-
-  function makeFlake(){
-    return {
-      x: Math.random() * w,
-      y: Math.random() * h,
-      r: 1.5 + Math.random() * 3,
-      speed: 0.4 + Math.random() * 1.1,
-      drift: Math.random() * 1.2 - 0.6,
-      swing: Math.random() * Math.PI * 2,
-      gold: Math.random() < 0.35
-    };
-  }
-  for (var i = 0; i < COUNT; i++) flakes.push(makeFlake());
-
-  function draw(){
-    ctx.clearRect(0, 0, w, h);
-    for (var i = 0; i < flakes.length; i++){
-      var f = flakes[i];
-      ctx.beginPath();
-      ctx.fillStyle = f.gold ? 'rgba(217,189,142,0.85)' : 'rgba(255,255,255,0.85)';
-      ctx.arc(f.x, f.y, f.r, 0, Math.PI * 2);
-      ctx.fill();
-
-      if (!reduceMotion){
-        f.swing += 0.01;
-        f.y += f.speed;
-        f.x += f.drift + Math.sin(f.swing) * 0.3;
-        if (f.y > h + 5){ f.y = -5; f.x = Math.random() * w; }
-        if (f.x > w + 5) f.x = -5;
-        if (f.x < -5) f.x = w + 5;
-      }
-    }
-    requestAnimationFrame(draw);
-  }
-  draw();
+var canvas = document.getElementById('snow');
+var ctx = canvas.getContext('2d');
+var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+var w, h, flakes = [];
+var COUNT = 70;
+function resize(){
+w = canvas.width = window.innerWidth;
+h = canvas.height = window.innerHeight;
+}
+window.addEventListener('resize', resize);
+resize();
+function makeFlake(){
+return {
+x: Math.random() * w,
+y: Math.random() * h,
+r: 1.5 + Math.random() * 3,
+speed: 0.4 + Math.random() * 1.1,
+drift: Math.random() * 1.2 - 0.6,
+swing: Math.random() * Math.PI * 2,
+gold: Math.random() < 0.35
+};
+}
+for (var i = 0; i < COUNT; i++) flakes.push(makeFlake());
+function draw(){
+ctx.clearRect(0, 0, w, h);
+for (var i = 0; i < flakes.length; i++){
+var f = flakes[i];
+ctx.beginPath();
+ctx.fillStyle = f.gold ? 'rgba(217,189,142,0.85)' : 'rgba(255,255,255,0.85)';
+ctx.arc(f.x, f.y, f.r, 0, Math.PI * 2);
+ctx.fill();
+if (!reduceMotion){
+f.swing += 0.01;
+f.y += f.speed;
+f.x += f.drift + Math.sin(f.swing) * 0.3;
+if (f.y > h + 5){ f.y = -5; f.x = Math.random() * w; }
+if (f.x > w + 5) f.x = -5;
+if (f.x < -5) f.x = w + 5;
+}
+}
+requestAnimationFrame(draw);
+}
+draw();
 })();
 </script>
-
 <script>
 (function(){
-  var form = document.getElementById('lead-form');
-  if (!form) return;
-  var WHATSAPP_NUMBER = '84829973678';
-
-  form.addEventListener('submit', function(e){
-    e.preventDefault();
-    var name = document.getElementById('lf-name').value.trim();
-    var pax = document.getElementById('lf-pax').value.trim();
-    var dates = document.getElementById('lf-dates').value.trim();
-    var contact = document.getElementById('lf-contact').value.trim();
-    var msg = document.getElementById('lf-msg').value.trim();
-
-    var lines = [
-      'Hola, soy ' + name + ' y quiero información sobre el viaje "Tres generaciones, un mismo viaje".',
-      'Personas: ' + pax,
-      'Fechas aproximadas: ' + dates,
-      'Contacto: ' + contact
-    ];
-    if (msg) lines.push('Notas: ' + msg);
-
-    var text = encodeURIComponent(lines.join('\n'));
-    window.open('https://wa.me/' + WHATSAPP_NUMBER + '?text=' + text, '_blank');
-  });
+var form = document.getElementById('lead-form');
+if (!form) return;
+var WHATSAPP_NUMBER = '84829973678';
+form.addEventListener('submit', function(e){
+e.preventDefault();
+var name = document.getElementById('lf-name').value.trim();
+var pax = document.getElementById('lf-pax').value.trim();
+var dates = document.getElementById('lf-dates').value.trim();
+var contact = document.getElementById('lf-contact').value.trim();
+var msg = document.getElementById('lf-msg').value.trim();
+var lines = [
+'Hola, soy ' + name + ' y quiero información sobre el viaje "Tres generaciones, un mismo viaje".',
+'Personas: ' + pax,
+'Fechas aproximadas: ' + dates,
+'Contacto: ' + contact
+];
+if (msg) lines.push('Notas: ' + msg);
+var text = encodeURIComponent(lines.join('\n'));
+window.open('https://wa.me/' + WHATSAPP_NUMBER + '?text=' + text, '_blank');
+});
 })();
 </script>
+<script>
+(function(){
+var qBox = document.getElementById('quiz-question');
+if (!qBox) return;
+var QUESTIONS = [
+{ id:'generaciones', text:'¿Cuántas generaciones viajan juntas?', options:['Solo nosotros (pareja o amigos)','Padres e hijos','Abuelos, padres y nietos — 3 generaciones'] },
+{ id:'ritmo', text:'¿Qué ritmo prefieren para el viaje?', options:['Activo, queremos ver y hacer de todo','Equilibrado, con tiempo para descansar','Tranquilo — priorizamos el descanso de los mayores'] },
+{ id:'interes', text:'¿Qué es lo que más buscan en el viaje?', options:['Cultura, historia y patrimonio','Naturaleza y paisajes','Convivir con la gente y las tradiciones locales'] },
+{ id:'cuidados', text:'¿Alguien del grupo necesita cuidados especiales?', options:['No, todos viajamos con energía similar','Sí, algún adulto mayor','Sí, niños pequeños'] },
+{ id:'fecha', text:'¿Cuándo piensan viajar?', options:['En los próximos 2 meses','En 3 a 6 meses','Aún estamos explorando, sin fecha fija'] }
+];
+var answers = {};
+var idx = 0;
+var progress = document.getElementById('quiz-progress');
+var backBtn = document.getElementById('quiz-back');
 
+function renderProgress(){
+progress.innerHTML = QUESTIONS.map(function(q,i){
+return '<span class="quiz-dot' + (i <= idx ? ' active' : '') + '"></span>';
+}).join('');
+}
+
+function renderQuestion(){
+renderProgress();
+backBtn.style.display = idx > 0 ? 'inline-block' : 'none';
+if (idx >= QUESTIONS.length){
+renderResult();
+return;
+}
+var q = QUESTIONS[idx];
+var html = '<p class="quiz-q-text">' + q.text + '</p>';
+q.options.forEach(function(opt, i){
+html += '<button type="button" class="quiz-option" data-i="' + i + '">' + opt + '</button>';
+});
+qBox.innerHTML = html;
+var opts = qBox.querySelectorAll('.quiz-option');
+opts.forEach(function(btn){
+btn.addEventListener('click', function(){
+answers[q.id] = q.options[parseInt(this.getAttribute('data-i'), 10)];
+idx++;
+renderQuestion();
+});
+});
+}
+
+function renderResult(){
+var gens = answers.generaciones || '';
+var isMultigen = gens.indexOf('3 generaciones') !== -1;
+var heading, text;
+if (isMultigen){
+heading = 'Tu familia es exactamente para quien diseñamos este viaje.';
+text = 'Con 3 generaciones viajando juntas, "Tres generaciones, un mismo viaje" está pensado para ustedes: ritmo adaptado a los mayores, actividades prácticas para los niños, y un guía que habla español de verdad.';
+} else {
+heading = 'Tenemos un itinerario que se adapta a lo que buscan.';
+text = 'Aunque nuestro diseño principal es para 3 generaciones, adaptamos el ritmo y las actividades según lo que nos cuentes — cuéntanos más y te preparamos una propuesta a medida.';
+}
+qBox.innerHTML =
+'<p class="quiz-q-text" style="color:var(--green-deep);">' + heading + '</p>' +
+'<p style="font-family:\'Segoe UI\',Arial,sans-serif; font-size:15px; color:var(--ink); margin-bottom:22px;">' + text + '</p>' +
+'<button type="button" class="btn" id="quiz-cta">Recibir mi propuesta personalizada por WhatsApp</button>';
+document.getElementById('quiz-cta').addEventListener('click', function(){
+var lines = ['Hola, hice el quiz de Esencia Vietnam y esto es lo que respondí:'];
+QUESTIONS.forEach(function(q){
+lines.push(q.text + ' → ' + (answers[q.id] || '-'));
+});
+lines.push('Me gustaría recibir mi propuesta personalizada.');
+var text2 = encodeURIComponent(lines.join('\n'));
+window.open('https://wa.me/84829973678?text=' + text2, '_blank');
+});
+}
+
+backBtn.addEventListener('click', function(){
+if (idx > 0){ idx--; renderQuestion(); }
+});
+
+renderQuestion();
+})();
+</script>
 </body>
 </html>
