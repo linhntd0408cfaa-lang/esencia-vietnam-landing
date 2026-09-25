@@ -26,22 +26,35 @@
 <style>
 .hero{background:linear-gradient(180deg,rgba(23,51,42,.62),rgba(23,51,42,.86)),url(images/day3-ba-na-hills.jpg) center 35%/cover no-repeat;padding:110px 0 90px}
 .hero h1{max-width:820px}
+.hero-video{position:relative;min-height:calc(100vh - 110px);display:flex;align-items:center;text-align:center;padding:90px 0 110px;overflow:hidden}
+.hero-video .hero-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0}
+.hero-video::before{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,rgba(15,30,24,.55),rgba(15,30,24,.35) 45%,rgba(15,30,24,.7))}
+.hero-video .hero-inner{position:relative;z-index:2}
+.hero-video h1{margin-inline:auto;font-size:clamp(32px,5.4vw,60px)}
+.hero-video .lead{margin-inline:auto;color:#f1ebdc}
+.btn.ghost-light{background:transparent;border:2px solid #fff;color:#fff}
+.btn.dark{background:#111;color:#fff}
+.scroll-cue{position:absolute;z-index:2;left:50%;bottom:22px;transform:translateX(-50%);background:none;border:0;color:#fff;font:600 12px var(--sans);letter-spacing:.2em;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:8px}
+.scroll-cue span{display:block;width:1px;height:38px;background:#fff}
 </style>
 </head>
 <body>
 <div id="site-header"></div>
 <main>
-  <section class="hero">
-    <div class="container">
-      <p class="kicker">Viajes privados · Vietnam</p>
+  <section class="hero hero-video">
+    <video class="hero-bg" id="hero-video" autoplay muted loop playsinline preload="metadata" poster="images/day3-ba-na-hills.jpg" aria-hidden="true"><source src="videos/hero.mp4" type="video/mp4"></video>
+    <div class="container hero-inner">
+      <p class="kicker" style="color:var(--gold-soft)">Viajes privados · Vietnam</p>
       <h1>Vietnam a tu ritmo: sin prisas y sin costes ocultos</h1>
-      <p class="lead">Diseñamos viajes privados para familias de varias generaciones y grupos de amigos: pocas paradas al día, tiempo para descansar, un precio claro y atención en español de principio a fin.</p>
-      <div class="row">
-        <a class="btn" href="viajes.html">Ver viajes sugeridos</a>
-        <a class="btn light" href="contacto.html">Pedir presupuesto</a>
+      <p class="lead">Diseñamos viajes privados para familias de varias generaciones y grupos de amigos: pocas paradas al día, tiempo para descansar y atención en español de principio a fin.</p>
+      <div class="row" style="justify-content:center">
+        <a class="btn ghost-light" href="viajes.html">Ver viajes sugeridos</a>
+        <a class="btn dark" href="constructor.html">Diseña tu viaje</a>
       </div>
     </div>
+    <button type="button" class="scroll-cue" id="scroll-cue" aria-label="Bajar">SCROLL<span></span></button>
   </section>
+
 
   <section class="container">
     <div class="trustbar" id="trustbar"></div>
@@ -181,6 +194,18 @@ E.ready(function(){
     window.open(E.waLink(t),'_blank','noopener');
   });
 });
+</script>
+<script>
+(function(){
+  var v=document.getElementById('hero-video');
+  if(v){
+    v.addEventListener('error',function(){v.remove();},true);
+    var s=v.querySelector('source'); if(s) s.addEventListener('error',function(){v.remove();});
+    if(matchMedia('(prefers-reduced-motion: reduce)').matches){v.removeAttribute('autoplay');v.pause();}
+  }
+  var c=document.getElementById('scroll-cue');
+  if(c) c.addEventListener('click',function(){window.scrollTo({top:document.querySelector('.hero-video').offsetHeight,behavior:'smooth'});});
+})();
 </script>
 </body>
 </html>
