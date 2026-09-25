@@ -55,7 +55,7 @@ E.ready(function(){
   var days=t.itinerary.map(function(d,i){
     var msgs=E.paceCheck(d.stops,{arrival:i===0&&!(d.span>1),span:d.span});
     var meals=(d.meals&&d.meals.length)?'<div class="tags" style="margin:8px 0">'+d.meals.map(function(m){return '<span class="meal">'+E.esc(m)+'</span>';}).join('')+'</div>':'<p class="route">Sin comidas incluidas este día.</p>';
-    return '<details class="acc"'+(i===0?' open':'')+'><summary>Día '+d.day+' · '+E.esc(d.title)+'</summary><div class="day-body">'+
+    return '<details class="acc"'+(i===0?' open':'')+'><summary>'+(d.span>1?'Días ':'Día ')+d.day+' · '+E.esc(d.title)+'</summary><div class="day-body">'+
       (d.stops.length?d.stops.map(stopHTML).join(''):'<p class="route">Día sin paradas programadas.</p>')+meals+
       (d.pace?'<div class="pace-ok"><b>Ritmo:</b> '+E.esc(d.pace)+'</div>':'')+
       msgs.map(function(m){return '<div class="pace-warn" style="margin-top:8px">'+E.esc(m)+'</div>';}).join('')+

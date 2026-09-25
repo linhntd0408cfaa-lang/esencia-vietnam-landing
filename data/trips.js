@@ -890,9 +890,10 @@
   "region": [
    "ha-noi",
    "sa-pa",
-   "ninh-binh"
+   "ninh-binh",
+   "ha-long"
   ],
-  "image": "images/trip-sa-pa.jpg",
+  "image": "images/trip-ninh-binh.jpg",
   "route": [
    "Hanói",
    "Sa Pa",
@@ -1091,9 +1092,11 @@
    "ha-noi",
    "ninh-binh",
    "ha-long",
-   "hue"
+   "hue",
+   "hoi-an",
+   "da-nang"
   ],
-  "image": "images/trip-ninh-binh.jpg",
+  "image": "images/day2-hoi-an.jpg",
   "route": [
    "Hanói",
    "Ninh Binh",
@@ -1179,9 +1182,9 @@
   "video": "videos/trip-18.mp4"
  },
  {
-  "id": "19-saigon-mekong-y-phu-quoc",
+  "id": "19-ciudad-ho-chi-minh-mekong-y-phu-quoc",
   "code": "19",
-  "title": "Saigón, Mekong y Phu Quoc",
+  "title": "Ciudad Ho Chi Minh, Mekong y Phu Quoc",
   "tagline": "Ocho días en el sur, y tres de ellos sin reloj. 🏝️",
   "intro": "El sur se suele vender como dos días de ciudad y un salto a la playa. Aquí Saigón y el Mekong ocupan lo suyo, y Phu Quoc son cuatro días de verdad, no una escala.",
   "days": 8,
@@ -1198,7 +1201,7 @@
   ],
   "image": "images/trip-mekong.jpg",
   "route": [
-   "Saigón",
+   "Ciudad Ho Chi Minh",
    "Mekong",
    "Phu Quoc"
   ],
@@ -1495,9 +1498,11 @@
    "ha-noi",
    "ninh-binh",
    "ha-long",
-   "hue"
+   "hue",
+   "hoi-an",
+   "da-nang"
   ],
-  "image": "images/trip-ha-long.jpg",
+  "image": "images/day4-hue.jpg",
   "route": [
    "Hanói",
    "Ninh Binh",
@@ -1610,9 +1615,12 @@
    "ha-noi",
    "ninh-binh",
    "ha-long",
-   "da-nang"
+   "hoi-an",
+   "hue",
+   "ho-chi-minh",
+   "mekong"
   ],
-  "image": "images/day3-ba-na-hills.jpg",
+  "image": "images/trip-mekong.jpg",
   "route": [
    "Hanói",
    "Ninh Binh",
@@ -1765,11 +1773,12 @@
   "tier": null,
   "region": [
    "ha-noi",
+   "ho-chi-minh",
    "sa-pa",
    "ninh-binh",
    "ha-long"
   ],
-  "image": "images/trip-ninh-binh.jpg",
+  "image": "images/trip-sa-pa.jpg",
   "route": [
    "Hanói",
    "Sa Pa",
@@ -1850,9 +1859,13 @@
   "region": [
    "ho-chi-minh",
    "mekong",
-   "da-nang"
+   "hoi-an",
+   "da-nang",
+   "hue",
+   "ha-noi",
+   "ha-long"
   ],
-  "image": "images/day3-ba-na-hills.jpg",
+  "image": "images/day2-hoi-an.jpg",
   "route": [
    "Ciudad Ho Chi Minh",
    "Mekong",
@@ -1913,6 +1926,7 @@
   "includedNote": "Inclusiones, alojamiento y precio: pendientes de confirmar",
   "cats": [
    "naturaleza",
+   "cultura",
    "gastronomia"
   ],
   "effort": "suave"
@@ -1933,10 +1947,13 @@
   "region": [
    "ho-chi-minh",
    "mekong",
+   "hoi-an",
    "da-nang",
-   "hoi-an"
+   "hue",
+   "ha-noi",
+   "ha-long"
   ],
-  "image": "images/day2-hoi-an.jpg",
+  "image": "images/day3-ba-na-hills.jpg",
   "route": [
    "Ciudad Ho Chi Minh",
    "Mekong",
@@ -2018,11 +2035,13 @@
   "region": [
    "ho-chi-minh",
    "mekong",
-   "da-nang",
    "hoi-an",
-   "hue"
+   "hue",
+   "sa-pa",
+   "ha-noi",
+   "ha-long"
   ],
-  "image": "images/day2-hoi-an.jpg",
+  "image": "images/trip-sa-pa.jpg",
   "route": [
    "Ciudad Ho Chi Minh",
    "Mekong",
@@ -2100,6 +2119,7 @@
   "excluded": [],
   "includedNote": "Inclusiones, alojamiento y precio: pendientes de confirmar",
   "cats": [
+   "montanas",
    "naturaleza",
    "cultura"
   ],
@@ -2122,10 +2142,12 @@
   "region": [
    "ha-noi",
    "ha-long",
-   "da-nang",
-   "hoi-an"
+   "hoi-an",
+   "hue",
+   "ho-chi-minh",
+   "mekong"
   ],
-  "image": "images/day2-hoi-an.jpg",
+  "image": "images/trip-mekong.jpg",
   "route": [
    "Hanói",
    "Ha Long",
@@ -2209,7 +2231,10 @@
    "ha-noi",
    "mai-chau",
    "ha-long",
-   "hue"
+   "hue",
+   "hoi-an",
+   "ho-chi-minh",
+   "mekong"
   ],
   "image": "images/stop-mai-chau.jpg",
   "route": [
@@ -2302,7 +2327,10 @@
    "ha-noi",
    "ha-long",
    "hue",
-   "hoi-an"
+   "hoi-an",
+   "da-nang",
+   "ho-chi-minh",
+   "mekong"
   ],
   "image": "images/day4-hue.jpg",
   "route": [
@@ -2389,9 +2417,11 @@
    "ninh-binh",
    "ha-long",
    "da-nang",
-   "hoi-an"
+   "hoi-an",
+   "ho-chi-minh",
+   "mekong"
   ],
-  "image": "images/trip-ninh-binh.jpg",
+  "image": "images/day3-ba-na-hills.jpg",
   "route": [
    "Hanói",
    "Ninh Binh",
@@ -2490,9 +2520,10 @@
   "region": [
    "phu-quoc",
    "mekong",
-   "ho-chi-minh"
+   "ho-chi-minh",
+   "ninh-binh"
   ],
-  "image": "images/trip-phu-quoc.jpg",
+  "image": "images/trip-mekong.jpg",
   "route": [
    "Phu Quoc",
    "Can Tho",
@@ -2572,10 +2603,10 @@
   "region": [
    "ha-noi",
    "ha-long",
-   "hoi-an",
-   "ho-chi-minh"
+   "ho-chi-minh",
+   "hoi-an"
   ],
-  "image": "images/day2-hoi-an.jpg",
+  "image": "images/trip-hcmc.jpg",
   "route": [
    "Hanói",
    "Ha Long",
@@ -2653,11 +2684,12 @@
   "region": [
    "ha-noi",
    "ha-long",
-   "da-nang",
    "hoi-an",
-   "hue"
+   "hue",
+   "ho-chi-minh",
+   "mekong"
   ],
-  "image": "images/day4-hue.jpg",
+  "image": "images/trip-ha-long.jpg",
   "route": [
    "Hanói",
    "Ha Long",
@@ -2736,12 +2768,12 @@
   "region": [
    "ha-noi",
    "ha-long",
-   "da-nang",
    "hoi-an",
    "hue",
-   "ho-chi-minh"
+   "ho-chi-minh",
+   "mekong"
   ],
-  "image": "images/day3-ba-na-hills.jpg",
+  "image": "images/day2-hoi-an.jpg",
   "route": [
    "Hanói",
    "Ha Long",
@@ -2833,11 +2865,14 @@
   "tier": null,
   "region": [
    "ho-chi-minh",
+   "mekong",
    "hue",
    "hoi-an",
-   "ha-noi"
+   "ha-noi",
+   "ha-long",
+   "sa-pa"
   ],
-  "image": "images/day4-hue.jpg",
+  "image": "images/trip-mekong.jpg",
   "route": [
    "Ciudad Ho Chi Minh",
    "Hue",
@@ -2895,6 +2930,8 @@
   "excluded": [],
   "includedNote": "Inclusiones, alojamiento y precio: pendientes de confirmar",
   "cats": [
+   "montanas",
+   "naturaleza",
    "cultura"
   ],
   "effort": "moderado"
@@ -2917,7 +2954,9 @@
    "ninh-binh",
    "ha-long",
    "hoi-an",
-   "ho-chi-minh"
+   "da-nang",
+   "ho-chi-minh",
+   "mekong"
   ],
   "image": "images/day2-hoi-an.jpg",
   "route": [
@@ -3013,7 +3052,9 @@
    "sa-pa",
    "ha-long",
    "hoi-an",
-   "hue"
+   "hue",
+   "ho-chi-minh",
+   "mekong"
   ],
   "image": "images/day4-hue.jpg",
   "route": [
@@ -3117,11 +3158,14 @@
   "region": [
    "ha-noi",
    "mai-chau",
+   "pu-luong",
    "ninh-binh",
    "ha-long",
-   "hue"
+   "hue",
+   "hoi-an",
+   "mekong"
   ],
-  "image": "images/stop-mai-chau.jpg",
+  "image": "images/day2-hoi-an.jpg",
   "route": [
    "Hanói",
    "Mai Chau",
@@ -3212,7 +3256,7 @@
    "naturaleza",
    "cultura"
   ],
-  "effort": "moderado"
+  "effort": "activo"
  },
  {
   "id": "41-hanoi-ha-long-hoi-an-hue-y-ciudad-ho-chi-minh",
@@ -3230,11 +3274,11 @@
   "region": [
    "ha-noi",
    "ha-long",
-   "hoi-an",
    "hue",
+   "hoi-an",
    "ho-chi-minh"
   ],
-  "image": "images/day2-hoi-an.jpg",
+  "image": "images/day4-hue.jpg",
   "route": [
    "Hanói",
    "Ha Long",
@@ -3327,12 +3371,14 @@
   "tier": null,
   "region": [
    "ho-chi-minh",
+   "mekong",
    "hue",
    "hoi-an",
+   "ha-long",
    "ha-noi",
-   "ha-long"
+   "ninh-binh"
   ],
-  "image": "images/day2-hoi-an.jpg",
+  "image": "images/trip-hcmc.jpg",
   "route": [
    "Ciudad Ho Chi Minh",
    "Hue",
@@ -3536,7 +3582,9 @@
    "ha-long",
    "ninh-binh",
    "hue",
-   "hoi-an"
+   "hoi-an",
+   "ho-chi-minh",
+   "mekong"
   ],
   "image": "images/trip-ninh-binh.jpg",
   "route": [
@@ -3643,9 +3691,10 @@
    "mai-chau",
    "ha-long",
    "hue",
-   "hoi-an"
+   "hoi-an",
+   "ho-chi-minh"
   ],
-  "image": "images/day4-hue.jpg",
+  "image": "images/stop-mai-chau.jpg",
   "route": [
    "Hanói",
    "Mai Chau",
@@ -3839,9 +3888,11 @@
    "mekong",
    "hoi-an",
    "hue",
-   "ha-noi"
+   "ha-noi",
+   "ninh-binh",
+   "ha-long"
   ],
-  "image": "images/trip-hcmc.jpg",
+  "image": "images/trip-ninh-binh.jpg",
   "route": [
    "Ciudad Ho Chi Minh",
    "Mekong",
@@ -3946,9 +3997,11 @@
    "ninh-binh",
    "ha-long",
    "da-nang",
-   "hoi-an"
+   "hoi-an",
+   "mekong",
+   "ho-chi-minh"
   ],
-  "image": "images/trip-ha-long.jpg",
+  "image": "images/trip-hcmc.jpg",
   "route": [
    "Hanói",
    "Ninh Binh",
@@ -4042,9 +4095,12 @@
    "mekong",
    "hoi-an",
    "hue",
+   "da-nang",
+   "ninh-binh",
+   "ha-long",
    "ha-noi"
   ],
-  "image": "images/day2-hoi-an.jpg",
+  "image": "images/trip-ninh-binh.jpg",
   "route": [
    "Ciudad Ho Chi Minh",
    "Can Tho",
