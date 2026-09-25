@@ -15,7 +15,7 @@
 <body>
 <div id="site-header"></div>
 <main>
-  <div class="container page-head">
+  <div class="container page-head center">
     <div class="crumbs"><a href="index.html">Inicio</a> › Viajes sugeridos</div>
     <h1>Viajes sugeridos</h1>
     <p class="lead">Itinerarios a ritmo lento que podemos ajustar a tu grupo.</p>
@@ -25,10 +25,11 @@
       <div class="field"><label for="f-grupo">Tipo de grupo</label><select id="f-grupo"><option value="">Todos</option></select></div>
       <div class="field"><label for="f-dias">Número de días</label><select id="f-dias"><option value="">Cualquiera</option><option value="1-4">Hasta 4 días</option><option value="5-7">5 a 7 días</option><option value="8-99">8 días o más</option></select></div>
       <div class="field"><label for="f-region">Región</label><select id="f-region"><option value="">Todas</option></select></div>
+      <div class="field"><label for="f-orden">Ordenar por</label><select id="f-orden"><option value="">Recomendado</option><option value="asc">Duración: menor a mayor</option><option value="desc">Duración: mayor a menor</option></select></div>
       <button type="button" class="btn small ghost" id="f-reset">Limpiar filtros</button>
     </div>
     <p id="count" aria-live="polite" class="route"></p>
-    <div class="grid c3" id="list"></div>
+    <div class="tcards" id="list"></div>
     <div id="empty" class="pace-warn" hidden>No hay viajes con esos filtros. <a href="contacto.html">Cuéntanos qué buscas</a> y te lo preparamos a medida.</div>
     <aside class="pace-ok" style="margin-top:28px"><b>Sobre los precios de referencia.</b> <span id="pn-text"></span> Los precios son orientativos: el presupuesto final depende de fechas, número de personas y alojamiento. Si un viaje no muestra precio, <a href="contacto.html">solicita presupuesto</a>.</aside>
   </div></section>
@@ -56,12 +57,13 @@ E.ready(function(){
       if(r&&t.region.indexOf(r)<0)return false;
       if(d){var p=d.split('-');if(t.days<+p[0]||t.days>+p[1])return false;}
       return true;});
+    var o=document.getElementById('f-orden').value; if(o){res=res.slice().sort(function(a,b){return o==='asc'?a.days-b.days:b.days-a.days;});}
     document.getElementById('list').innerHTML=res.map(card).join('');
     document.getElementById('empty').hidden=res.length>0;
-    document.getElementById('count').textContent=res.length+(res.length===1?' viaje encontrado':' viajes encontrados');
+    document.getElementById('count').textContent='Hemos encontrado '+res.length+(res.length===1?' viaje para ti':' viajes para ti');
   }
-  ['f-grupo','f-dias','f-region'].forEach(function(id){document.getElementById(id).addEventListener('change',apply);});
-  document.getElementById('f-reset').addEventListener('click',function(){['f-grupo','f-dias','f-region'].forEach(function(id){document.getElementById(id).value='';});apply();});
+  ['f-grupo','f-dias','f-region','f-orden'].forEach(function(id){document.getElementById(id).addEventListener('change',apply);});
+  document.getElementById('f-reset').addEventListener('click',function(){['f-grupo','f-dias','f-region','f-orden'].forEach(function(id){document.getElementById(id).value='';});apply();});
   apply();
 });
 </script>

@@ -32,13 +32,34 @@
 
   /* tarjetas */
   E.tripCard = function(t){
-    return '<article class="card"><img class="media" loading="lazy" src="'+E.esc(t.image)+'" alt="">'+
-      '<div class="body"><div class="tags"><span class="tag">'+t.days+' días / '+t.nights+' noches</span>'+(t.tier?'<span class="tag">Alojamiento '+E.esc(t.tier)+'</span>':'')+''+
-      t.groups.map(function(g){return '<span class="tag">'+E.esc(g)+'</span>';}).join('')+'</div>'+
-      '<h3>'+E.esc(t.title)+'</h3><div class="route">'+t.route.map(E.esc).join(' · ')+'</div>'+
-      '<p>'+E.esc(t.tagline)+'</p>'+
-      '<div class="foot"><div>'+E.priceHTML(t)+'</div><a class="btn small" href="viaje.html?id='+encodeURIComponent(t.id)+'">Ver viaje</a></div></div></article>';
+    var nn = t.nights+' noche'+(t.nights===1?'':'s');
+    return '<a class="tcard" href="viaje.html?id='+encodeURIComponent(t.id)+'">'+
+      '<img src="'+E.esc(t.image)+'" alt="" loading="lazy">'+
+      (t.video?'<video muted loop playsinline preload="none" data-src="'+E.esc(t.video)+'" aria-hidden="true"></video>':'')+
+      '<span class="tbadge">'+nn+'</span>'+
+      '<span class="tinfo"><span class="tkicker">'+t.days+' días · '+t.route.map(E.esc).join(' · ')+'</span>'+
+      '<span class="ttitle">'+E.esc(t.title)+'</span>'+
+      '<span class="tfoot"><span class="tprice">'+E.priceHTML(t)+'</span><span class="tgo">Ver viaje →</span></span></span></a>';
   };
+  /* vídeo de vista previa: al pasar el ratón (o al verse en móvil) */
+  E.bindVideos = function(){
+    if(matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    var touch = matchMedia('(hover: none)').matches;
+    function play(v){ if(!v.getAttribute('src')) v.src=v.dataset.src; var p=v.play(); if(p&&p.catch) p.catch(function(){}); v.classList.add('on'); }
+    function stop(v){ v.pause(); v.classList.remove('on'); }
+    function vid(e){ var c=e.target.closest&&e.target.closest('.tcard'); return c?{c:c,v:c.querySelector('video')}:null; }
+    if(!touch){
+      document.addEventListener('mouseover',function(e){var x=vid(e); if(x&&x.v&&!x.v.classList.contains('on')) play(x.v);});
+      document.addEventListener('mouseout',function(e){var x=vid(e); if(x&&x.v&&!x.c.contains(e.relatedTarget)) stop(x.v);});
+      document.addEventListener('focusin',function(e){var x=vid(e); if(x&&x.v) play(x.v);});
+      document.addEventListener('focusout',function(e){var x=vid(e); if(x&&x.v) stop(x.v);});
+    } else if(window.IntersectionObserver){
+      var io=new IntersectionObserver(function(es){es.forEach(function(en){var v=en.target.querySelector('video'); if(!v) return; (en.isIntersecting&&en.intersectionRatio>.6)?play(v):stop(v);});},{threshold:[0,.6]});
+      var scan=function(){document.querySelectorAll('.tcard:not([data-io])').forEach(function(c){c.setAttribute('data-io','1'); io.observe(c);});};
+      new MutationObserver(scan).observe(document.body,{childList:true,subtree:true}); scan();
+    }
+  };
+  E.ready(E.bindVideos);
   E.stopCard = function(s){
     return '<article class="card"><img class="media" loading="lazy" src="'+E.esc(s.image)+'" alt="'+E.esc(s.name)+'">'+
       '<div class="body"><div class="tags"><span class="tag">'+E.regionName(s.region)+'</span><span class="tag">'+E.esc(s.duration)+'</span><span class="tag">'+E.walkLabel(s.walking)+'</span></div>'+
@@ -81,7 +102,7 @@
     var hd = document.getElementById('site-header');
     if(hd){
       hd.outerHTML = (C.demo?'<div class="demo-banner">Vista previa — algunos datos están pendientes de confirmar</div>':'')+
-        '<header class="site-header"><div class="container"><a class="brand" href="index.html">'+C.brand+'<small>Viajes privados · Vietnam</small></a>'+
+        '<header class="site-header"><div class="container"><a class="brand" href="index.html" aria-label="'+C.brand+'"><img class="brand-logo" src="images/logo.png" alt="'+C.brand+'"></a>'+
         '<button class="nav-toggle" aria-expanded="false" aria-controls="nav">Menú</button>'+
         '<nav class="nav" id="nav" aria-label="Principal">'+NAV.map(function(n){return '<a href="'+n[0]+'"'+(n[0]===page?' aria-current="page"':'')+'>'+n[1]+'</a>';}).join('')+
         '</nav></div></header>';

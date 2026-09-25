@@ -26,7 +26,7 @@
   function T(code,title,tagline,days,route,region,image,notes,itin){
     D.trips.push({
       id:code+'-'+title.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,''),
-      code:code, title:title, tagline:tagline, days:days, nights:days-1, groups:G, tier:null,
+      code:code, title:title, tagline:tagline, days:days, nights:days-1, video:'videos/trip-'+code+'.mp4', groups:G, tier:null,
       region:region, image:image, route:route, price:null, notes:notes,
       itinerary:itin.map(function(d,i){return {day:i+1,title:d[0],stops:d[1],pace:d[2]||'',meals:d[3]||[]};}),
       included:[], excluded:[], includedNote:PEND
