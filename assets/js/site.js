@@ -11,6 +11,11 @@
   E.stop = function(id){ return E.byId(D.stops,id); };
   E.regionName = function(r){ return {'da-nang':'Da Nang','hoi-an':'Hoi An','hue':'Hue','ha-noi':'Hanói','ninh-binh':'Ninh Binh','ha-long':'Ha Long','sa-pa':'Sa Pa','cao-bang':'Cao Bang','pu-luong':'Pu Luong','ha-giang':'Ha Giang','ho-chi-minh':'Ciudad Ho Chi Minh','mekong':'Delta del Mekong','phu-quoc':'Phu Quoc'}[r]||r; };
   E.walkLabel = function(w){ return {bajo:'Poca caminata',medio:'Caminata moderada',alto:'Mucha caminata / escaleras'}[w]||w; };
+  E.MACRO = {'ha-noi':'norte','ninh-binh':'norte','ha-long':'norte','sa-pa':'norte','cao-bang':'norte','pu-luong':'norte','ha-giang':'norte','da-nang':'centro','hoi-an':'centro','hue':'centro','ho-chi-minh':'sur','mekong':'sur','phu-quoc':'sur'};
+  E.macro = function(r){ return E.MACRO[r]||''; };
+  E.ZONAS = {norte:'Norte de Vietnam',centro:'Centro de Vietnam',sur:'Sur de Vietnam'};
+  E.CATS = {cultura:'Cultura y patrimonio',gastronomia:'Gastronomía y sobremesa',naturaleza:'Naturaleza sin esfuerzo',montanas:'Montañas y carretera',playa:'Playa y descanso'};
+  E.EFFORT = {suave:'Esfuerzo muy suave',moderado:'Esfuerzo moderado',activo:'Más activo'};
   E.todo = function(t){ return '<span class="todo">'+E.esc(t)+'</span>'; };
 
   /* enlaces de contacto */
@@ -37,6 +42,7 @@
       '<img src="'+E.esc(t.image)+'" alt="" loading="lazy">'+
       (t.video?'<video muted loop playsinline preload="none" data-src="'+E.esc(t.video)+'" aria-hidden="true"></video>':'')+
       '<span class="tbadge">'+nn+'</span>'+
+      (t.effort?'<span class="teffort">'+E.EFFORT[t.effort]+'</span>':'')+
       '<span class="tinfo"><span class="tkicker">'+t.days+' días · '+t.route.map(E.esc).join(' · ')+'</span>'+
       '<span class="ttitle">'+E.esc(t.title)+'</span>'+
       '<span class="tfoot"><span class="tprice">'+E.priceHTML(t)+'</span><span class="tgo">Ver viaje →</span></span></span></a>';
@@ -96,7 +102,16 @@
   };
 
   /* cabecera, pie, botón WhatsApp */
-  var NAV = [['viajes.html','Viajes'],['constructor.html','Diseña tu viaje'],['destinos.html','Destinos'],['alojamiento.html','Alojamiento'],['mayores.html','Para mayores'],['guia.html','Guía'],['nosotros.html','Nosotros'],['contacto.html','Contacto']];
+  var NAV = [
+    {t:'Destinos',h:'destinos.html',k:['destinos.html','destino.html'],sub:[['Norte','destinos.html?zona=norte'],['Centro','destinos.html?zona=centro'],['Sur','destinos.html?zona=sur'],['Ver todo en el mapa','destinos.html']]},
+    {t:'Experiencias',h:'viajes.html',k:['viajes.html','viaje.html','constructor.html','alojamiento.html'],sub:Object.keys(E.CATS).map(function(c){return [E.CATS[c],'viajes.html?cat='+c];}).concat([['Diseña tu viaje','constructor.html'],['Alojamiento','alojamiento.html']])},
+    {t:'Nosotros',h:'nosotros.html',k:['nosotros.html','opiniones.html','garantias.html','guia.html','mayores.html','creditos.html'],sub:[['Quiénes somos','nosotros.html'],['Opiniones','opiniones.html'],['Para mayores','mayores.html'],['Guía de viaje','guia.html'],['Garantías y políticas','garantias.html']]}
+  ];
+  E.navHTML = function(page){
+    return NAV.map(function(n){var cur=n.k.indexOf(page)>=0;
+      return '<div class="nav-item"><a class="nav-top" href="'+n.h+'"'+(cur?' aria-current="page"':'')+'>'+n.t+'</a><div class="nav-sub">'+n.sub.map(function(s){return '<a href="'+s[1]+'">'+s[0]+'</a>';}).join('')+'</div></div>';}).join('')+
+      '<a class="btn small nav-cta" href="contacto.html">Pedir presupuesto</a>';
+  };
   function render(){
     var page = location.pathname.split('/').pop() || 'index.html';
     var hd = document.getElementById('site-header');
@@ -104,7 +119,7 @@
       hd.outerHTML = (C.demo?'<div class="demo-banner">Vista previa — algunos datos están pendientes de confirmar</div>':'')+
         '<header class="site-header"><div class="container"><a class="brand" href="index.html" aria-label="'+C.brand+'"><img class="brand-logo" src="images/logo.png" alt="'+C.brand+'"></a>'+
         '<button class="nav-toggle" aria-expanded="false" aria-controls="nav">Menú</button>'+
-        '<nav class="nav" id="nav" aria-label="Principal">'+NAV.map(function(n){return '<a href="'+n[0]+'"'+(n[0]===page?' aria-current="page"':'')+'>'+n[1]+'</a>';}).join('')+
+        '<nav class="nav" id="nav" aria-label="Principal">'+E.navHTML(page)+
         '</nav></div></header>';
       var t=document.querySelector('.nav-toggle'), nv=document.getElementById('nav');
       t.addEventListener('click',function(){var o=nv.classList.toggle('open');t.setAttribute('aria-expanded',o);});

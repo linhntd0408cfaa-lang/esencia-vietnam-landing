@@ -70,10 +70,11 @@ E.ready(function(){
   MONTHS.forEach(function(m,i){var o=document.createElement('option');o.value=i+1;o.textContent=cap(m);$('f-month').appendChild(o);});
 
   var map=null, layer=null, mapFailed=false;
+  var zona=E.q('zona')||'';
   function filtered(){
     var r=$('f-region').value,t=$('f-type').value,w=$('f-walk').value,mo=parseInt($('f-month').value,10);
     return S.filter(function(s){
-      return (!r||s.region===r)&&(!t||s.type===t)&&(!w||s.walking===w)&&(!mo||seasonMonths(s.bestSeason).indexOf(mo)>=0);
+      return (!zona||E.macro(s.region)===zona)&&(!r||s.region===r)&&(!t||s.type===t)&&(!w||s.walking===w)&&(!mo||seasonMonths(s.bestSeason).indexOf(mo)>=0);
     });
   }
   function renderMap(list){

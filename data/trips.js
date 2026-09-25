@@ -171,6 +171,23 @@
      ['Ninh Binh',['tam-coc'],''],
      ['Salida',[],'']]);
 
+  /* Categorías y nivel de esfuerzo: PROPUESTA del equipo técnico según los textos de los itinerarios; confirmar con Becky */
+  var META = {
+    '01':[['naturaleza','cultura'],'suave'],  '02':[['cultura'],'suave'],
+    '04':[['naturaleza','cultura'],'suave'],  '06':[['montanas'],'moderado'],
+    '09':[['naturaleza','cultura'],'suave'],  '10':[['cultura','playa'],'suave'],
+    '11':[['montanas'],'activo'],             '12':[['montanas','naturaleza'],'moderado'],
+    '13':[['montanas','naturaleza'],'activo'],'14':[['cultura','naturaleza'],'suave'],
+    '16':[['montanas','naturaleza'],'moderado'],'17':[['montanas','naturaleza'],'moderado'],
+    '18':[['cultura','gastronomia','naturaleza'],'suave'],'19':[['playa','naturaleza','gastronomia'],'suave'],
+    '20':[['montanas'],'activo']
+  };
+  D.trips.forEach(function(t){
+    var m = META[t.code];
+    if(m){ t.cats=m[0]; t.effort=m[1]; }
+    else { t.cats=['cultura','naturaleza']; t.effort='moderado'; }
+  });
+
   /* el viaje de muestra original (5 días, precio de ejemplo) se mantiene el último */
   var sample = D.trips.shift(); D.trips.push(sample);
 })();

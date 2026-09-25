@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex">
-<title>Viajes sugeridos — Esencia Vietnam</title>
+<title>Experiencias — Esencia Vietnam</title>
 <meta name="description" content="Viajes privados sugeridos por Vietnam: filtra por tipo de grupo, número de días y región.">
 <link rel="stylesheet" href="assets/css/site.css">
 <script src="data/site.js"></script>
@@ -17,17 +17,20 @@
 <main>
   <div class="container page-head center">
     <div class="crumbs"><a href="index.html">Inicio</a> › Viajes sugeridos</div>
-    <h1>Viajes sugeridos</h1>
-    <p class="lead">Itinerarios a ritmo lento que podemos ajustar a tu grupo.</p>
+    <h1>Elige la experiencia que quieres vivir</h1>
+    <p class="lead">Viajes privados a vuestro ritmo: pocas paradas al día, tiempo para sentarse y para hablar.</p>
   </div>
   <section class="section" style="padding-top:10px"><div class="container">
+    <div class="chips" id="chips" role="group" aria-label="Tipo de experiencia"></div>
     <div class="filters" role="search" aria-label="Filtrar viajes">
       <div class="field"><label for="f-grupo">Tipo de grupo</label><select id="f-grupo"><option value="">Todos</option></select></div>
       <div class="field"><label for="f-dias">Número de días</label><select id="f-dias"><option value="">Cualquiera</option><option value="1-4">Hasta 4 días</option><option value="5-7">5 a 7 días</option><option value="8-99">8 días o más</option></select></div>
       <div class="field"><label for="f-region">Región</label><select id="f-region"><option value="">Todas</option></select></div>
+      <div class="field"><label for="f-esfuerzo">Nivel de esfuerzo</label><select id="f-esfuerzo"><option value="">Cualquiera</option><option value="suave">Muy suave</option><option value="moderado">Moderado</option><option value="activo">Más activo</option></select></div>
       <div class="field"><label for="f-orden">Ordenar por</label><select id="f-orden"><option value="">Recomendado</option><option value="asc">Duración: menor a mayor</option><option value="desc">Duración: mayor a menor</option></select></div>
       <button type="button" class="btn small ghost" id="f-reset">Limpiar filtros</button>
     </div>
+    <aside class="pace-ok" style="margin-bottom:22px"><b>¿Cuándo viajar?</b> Marzo (fuera de Semana Santa) y noviembre suelen ser los mejores meses. Conviene evitar agosto por el calor y de septiembre a mediados de octubre por las tormentas del centro. Es una orientación general: os aconsejamos según el viaje y el año.</aside>
     <p id="count" aria-live="polite" class="route"></p>
     <div class="tcards" id="list"></div>
     <div id="empty" class="pace-warn" hidden>No hay viajes con esos filtros. <a href="contacto.html">Cuéntanos qué buscas</a> y te lo preparamos a medida.</div>
@@ -38,6 +41,8 @@
 <script>
 E.ready(function(){
   var trips=E.D.trips;
+  var cat=E.q('cat')||'';
+  function renderChips(){var el=document.getElementById('chips');var items=[['','Todas']].concat(Object.keys(E.CATS).map(function(k){return [k,E.CATS[k]];}));el.innerHTML=items.map(function(i){return '<button type="button" class="chip'+(i[0]===cat?' on':'')+'" data-c="'+i[0]+'" aria-pressed="'+(i[0]===cat)+'">'+i[1]+'</button>';}).join('');el.querySelectorAll('.chip').forEach(function(b){b.addEventListener('click',function(){cat=b.dataset.c;renderChips();apply();});});}
   function fill(id,vals,label){var s=document.getElementById(id);vals.forEach(function(v){var o=document.createElement('option');o.value=v;o.textContent=label(v);s.appendChild(o);});}
   var groups=[],regions=[];
   trips.forEach(function(t){t.groups.forEach(function(g){if(groups.indexOf(g)<0)groups.push(g);});t.region.forEach(function(r){if(regions.indexOf(r)<0)regions.push(r);});});
@@ -51,9 +56,11 @@ E.ready(function(){
     return h;
   }
   function apply(){
-    var g=document.getElementById('f-grupo').value,d=document.getElementById('f-dias').value,r=document.getElementById('f-region').value;
+    var ef=document.getElementById('f-esfuerzo').value,g=document.getElementById('f-grupo').value,d=document.getElementById('f-dias').value,r=document.getElementById('f-region').value;
     var res=trips.filter(function(t){
       if(g&&t.groups.indexOf(g)<0)return false;
+      if(cat&&(t.cats||[]).indexOf(cat)<0)return false;
+      if(ef&&t.effort!==ef)return false;
       if(r&&t.region.indexOf(r)<0)return false;
       if(d){var p=d.split('-');if(t.days<+p[0]||t.days>+p[1])return false;}
       return true;});
@@ -62,8 +69,9 @@ E.ready(function(){
     document.getElementById('empty').hidden=res.length>0;
     document.getElementById('count').textContent='Hemos encontrado '+res.length+(res.length===1?' viaje para ti':' viajes para ti');
   }
-  ['f-grupo','f-dias','f-region','f-orden'].forEach(function(id){document.getElementById(id).addEventListener('change',apply);});
-  document.getElementById('f-reset').addEventListener('click',function(){['f-grupo','f-dias','f-region','f-orden'].forEach(function(id){document.getElementById(id).value='';});apply();});
+  ['f-grupo','f-dias','f-region','f-orden','f-esfuerzo'].forEach(function(id){document.getElementById(id).addEventListener('change',apply);});
+  document.getElementById('f-reset').addEventListener('click',function(){['f-grupo','f-dias','f-region','f-orden','f-esfuerzo'].forEach(function(id){document.getElementById(id).value='';});cat='';renderChips();apply();});
+  renderChips();
   apply();
 });
 </script>
