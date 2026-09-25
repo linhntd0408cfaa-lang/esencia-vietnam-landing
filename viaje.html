@@ -8,6 +8,7 @@
 <meta name="description" content="Itinerario día a día, ritmo, qué incluye y qué no, y cómo pedir presupuesto.">
 <link rel="stylesheet" href="assets/css/site.css">
 <script src="data/site.js"></script>
+<script src="data/trips.js"></script>
 <script src="data/credits.js"></script>
 <script src="assets/js/site.js"></script>
 <style>
@@ -70,7 +71,8 @@ E.ready(function(){
   var inc=(t.included||[]), exc=(t.excluded||[]);
   root.innerHTML='<div class="layout-side"><div>'+
     '<p class="lead">'+E.esc(t.tagline)+'</p>'+
-    '<div class="tags" style="margin-bottom:22px"><span class="tag">'+t.days+' días / '+t.nights+' noches</span><span class="tag">Alojamiento '+E.esc(t.tier)+'</span>'+t.region.map(function(r){return '<span class="tag">'+E.regionName(r)+'</span>';}).join('')+t.groups.map(function(g){return '<span class="tag">'+E.esc(g)+'</span>';}).join('')+'</div>'+
+    (t.notes&&t.notes.length?'<ul class="checks" style="margin-bottom:18px">'+t.notes.map(function(n){return '<li>'+E.esc(n)+'</li>';}).join('')+'</ul>':'')+
+    '<div class="tags" style="margin-bottom:22px"><span class="tag">'+t.days+' días / '+t.nights+' noches</span>'+(t.tier?'<span class="tag">Alojamiento '+E.esc(t.tier)+'</span>':'')+''+t.region.map(function(r){return '<span class="tag">'+E.regionName(r)+'</span>';}).join('')+t.groups.map(function(g){return '<span class="tag">'+E.esc(g)+'</span>';}).join('')+'</div>'+
     '<h2>Itinerario día a día</h2>'+days+
     '<h2 style="margin-top:36px">Qué incluye y qué no</h2>'+
     (t.includedNote?'<p>'+E.todo(t.includedNote)+'</p>':'')+

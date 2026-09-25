@@ -18,3 +18,18 @@ Object.assign(window.ESENCIA_DATA.credits, {
   'images/stop-thien-mu.jpg': {author:'CEphoto, Uwe Aranas', license:'CC BY-SA 3.0', url:'https://commons.wikimedia.org/wiki/File:Hue_Vietnam_Thien-Mu-Temple-and-Pagoda-01.jpg'},
   'images/stop-khai-dinh.jpg': {author:'Grossbildjaeger', license:'CC BY-SA 3.0', url:'https://commons.wikimedia.org/wiki/File:Grab_von_Khai_Dinh_Hue_Vietnam.JPG'}
 });
+
+/* Fotos de viajes (Wikimedia Commons; licencia verificada con la API de metadatos) */
+Object.assign(window.ESENCIA_DATA.credits, {
+  'images/trip-hanoi.jpg': {author:'Jakub Hałun', license:'CC BY 4.0', url:'https://commons.wikimedia.org/wiki/File:Dai_Trung_gate,_Temple_of_Literature,_Hanoi,_Vietnam,_20240123_0928_3065.jpg'},
+  'images/trip-ninh-binh.jpg': {author:'Jakub Hałun', license:'CC BY 4.0', url:'https://commons.wikimedia.org/wiki/File:Trang_An_Landscape_Complex,_Ninh_Binh_Province,_20240202_1410_5232.jpg'},
+  'images/trip-ha-long.jpg': {author:'Thomas Hirsch / User:Ravn', license:'CC BY-SA 3.0', url:'https://commons.wikimedia.org/wiki/File:Halong_Bay_in_Vietnam.jpg'},
+  'images/trip-sa-pa.jpg': {author:'Christophe95', license:'CC BY-SA 4.0', url:'https://commons.wikimedia.org/wiki/File:Rice_terraces_in_Sa_Pa_03.jpg'},
+  'images/trip-fansipan.jpg': {author:'Vivu Vietnam', license:'CC BY-SA 4.0', url:'https://commons.wikimedia.org/wiki/File:Fansipan_Summit_3143m_aerial_wide_temple_complex_sea_of_clouds_Sa_Pa_Vietnam.jpg'},
+  'images/trip-cao-bang.jpg': {author:'Caobangpro (uploader original en vi.wikipedia)', license:'CC BY 3.0', url:'https://commons.wikimedia.org/wiki/File:Thac_Ban_Gioc.jpg'},
+  'images/trip-pu-luong.jpg': {author:'Benjamin Smith', license:'CC BY-SA 4.0', url:'https://commons.wikimedia.org/wiki/File:Pù_Luông_-_01.jpg'},
+  'images/trip-ha-giang.jpg': {author:'Hoach Le Dinh', license:'CC0 1.0', url:'https://commons.wikimedia.org/wiki/File:Mã_Pí_Lèng,_Vietnam.jpg'},
+  'images/trip-hcmc.jpg': {author:'Yesvn123', license:'CC BY-SA 4.0', url:'https://commons.wikimedia.org/wiki/File:Saigon_Central_Post_Office_2022.jpg'},
+  'images/trip-mekong.jpg': {author:'CaCo789', license:'CC BY-SA 4.0', url:'https://commons.wikimedia.org/wiki/File:Mekong_Delta_Ham_Luong_River.jpg'},
+  'images/trip-phu-quoc.jpg': {author:'Vivu Vietnam', license:'CC BY-SA 4.0', url:'https://commons.wikimedia.org/wiki/File:Hon_Thom_Cable_Car_aerial_view_Phu_Quoc_Island_Vietnam.jpg'}
+});

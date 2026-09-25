@@ -9,7 +9,7 @@
   E.byId = function(list,id){ for(var i=0;i<list.length;i++) if(list[i].id===id) return list[i]; return null; };
   E.trip = function(id){ return E.byId(D.trips,id); };
   E.stop = function(id){ return E.byId(D.stops,id); };
-  E.regionName = function(r){ return {'da-nang':'Da Nang','hoi-an':'Hoi An','hue':'Hue'}[r]||r; };
+  E.regionName = function(r){ return {'da-nang':'Da Nang','hoi-an':'Hoi An','hue':'Hue','ha-noi':'Hanói','ninh-binh':'Ninh Binh','ha-long':'Ha Long','sa-pa':'Sa Pa','cao-bang':'Cao Bang','pu-luong':'Pu Luong','ha-giang':'Ha Giang','ho-chi-minh':'Ciudad Ho Chi Minh','mekong':'Delta del Mekong','phu-quoc':'Phu Quoc'}[r]||r; };
   E.walkLabel = function(w){ return {bajo:'Poca caminata',medio:'Caminata moderada',alto:'Mucha caminata / escaleras'}[w]||w; };
   E.todo = function(t){ return '<span class="todo">'+E.esc(t)+'</span>'; };
 
@@ -33,7 +33,7 @@
   /* tarjetas */
   E.tripCard = function(t){
     return '<article class="card"><img class="media" loading="lazy" src="'+E.esc(t.image)+'" alt="">'+
-      '<div class="body"><div class="tags"><span class="tag">'+t.days+' días / '+t.nights+' noches</span><span class="tag">Alojamiento '+E.esc(t.tier)+'</span>'+
+      '<div class="body"><div class="tags"><span class="tag">'+t.days+' días / '+t.nights+' noches</span>'+(t.tier?'<span class="tag">Alojamiento '+E.esc(t.tier)+'</span>':'')+''+
       t.groups.map(function(g){return '<span class="tag">'+E.esc(g)+'</span>';}).join('')+'</div>'+
       '<h3>'+E.esc(t.title)+'</h3><div class="route">'+t.route.map(E.esc).join(' · ')+'</div>'+
       '<p>'+E.esc(t.tagline)+'</p>'+
