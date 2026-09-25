@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Detalle del viaje — Esencia Vietnam</title>
+<meta name="description" content="Itinerario día a día, ritmo, qué incluye y qué no, y cómo pedir presupuesto.">
+<link rel="stylesheet" href="assets/css/site.css">
+<script src="data/site.js"></script>
+<script src="data/credits.js"></script>
+<script src="assets/js/site.js"></script>
+<style>
+.stop{display:grid;grid-template-columns:120px 1fr;gap:14px;margin:12px 0;align-items:start}
+.stop img{width:120px;aspect-ratio:4/3;object-fit:cover;border-radius:8px;background:var(--gold-soft)}
+.stop h4{margin:0 0 4px;font-family:var(--serif)}
+.stop p{margin:0 0 4px;color:var(--muted);font-size:14.5px}
+@media(max-width:480px){.stop{grid-template-columns:1fr}.stop img{width:100%}}
+.day-body{padding:0 18px 16px}
+.side-card{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:22px;box-shadow:var(--shadow)}
+.side-card .btn{display:block;text-align:center;margin-top:10px}
+.side-card h3{font-size:16px;margin-top:18px}
+</style>
+</head>
+<body>
+<div id="site-header"></div>
+<main>
+  <div class="container page-head">
+    <div class="crumbs"><a href="index.html">Inicio</a> › <a href="viajes.html">Viajes</a> › <span id="crumb">Viaje</span></div>
+    <h1 id="title">Viaje</h1>
+  </div>
+  <section class="section" style="padding-top:10px"><div class="container" id="content"></div></section>
+</main>
+<div id="site-footer"></div>
+<script>
+E.ready(function(){
+  var id=E.q('id'), t=id?E.trip(id):null, root=document.getElementById('content');
+  if(!t){
+    document.getElementById('title').textContent='No encontramos este viaje';
+    document.title='Viaje no encontrado — Esencia Vietnam';
+    root.innerHTML='<p class="lead">Puede que el enlace haya cambiado o que el viaje ya no esté disponible.</p><p class="row"><a class="btn" href="viajes.html">Ver todos los viajes</a> <a class="btn ghost" href="contacto.html">Pedir un viaje a medida</a></p>';
+    return;
+  }
+  document.title=t.title+' — Esencia Vietnam';
+  document.getElementById('title').textContent=t.title;
+  document.getElementById('crumb').textContent=t.title;
+  var usedImgs=[];
+  function stopHTML(sid){
+    var s=E.stop(sid); if(!s) return '';
+    if(usedImgs.indexOf(s.image)<0) usedImgs.push(s.image);
+    return '<div class="stop"><img loading="lazy" src="'+E.esc(s.image)+'" alt="'+E.esc(s.name)+'" onerror="this.style.visibility=\'hidden\'"><div><h4>'+E.esc(s.name)+'</h4><p>'+E.esc(s.summary)+'</p>'+
+      '<div class="tags"><span class="tag">'+E.esc(s.duration)+'</span><span class="tag">'+E.walkLabel(s.walking)+'</span><span class="tag">Mejor época: '+E.esc(s.bestSeason)+'</span></div></div></div>';
+  }
+  var days=t.itinerary.map(function(d,i){
+    var msgs=E.paceCheck(d.stops,{arrival:i===0});
+    var meals=(d.meals&&d.meals.length)?'<div class="tags" style="margin:8px 0">'+d.meals.map(function(m){return '<span class="meal">'+E.esc(m)+'</span>';}).join('')+'</div>':'<p class="route">Sin comidas incluidas este día.</p>';
+    return '<details class="acc"'+(i===0?' open':'')+'><summary>Día '+d.day+' · '+E.esc(d.title)+'</summary><div class="day-body">'+
+      (d.stops.length?d.stops.map(stopHTML).join(''):'<p class="route">Día sin paradas programadas.</p>')+meals+
+      (d.pace?'<div class="pace-ok"><b>Ritmo:</b> '+E.esc(d.pace)+'</div>':'')+
+      msgs.map(function(m){return '<div class="pace-warn" style="margin-top:8px">'+E.esc(m)+'</div>';}).join('')+
+      '</div></details>';
+  }).join('');
+  var side='<div class="side-card sticky-side">'+
+    '<div>'+E.priceHTML(t)+'</div>'+(E.priceNote(t)?'<p class="route" style="margin-top:6px">'+E.priceNote(t)+'</p>':'')+
+    '<a class="btn" href="contacto.html?trip='+encodeURIComponent(t.id)+'">Pedir presupuesto</a>'+
+    '<a class="btn ghost" href="constructor.html?trip='+encodeURIComponent(t.id)+'">Editar este itinerario</a>'+
+    '<a class="btn wa" target="_blank" rel="noopener" href="'+E.waLink('Hola, me interesa el viaje «'+t.title+'». ¿Podrían darme más información?')+'">Escribir por WhatsApp</a>'+
+    (E.D.team.length?'<h3>Tu especialista</h3><p style="margin:0"><b>'+E.esc(E.D.team[0].name)+'</b><br><span class="route">'+E.esc(E.D.team[0].role)+'</span></p>':'')+
+    '</div>';
+  var inc=(t.included||[]), exc=(t.excluded||[]);
+  root.innerHTML='<div class="layout-side"><div>'+
+    '<p class="lead">'+E.esc(t.tagline)+'</p>'+
+    '<div class="tags" style="margin-bottom:22px"><span class="tag">'+t.days+' días / '+t.nights+' noches</span><span class="tag">Alojamiento '+E.esc(t.tier)+'</span>'+t.region.map(function(r){return '<span class="tag">'+E.regionName(r)+'</span>';}).join('')+t.groups.map(function(g){return '<span class="tag">'+E.esc(g)+'</span>';}).join('')+'</div>'+
+    '<h2>Itinerario día a día</h2>'+days+
+    '<h2 style="margin-top:36px">Qué incluye y qué no</h2>'+
+    (t.includedNote?'<p>'+E.todo(t.includedNote)+'</p>':'')+
+    '<div class="table-wrap"><table><thead><tr><th>Incluido</th><th>No incluido</th></tr></thead><tbody><tr><td><ul class="checks">'+inc.map(function(x){return '<li>'+E.esc(x)+'</li>';}).join('')+'</ul></td><td><ul class="checks no">'+exc.map(function(x){return '<li>'+E.esc(x)+'</li>';}).join('')+'</ul></td></tr></tbody></table></div>'+
+    '</div><aside aria-label="Reservar">'+side+'</aside></div>';
+  var cr=usedImgs.map(E.credit).join('');
+  if(cr) root.insertAdjacentHTML('beforeend','<p class="route" style="margin-top:30px">Créditos de fotos:</p>'+cr);
+});
+</script>
+</body>
+</html>

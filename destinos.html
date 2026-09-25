@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Destinos y paradas — Esencia Vietnam</title>
+<meta name="description" content="Explora las paradas del Centro de Vietnam con filtros por región, tipo, caminata y época, en lista o en mapa.">
+<link rel="stylesheet" href="assets/css/site.css">
+<script src="data/site.js"></script>
+<script src="data/credits.js"></script>
+<script src="assets/js/site.js"></script>
+<style>
+.view-toggle{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px;align-items:center}
+.view-toggle .btn[aria-pressed="true"]{background:var(--green-700);color:#fff;border-color:var(--green-700)}
+#map-wrap{margin-bottom:26px}
+#map-wrap[hidden]{display:none}
+.count{color:var(--muted);margin:0 0 14px}
+.leaflet-popup-content a{font-weight:600}
+</style>
+</head>
+<body>
+<div id="site-header"></div>
+<main>
+  <div class="container page-head">
+    <div class="crumbs"><a href="index.html">Inicio</a> › Destinos</div>
+    <h1>Destinos y paradas</h1>
+    <p class="lead">Filtra por región, tipo, nivel de caminata o mes de viaje. Cuando algo te guste, añádelo a tu viaje.</p>
+  </div>
+  <section class="section"><div class="container">
+    <form class="filters" id="filters" aria-label="Filtros de paradas" onsubmit="return false">
+      <div class="field"><label for="f-region">Región</label><select id="f-region"><option value="">Todas</option></select></div>
+      <div class="field"><label for="f-type">Tipo</label><select id="f-type"><option value="">Todos</option></select></div>
+      <div class="field"><label for="f-walk">Caminata</label><select id="f-walk"><option value="">Cualquiera</option></select></div>
+      <div class="field"><label for="f-month">Mes / época</label><select id="f-month"><option value="">Todo el año</option></select></div>
+      <button type="button" class="btn ghost small" id="f-reset">Quitar filtros</button>
+    </form>
+    <div class="view-toggle" role="group" aria-label="Tipo de vista">
+      <button type="button" class="btn small ghost" id="v-map" aria-pressed="true">Lista y mapa</button>
+      <button type="button" class="btn small ghost" id="v-list" aria-pressed="false">Solo lista</button>
+      <a class="btn small" href="constructor.html" style="margin-left:auto">Diseña tu viaje</a>
+    </div>
+    <div id="map-wrap"><div id="map" class="map" role="region" aria-label="Mapa de paradas"></div>
+      <p class="route" id="map-note" style="margin-top:8px">Cada marcador abre un cuadro con enlace a la ficha de la parada.</p></div>
+    <p class="count" id="count" aria-live="polite"></p>
+    <div class="grid c3" id="list"></div>
+  </div></section>
+</main>
+<div id="site-footer"></div>
+<script>
+E.ready(function(){
+  var MONTHS=['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+  var ABBR={ene:1,feb:2,mar:3,abr:4,may:5,jun:6,jul:7,ago:8,sep:9,set:9,oct:10,nov:11,dic:12};
+  function seasonMonths(txt){
+    var all=[1,2,3,4,5,6,7,8,9,10,11,12], t=String(txt||'').toLowerCase();
+    var m=t.match(/([a-z]{3})[a-z]*\s*[–\-]\s*([a-z]{3})/);
+    if(!m||!ABBR[m[1]]||!ABBR[m[2]]) return all;
+    var a=ABBR[m[1]], b=ABBR[m[2]], out=[], i=a;
+    for(var n=0;n<12;n++){ out.push(i); if(i===b) break; i=i%12+1; }
+    return out;
+  }
+  var S=E.D.stops, $=function(id){return document.getElementById(id);};
+  function cap(s){return s.charAt(0).toUpperCase()+s.slice(1);}
+  function fill(sel, vals, label){ vals.forEach(function(v){var o=document.createElement('option');o.value=v;o.textContent=label(v);sel.appendChild(o);}); }
+  function uniq(k){var r=[];S.forEach(function(s){if(r.indexOf(s[k])<0)r.push(s[k]);});return r;}
+  fill($('f-region'),uniq('region'),E.regionName);
+  fill($('f-type'),uniq('type'),cap);
+  fill($('f-walk'),['bajo','medio','alto'],E.walkLabel);
+  MONTHS.forEach(function(m,i){var o=document.createElement('option');o.value=i+1;o.textContent=cap(m);$('f-month').appendChild(o);});
+
+  var map=null, layer=null, mapFailed=false;
+  function filtered(){
+    var r=$('f-region').value,t=$('f-type').value,w=$('f-walk').value,mo=parseInt($('f-month').value,10);
+    return S.filter(function(s){
+      return (!r||s.region===r)&&(!t||s.type===t)&&(!w||s.walking===w)&&(!mo||seasonMonths(s.bestSeason).indexOf(mo)>=0);
+    });
+  }
+  function renderMap(list){
+    if(!map||!layer) return;
+    layer.clearLayers();
+    var pts=[];
+    list.forEach(function(s){
+      if(typeof s.lat!=='number') return;
+      var mk=L.marker([s.lat,s.lng],{title:s.name,alt:s.name});
+      mk.bindPopup('<strong>'+E.esc(s.name)+'</strong><br>'+E.esc(s.duration)+' · '+E.walkLabel(s.walking)+'<br><a href="destino.html?id='+encodeURIComponent(s.id)+'">Ver destino</a>');
+      mk.addTo(layer); pts.push([s.lat,s.lng]);
+    });
+    if(pts.length) map.fitBounds(pts,{padding:[30,30],maxZoom:12});
+  }
+  function render(){
+    var list=filtered();
+    $('list').innerHTML=list.length?list.map(E.stopCard).join(''):'<p>No hay paradas con estos filtros. Prueba a quitar alguno o <a href="contacto.html">pregúntanos</a>.</p>';
+    $('count').textContent=list.length? list.length+(list.length===1?' parada encontrada':' paradas encontradas') : '';
+    renderMap(list);
+  }
+  function setView(v){
+    $('v-map').setAttribute('aria-pressed',v==='mapa'); $('v-list').setAttribute('aria-pressed',v==='lista');
+    $('map-wrap').hidden=(v!=='mapa');
+    if(v!=='mapa') return;
+    if(!map && !mapFailed){
+      E.loadLeaflet(function(){
+        try{ map=E.newMap($('map')); layer=L.layerGroup().addTo(map); render(); }
+        catch(e){ mapFailed=true; $('map-wrap').hidden=true; }
+      });
+      setTimeout(function(){ if(!window.L){ mapFailed=true; $('map-note').textContent='No se pudo cargar el mapa. Puedes usar la lista.'; } },8000);
+    } else if(map){ setTimeout(function(){map.invalidateSize();render();},50); }
+  }
+  ['f-region','f-type','f-walk','f-month'].forEach(function(id){$(id).addEventListener('change',render);});
+  $('f-reset').addEventListener('click',function(){['f-region','f-type','f-walk','f-month'].forEach(function(id){$(id).value='';});render();});
+  $('v-map').addEventListener('click',function(){setView('mapa');});
+  $('v-list').addEventListener('click',function(){setView('lista');});
+  render(); setView('mapa');
+});
+</script>
+</body>
+</html>

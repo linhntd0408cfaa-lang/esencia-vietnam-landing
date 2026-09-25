@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Guía de viaje — Esencia Vietnam</title>
+<meta name="description" content="Guía para preparar su viaje a Vietnam: mejor época, visado, seguro, salud, dinero y cómo reservar.">
+<link rel="stylesheet" href="assets/css/site.css">
+<script src="data/site.js"></script>
+<script src="data/credits.js"></script>
+<script src="assets/js/site.js"></script>
+<style>.person{display:flex;gap:18px;align-items:flex-start}.person .ph{flex:0 0 120px;height:120px;border-radius:50%;background:var(--gold-soft);display:flex;align-items:center;justify-content:center;text-align:center;font-size:12px;color:var(--muted);padding:8px;overflow:hidden}.person .ph img{width:100%;height:100%;object-fit:cover}.quote{border-left:4px solid var(--gold);padding-left:16px;margin:0}.thumb{width:110px;height:76px;object-fit:cover;border-radius:6px;display:block}.steps{counter-reset:s;list-style:none;padding:0;margin:0}.steps li{counter-increment:s;position:relative;padding:8px 0 8px 46px}.steps li::before{content:counter(s);position:absolute;left:0;top:6px;width:32px;height:32px;border-radius:50%;background:var(--gold);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700}table{border-collapse:collapse;width:100%}th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}@media(max-width:520px){.person{flex-direction:column}}</style>
+</head>
+<body>
+<div id="site-header"></div>
+<main>
+  <div class="container page-head">
+    <div class="crumbs"><a href="index.html">Inicio</a> › Guía de viaje</div>
+    <h1>Guía de viaje</h1>
+  </div>
+  <section class="section"><div class="container">
+    <p class="lead narrow">Lo que suele preguntarse antes de reservar, explicado con calma. Para trámites oficiales le indicamos siempre dónde consultar la fuente.</p>
+    <h2>Mejor época por región</h2>
+    <p>Según la mejor temporada de cada parada de nuestros itinerarios. Es orientativo: el clima varía cada año.</p>
+    <div class="table-wrap"><table id="season"><thead><tr><th>Región</th><th>Paradas y mejor temporada</th></tr></thead><tbody></tbody></table></div>
+  </div></section>
+  <section class="section alt"><div class="container">
+    <h2>Antes de viajar</h2>
+    <div class="grid c2">
+      <details class="acc" open><summary>Visado</summary><div class="acc-body"><p>Los requisitos dependen de su nacionalidad y cambian con el tiempo. Consulte siempre la fuente oficial: el portal de visado electrónico de Vietnam (<a href="https://evisa.gov.vn" target="_blank" rel="noopener">evisa.gov.vn</a>) y la embajada o consulado de Vietnam en su país. <span id="t-visa"></span></p></div></details>
+      <details class="acc"><summary>Seguro de viaje</summary><div class="acc-body"><p>Nuestros viajes incluyen seguro de viaje y asistencia médica 24/7. Cobertura y límites: <span id="t-seg"></span></p></div></details>
+      <details class="acc"><summary>Salud y vacunas</summary><div class="acc-body"><p>Consulte con su médico o centro de medicina del viajero con antelación y revise las recomendaciones oficiales de su país para Vietnam. No damos consejo médico; si tiene una condición concreta, cuéntenoslo (es opcional) para adaptar el ritmo.</p></div></details>
+      <details class="acc"><summary>Dinero en destino</summary><div class="acc-body"><p>La moneda local es el dong vietnamita. Compruebe con su banco las comisiones de tarjeta y de cajeros. <span id="t-din"></span></p></div></details>
+    </div>
+  </div></section>
+  <section class="section"><div class="container narrow">
+    <h2>Cómo reservar</h2>
+    <ol class="steps">
+      <li><b>Nos escribe</b> por WhatsApp o correo con fechas aproximadas, número de viajeros y edades.</li>
+      <li><b>Videollamada de planificación</b> para afinar el ritmo y los intereses.</li>
+      <li><b>Recibe una propuesta</b> con itinerario, alojamiento y precio cerrado.</li>
+      <li><b>Confirma la reserva</b> según las condiciones de pago y contrato: <span id="t-res"></span></li>
+      <li><b>Recibe la documentación</b> y una lista de preparación antes de salir.</li>
+    </ol>
+  </div></section>
+  <section class="section alt"><div class="container">
+    <h2>Estimación de costes</h2>
+    <div class="table-wrap"><table><thead><tr><th>Concepto</th><th>Rango orientativo por persona</th></tr></thead><tbody id="costs"></tbody></table></div>
+    <p style="margin-top:20px">Para una cifra concreta, <a href="#" id="cta-wa">pida un presupuesto por WhatsApp</a> o <a href="#" id="cta-mail">por correo</a>.</p>
+  </div></section>
+</main>
+<div id="site-footer"></div>
+<script>E.ready(function(){
+var $=function(i){return document.getElementById(i);};
+var reg={};
+E.D.stops.forEach(function(s){(reg[s.region]=reg[s.region]||[]).push(s);});
+$('season').querySelector('tbody').innerHTML=Object.keys(reg).map(function(r){
+  return '<tr><td><b>'+E.esc(E.regionName(r))+'</b></td><td>'+reg[r].map(function(s){return E.esc(s.name)+': '+E.esc(s.bestSeason);}).join('<br>')+'</td></tr>';
+}).join('');
+$('t-visa').innerHTML=E.todo('nuestra ayuda con el visado, si la hay');
+$('t-seg').innerHTML=E.todo('aseguradora, coberturas y límites');
+$('t-din').innerHTML=E.todo('consejo sobre efectivo, propinas y tarjetas');
+$('t-res').innerHTML=E.todo('depósito y calendario de pagos');
+$('costs').innerHTML=['Viaje completo con alojamiento 4–5★','Vuelos internacionales y domésticos','Propinas y gastos personales','Suplementos por festivos (Tet)'].map(function(c){return '<tr><td>'+c+'</td><td>'+E.todo('rango de coste')+'</td></tr>';}).join('');
+var w=$('cta-wa'); if(w) w.href=E.waLink('Hola, quisiera un presupuesto para viajar a Vietnam.'); var m=$('cta-mail'); if(m) m.href=E.mailLink('Consulta — Esencia Vietnam','Hola, quisiera un presupuesto para viajar a Vietnam.');
+});</script>
+</body>
+</html>

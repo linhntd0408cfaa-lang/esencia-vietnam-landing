@@ -1,0 +1,382 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Diseña tu viaje — Esencia Vietnam</title>
+<meta name="description" content="Elige paradas en el mapa, organízalas por días con aviso de ritmo y envíanos tu borrador por WhatsApp o email.">
+<link rel="stylesheet" href="assets/css/site.css">
+<script src="data/site.js"></script>
+<script src="data/credits.js"></script>
+<script src="assets/js/site.js"></script>
+<style>
+.step-head{margin-bottom:18px}
+.step-head .kicker{margin-bottom:4px}
+.notice{background:#fff;border:1px solid var(--line);border-left:4px solid var(--gold);border-radius:8px;padding:10px 14px;font-size:14.5px;margin-bottom:16px}
+.notice[hidden]{display:none}
+.bld{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:24px;align-items:start}
+@media(max-width:900px){.bld{grid-template-columns:1fr}}
+#bmap{height:440px}
+.stoplist{list-style:none;margin:0;padding:0;max-height:440px;overflow:auto;display:grid;gap:8px}
+.stoplist li{background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px 12px;display:flex;gap:10px;justify-content:space-between;align-items:center;flex-wrap:wrap}
+.stoplist .nm{font-weight:600;color:var(--green-900)}
+.stoplist .mt{font-size:13px;color:var(--muted)}
+.stoplist .acts{display:flex;gap:6px;align-items:center}
+.opts{display:flex;gap:14px;flex-wrap:wrap;align-items:end;margin-bottom:12px}
+.opts .field{margin:0}
+.board{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px;align-items:start}
+.col{background:#fff;border:2px dashed var(--line);border-radius:var(--radius);padding:12px}
+.col.over{border-color:var(--gold);background:#fffaf0}
+.col h3{display:flex;justify-content:space-between;align-items:center;gap:8px;margin:0 0 10px;font-size:17px}
+.dl{list-style:none;margin:0 0 10px;padding:0;display:grid;gap:8px;min-height:44px}
+.dl li{background:var(--paper);border:1px solid var(--gold-soft);border-radius:8px;padding:8px 10px;cursor:grab}
+.dl li.dragging{opacity:.4}
+.dl .nm{font-weight:600;font-size:15px;display:block;margin-bottom:6px}
+.dl .ctl{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.dl .ctl button,.dl .ctl select{font:inherit;font-size:13px;min-height:36px;min-width:36px;padding:4px 8px;border:1px solid #cfc4aa;border-radius:8px;background:#fff;cursor:pointer}
+.dl .empty{color:var(--muted);font-size:14px;border:none;background:none;cursor:default;padding:4px}
+.col .pace-warn,.col .pace-ok{margin-top:6px}
+.col .pace-warn+.pace-warn{margin-top:6px}
+.addday{margin-top:16px}
+.pricebox{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:22px;box-shadow:var(--shadow)}
+.summary{width:100%;min-height:220px;font:14px/1.5 Consolas,monospace;padding:12px;border:1px solid #cfc4aa;border-radius:8px;background:#fff}
+.tag.warnt{background:var(--warn-bg);border-color:var(--warn);color:var(--warn)}
+.leaflet-popup-content button{font:inherit;font-weight:600;cursor:pointer;background:var(--gold);color:#fff;border:0;border-radius:999px;padding:6px 14px;margin-top:6px}
+.sr{position:absolute;left:-9999px}
+</style>
+</head>
+<body>
+<div id="site-header"></div>
+<main>
+  <div class="container page-head">
+    <div class="crumbs"><a href="index.html">Inicio</a> › Diseña tu viaje</div>
+    <h1>Diseña tu viaje</h1>
+    <p class="lead">Elige paradas, ordénalas por días y envíanos el borrador. Un especialista lo revisará contigo; nada es definitivo hasta que lo confirmemos juntos.</p>
+    <div class="notice" id="restored" hidden>Hemos recuperado tu borrador guardado en este dispositivo. <button type="button" class="btn ghost small" id="reset">Empezar de nuevo</button></div>
+  </div>
+
+  <section class="section"><div class="container">
+    <div class="step-head"><p class="kicker">Paso 1</p><h2>Cuéntanos sobre tu grupo</h2></div>
+    <div class="form"><div class="two">
+      <div class="field"><label for="g-group">Tipo de grupo</label><select id="g-group">
+        <option value="">Elige…</option><option value="multigeneracional">Familia multigeneracional</option><option value="mayores">Viaje con personas mayores</option><option value="familia-ninos">Familia con niños</option><option value="amigos">Grupo de amigos</option><option value="pareja">Pareja</option></select></div>
+      <div class="field"><label for="g-pax">Número de personas</label><input id="g-pax" type="number" min="1" max="40" inputmode="numeric" placeholder="Ej.: 6"></div>
+    </div>
+    <div class="field" style="max-width:340px"><label for="g-month">Mes previsto</label><select id="g-month"><option value="">Aún no lo sé</option></select>
+      <div class="hint">Con el mes te mostramos qué paradas están en su mejor época.</div></div>
+    <p id="group-tip" class="route" aria-live="polite"></p></div>
+  </div></section>
+
+  <section class="section alt"><div class="container">
+    <div class="step-head"><p class="kicker">Paso 2</p><h2>Elige paradas en el mapa o en la lista</h2></div>
+    <form class="filters" onsubmit="return false" aria-label="Filtros de paradas">
+      <div class="field"><label for="f-region">Región</label><select id="f-region"><option value="">Todas</option></select></div>
+      <div class="field"><label for="f-type">Tipo</label><select id="f-type"><option value="">Todos</option></select></div>
+      <div class="field"><label for="f-walk">Caminata</label><select id="f-walk"><option value="">Cualquiera</option></select></div>
+      <div class="field"><label for="f-add-day">Añadir al día</label><select id="f-add-day"></select></div>
+      <div class="field"><label><input type="checkbox" id="f-season"> Solo en su mejor época (según el mes)</label></div>
+    </form>
+    <div class="bld">
+      <div><div id="bmap" class="map" role="region" aria-label="Mapa de paradas"></div><p class="route" id="bmap-note" style="margin-top:8px">Pulsa un marcador y usa «Añadir a mi viaje». La lista de al lado hace lo mismo sin mapa.</p></div>
+      <div><p class="count route" id="count" aria-live="polite"></p><ul class="stoplist" id="stoplist"></ul></div>
+    </div>
+  </div></section>
+
+  <section class="section"><div class="container">
+    <div class="step-head"><p class="kicker">Paso 3</p><h2>Organiza tus días</h2>
+      <p class="lead">Arrastra las paradas entre días, o usa los botones ▲ ▼ y «Mover a» (también en el móvil). Te avisamos si un día queda demasiado cargado.</p></div>
+    <div class="board" id="board"></div>
+    <div class="addday"><button type="button" class="btn ghost small" id="add-day">+ Añadir un día</button></div>
+    <p class="sr" id="live" aria-live="polite"></p>
+  </div></section>
+
+  <section class="section alt"><div class="container">
+    <div class="step-head"><p class="kicker">Paso 4</p><h2>Precio estimado</h2></div>
+    <div class="pricebox" id="pricebox"></div>
+  </div></section>
+
+  <section class="section"><div class="container narrow">
+    <div class="step-head"><p class="kicker">Paso 5</p><h2>Envíanos tu borrador</h2>
+      <p class="lead">Rellena lo mínimo; generamos un resumen que puedes revisar antes de enviarlo.</p></div>
+    <form class="form" id="sendform" onsubmit="return false" novalidate>
+      <div class="two">
+        <div class="field"><label for="c-name">Nombre</label><input id="c-name" autocomplete="name" required></div>
+        <div class="field"><label for="c-contact">WhatsApp o email</label><input id="c-contact" autocomplete="off" required placeholder="+34… o nombre@correo.com"></div>
+      </div>
+      <div class="field"><label for="c-notes">Notas (opcional)</label><textarea id="c-notes" placeholder="Edades, celebraciones, movilidad, comidas… Solo si quieres compartirlo."></textarea>
+        <div class="hint">Los datos de salud o alimentación son opcionales y solo se usan para preparar tu propuesta.</div></div>
+      <div class="field"><label for="summary">Resumen del borrador</label><textarea id="summary" class="summary" readonly></textarea></div>
+      <div class="row">
+        <a class="btn wa" id="send-wa" href="#" target="_blank" rel="noopener">Enviar por WhatsApp</a>
+        <a class="btn ghost" id="send-mail" href="#">Enviar por email</a>
+        <button type="button" class="btn ghost" id="copy">Copiar resumen</button>
+      </div>
+      <p id="copy-msg" class="route" aria-live="polite" style="margin-top:10px"></p>
+      <p class="route">No hay servidor: al pulsar se abre WhatsApp o tu correo con el texto ya escrito; tú decides si lo envías.</p>
+    </form>
+  </div></section>
+</main>
+<div id="site-footer"></div>
+<script>
+E.ready(function(){
+  var KEY='esencia_borrador_v1';
+  var MONTHS=['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+  var GROUPS={'multigeneracional':'Familia multigeneracional','mayores':'Viaje con personas mayores','familia-ninos':'Familia con niños','amigos':'Grupo de amigos','pareja':'Pareja'};
+  var ABBR={ene:1,feb:2,mar:3,abr:4,may:5,jun:6,jul:7,ago:8,sep:9,set:9,oct:10,nov:11,dic:12};
+  var $=function(i){return document.getElementById(i);};
+  function cap(s){return s.charAt(0).toUpperCase()+s.slice(1);}
+  function seasonMonths(txt){
+    var all=[1,2,3,4,5,6,7,8,9,10,11,12], t=String(txt||'').toLowerCase();
+    var m=t.match(/([a-z]{3})[a-z]*\s*[–\-]\s*([a-z]{3})/);
+    if(!m||!ABBR[m[1]]||!ABBR[m[2]]) return all;
+    var a=ABBR[m[1]], b=ABBR[m[2]], out=[], i=a;
+    for(var n=0;n<12;n++){ out.push(i); if(i===b) break; i=i%12+1; }
+    return out;
+  }
+  function inSeason(s){ var mo=parseInt(st.month,10); return !mo||seasonMonths(s.bestSeason).indexOf(mo)>=0; }
+
+  var st={group:'',pax:'',month:'',days:[[],[],[]],name:'',contact:'',notes:'',tripId:'',active:0};
+  var restored=false, focusNext=null;
+
+  /* ---------- persistencia ---------- */
+  function save(){ try{ localStorage.setItem(KEY,JSON.stringify(st)); }catch(e){} }
+  function load(){
+    try{
+      var raw=localStorage.getItem(KEY); if(!raw) return;
+      var o=JSON.parse(raw);
+      if(o && o.days && o.days.length){
+        st.group=o.group||''; st.pax=o.pax||''; st.month=o.month||''; st.name=o.name||''; st.contact=o.contact||''; st.notes=o.notes||''; st.tripId=o.tripId||''; st.active=o.active||0;
+        st.days=o.days.map(function(d){return (d||[]).filter(function(id){return E.stop(id);});});
+        restored=st.days.some(function(d){return d.length;})||!!(st.name||st.contact||st.group||st.pax);
+      }
+    }catch(e){}
+  }
+  function all(){ var r=[]; st.days.forEach(function(d){d.forEach(function(x){r.push(x);});}); return r; }
+  function inTrip(id){ return all().indexOf(id)>=0; }
+
+  /* ---------- selects ---------- */
+  MONTHS.forEach(function(m,i){var o=document.createElement('option');o.value=i+1;o.textContent=cap(m);$('g-month').appendChild(o);});
+  function uniq(k){var r=[];E.D.stops.forEach(function(s){if(r.indexOf(s[k])<0)r.push(s[k]);});return r;}
+  function fill(sel,vals,label){vals.forEach(function(v){var o=document.createElement('option');o.value=v;o.textContent=label(v);sel.appendChild(o);});}
+  fill($('f-region'),uniq('region'),E.regionName); fill($('f-type'),uniq('type'),cap); fill($('f-walk'),['bajo','medio','alto'],E.walkLabel);
+
+  /* ---------- acciones sobre días ---------- */
+  function addStop(id,dayIdx){
+    if(!E.stop(id)||inTrip(id)) return;
+    if(dayIdx==null) dayIdx=st.active;
+    if(dayIdx>=st.days.length) dayIdx=st.days.length-1;
+    st.days[dayIdx].push(id); refresh(); say(E.stop(id).name+' añadida al día '+(dayIdx+1)+'.');
+  }
+  function removeStop(id){ st.days.forEach(function(d){var i=d.indexOf(id); if(i>=0) d.splice(i,1);}); refresh(); }
+  function moveStop(id,toDay,toIndex){
+    var from=-1,fi=-1; st.days.forEach(function(d,i){var k=d.indexOf(id); if(k>=0){from=i;fi=k;}});
+    if(from<0) return;
+    st.days[from].splice(fi,1);
+    if(toIndex==null||toIndex>st.days[toDay].length) toIndex=st.days[toDay].length;
+    if(from===toDay && toIndex>fi) toIndex--;
+    st.days[toDay].splice(toIndex,0,id);
+    refresh();
+  }
+  function shift(id,delta){
+    st.days.forEach(function(d,di){var i=d.indexOf(id); if(i<0) return; var j=i+delta;
+      if(j<0||j>=d.length) return; d.splice(i,1); d.splice(j,0,id);});
+  }
+  function say(t){ $('live').textContent=t; }
+
+  /* ---------- lista de paradas ---------- */
+  function filtered(){
+    var r=$('f-region').value,t=$('f-type').value,w=$('f-walk').value,se=$('f-season').checked;
+    return E.D.stops.filter(function(s){return (!r||s.region===r)&&(!t||s.type===t)&&(!w||s.walking===w)&&(!se||inSeason(s));});
+  }
+  function renderList(){
+    var l=filtered();
+    $('count').textContent=l.length+(l.length===1?' parada':' paradas');
+    var senior=(st.group==='mayores'||st.group==='multigeneracional');
+    $('stoplist').innerHTML=l.length?l.map(function(s){
+      var added=inTrip(s.id), warn=[];
+      if(senior&&s.walking==='alto') warn.push('<span class="tag warnt">Mucha caminata</span>');
+      if(st.month&&!inSeason(s)) warn.push('<span class="tag warnt">Fuera de mejor época</span>');
+      return '<li><div><div class="nm">'+E.esc(s.name)+'</div><div class="mt">'+E.regionName(s.region)+' · '+E.esc(s.duration)+' · '+E.walkLabel(s.walking)+'</div>'+(warn.length?'<div class="tags" style="margin-top:4px">'+warn.join('')+'</div>':'')+'</div>'+
+        '<div class="acts"><a class="btn small ghost" href="destino.html?id='+encodeURIComponent(s.id)+'" target="_blank" rel="noopener">Ver</a>'+
+        (added?'<button type="button" class="btn small ghost" data-rm="'+E.esc(s.id)+'">Quitar</button>':'<button type="button" class="btn small" data-add="'+E.esc(s.id)+'">Añadir</button>')+'</div></li>';
+    }).join(''):'<li>No hay paradas con estos filtros.</li>';
+    renderMarkers(l);
+  }
+
+  /* ---------- mapa ---------- */
+  var map=null, layer=null;
+  function renderMarkers(l){
+    if(!map||!layer) return;
+    layer.clearLayers(); var pts=[];
+    l.forEach(function(s){
+      if(typeof s.lat!=='number') return;
+      var added=inTrip(s.id);
+      L.marker([s.lat,s.lng],{title:s.name,alt:s.name}).addTo(layer).bindPopup(
+        '<strong>'+E.esc(s.name)+'</strong><br>'+E.esc(s.duration)+' · '+E.walkLabel(s.walking)+'<br><a href="destino.html?id='+encodeURIComponent(s.id)+'" target="_blank" rel="noopener">Ver destino</a><br>'+
+        (added?'<em>Ya está en tu viaje</em>':'<button type="button" data-add="'+E.esc(s.id)+'">Añadir a mi viaje</button>'));
+      pts.push([s.lat,s.lng]);
+    });
+    if(pts.length && !renderMarkers.fitted){ map.fitBounds(pts,{padding:[30,30],maxZoom:12}); renderMarkers.fitted=true; }
+  }
+  E.loadLeaflet(function(){
+    try{ map=E.newMap($('bmap')); layer=L.layerGroup().addTo(map); renderMarkers(filtered()); }
+    catch(e){ $('bmap-note').textContent='No se pudo cargar el mapa; usa la lista.'; }
+  });
+  setTimeout(function(){ if(!window.L) $('bmap-note').textContent='No se pudo cargar el mapa; usa la lista.'; },8000);
+
+  /* ---------- tablero de días ---------- */
+  function renderBoard(){
+    $('board').innerHTML=st.days.map(function(d,i){
+      var opts=st.days.map(function(_,k){return '<option value="'+k+'">Día '+(k+1)+'</option>';}).join('');
+      var msgs=E.paceCheck(d,{arrival:i===0});
+      var pace=msgs.length?msgs.map(function(m){return '<div class="pace-warn" role="status">'+E.esc(m)+'</div>';}).join(''):
+        '<div class="pace-ok">'+(d.length?'Ritmo cómodo para este día.':'Día libre por ahora.')+'</div>';
+      return '<section class="col" data-day="'+i+'" aria-label="Día '+(i+1)+'"><h3><span>Día '+(i+1)+(i===0?' · llegada':'')+'</span>'+
+        (st.days.length>1?'<button type="button" class="btn small ghost" data-rmday="'+i+'" aria-label="Quitar el día '+(i+1)+'">Quitar día</button>':'')+'</h3>'+
+        '<ul class="dl" data-day="'+i+'">'+(d.length?d.map(function(id,k){
+          var s=E.stop(id);
+          return '<li draggable="true" data-id="'+E.esc(id)+'"><span class="nm">'+E.esc(s.name)+'</span><div class="ctl">'+
+            '<button type="button" data-up="'+E.esc(id)+'" aria-label="Subir '+E.esc(s.name)+'"'+(k===0?' disabled':'')+'>▲</button>'+
+            '<button type="button" data-down="'+E.esc(id)+'" aria-label="Bajar '+E.esc(s.name)+'"'+(k===d.length-1?' disabled':'')+'>▼</button>'+
+            '<select data-mv="'+E.esc(id)+'" aria-label="Mover '+E.esc(s.name)+' a otro día"><option value="">Mover a…</option>'+opts.replace('<option value="'+i+'">','<option value="'+i+'" disabled>')+'</select>'+
+            '<button type="button" data-rm="'+E.esc(id)+'" aria-label="Quitar '+E.esc(s.name)+'">✕</button></div></li>';
+        }).join(''):'<li class="empty">Arrastra una parada aquí o añádela desde el paso 2.</li>')+'</ul>'+pace+'</section>';
+    }).join('');
+    $('f-add-day').innerHTML=st.days.map(function(_,k){return '<option value="'+k+'">Día '+(k+1)+'</option>';}).join('');
+    if(st.active>=st.days.length) st.active=st.days.length-1;
+    $('f-add-day').value=st.active;
+    if(focusNext){ var el=document.querySelector('#board ['+focusNext.attr+'="'+focusNext.id+'"]'); if(el&&!el.disabled) el.focus(); else { var alt=document.querySelector('#board [data-id="'+focusNext.id+'"] button:not([disabled])'); if(alt) alt.focus(); } focusNext=null; }
+  }
+
+  /* ---------- precio ---------- */
+  function baseTrip(){ return E.trip(st.tripId)||E.D.trips[0]||null; }
+  function renderPrice(){
+    var t=baseTrip(), box=$('pricebox');
+    if(!t){ box.innerHTML='<p>Solicitar presupuesto: te lo preparamos a medida.</p>'; return; }
+    var chooser=E.D.trips.length>1?'<div class="field" style="max-width:420px"><label for="base">Viaje de referencia</label><select id="base">'+E.D.trips.map(function(x){return '<option value="'+E.esc(x.id)+'"'+(x.id===t.id?' selected':'')+'>'+E.esc(x.title)+'</option>';}).join('')+'</select></div>':'';
+    box.innerHTML=chooser+
+      '<p class="route">Viaje de referencia: <b>'+E.esc(t.title)+'</b> ('+t.days+' días / '+t.nights+' noches)</p>'+
+      '<p>'+E.priceHTML(t)+'</p><p class="route">'+E.priceNote(t)+'</p>'+
+      '<p><b>Estimación orientativa.</b> El precio final depende de las paradas, los días, el alojamiento y el tamaño del grupo. Tu borrador tiene '+st.days.length+' día'+(st.days.length===1?'':'s')+' y '+all().length+' parada'+(all().length===1?'':'s')+'; un especialista te enviará un presupuesto cerrado.</p>'+
+      (t.included?'<details class="acc"><summary>Qué suele incluir el viaje de referencia</summary><div class="acc-body"><ul class="checks">'+t.included.map(function(x){return '<li>'+E.esc(x)+'</li>';}).join('')+'</ul>'+
+        (t.excluded?'<p><b>No incluye:</b></p><ul class="checks no">'+t.excluded.map(function(x){return '<li>'+E.esc(x)+'</li>';}).join('')+'</ul>':'')+(t.includedNote?'<p class="route">'+E.esc(t.includedNote)+'</p>':'')+'</div></details>':'');
+    var b=$('base'); if(b) b.addEventListener('change',function(){st.tripId=b.value;refresh();});
+  }
+
+  /* ---------- resumen ---------- */
+  function summaryText(){
+    var L=[], t=baseTrip();
+    L.push('Borrador de viaje a Vietnam (Esencia Vietnam)');
+    L.push('Nombre: '+(st.name||'—'));
+    L.push('Contacto: '+(st.contact||'—'));
+    L.push('Grupo: '+(GROUPS[st.group]||'sin indicar')+' · Personas: '+(st.pax||'sin indicar')+' · Mes: '+(st.month?MONTHS[st.month-1]:'sin indicar'));
+    L.push('');
+    var warns=[];
+    st.days.forEach(function(d,i){
+      L.push('Día '+(i+1)+(i===0?' (llegada)':'')+': '+(d.length?d.map(function(id){return E.stop(id).name;}).join(' → '):'libre / por definir'));
+      E.paceCheck(d,{arrival:i===0}).forEach(function(m){warns.push('Día '+(i+1)+': '+m);});
+    });
+    L.push('');
+    L.push('Avisos de ritmo: '+(warns.length?'':'ninguno'));
+    warns.forEach(function(w){L.push('- '+w);});
+    if(t) L.push('Viaje de referencia para el presupuesto: '+t.title+' (estimación orientativa; solicito presupuesto).');
+    if(st.notes) { L.push(''); L.push('Notas: '+st.notes); }
+    return L.join('\n');
+  }
+  function renderSummary(){
+    var txt=summaryText(); $('summary').value=txt;
+    $('send-wa').href=E.waLink(txt);
+    $('send-mail').href=E.mailLink('Borrador de viaje a Vietnam'+(st.name?' — '+st.name:''),txt);
+  }
+
+  function refresh(){ renderBoard(); renderList(); renderPrice(); renderSummary(); save(); }
+
+  /* ---------- eventos ---------- */
+  document.addEventListener('click',function(e){
+    var b=e.target.closest('[data-add],[data-rm],[data-up],[data-down],[data-rmday]'); if(!b) return;
+    if(b.hasAttribute('data-add')){ addStop(b.getAttribute('data-add'),parseInt($('f-add-day').value,10)||0); if(map) map.closePopup(); }
+    else if(b.hasAttribute('data-rm')){ removeStop(b.getAttribute('data-rm')); }
+    else if(b.hasAttribute('data-up')){ var id=b.getAttribute('data-up'); shift(id,-1); focusNext={attr:'data-up',id:id}; refresh(); }
+    else if(b.hasAttribute('data-down')){ var id2=b.getAttribute('data-down'); shift(id2,1); focusNext={attr:'data-down',id:id2}; refresh(); }
+    else if(b.hasAttribute('data-rmday')){
+      var i=parseInt(b.getAttribute('data-rmday'),10), removed=st.days.splice(i,1)[0]||[];
+      var target=st.days[Math.min(i,st.days.length-1)]; removed.forEach(function(x){target.push(x);});
+      refresh(); say('Día quitado; sus paradas pasaron al día siguiente.');
+    }
+  });
+  $('board').addEventListener('change',function(e){
+    var s=e.target.closest('select[data-mv]'); if(!s||s.value==='') return;
+    var id=s.getAttribute('data-mv'); focusNext={attr:'data-up',id:id}; moveStop(id,parseInt(s.value,10),null); say('Parada movida al día '+(parseInt(s.value,10)+1)+'.');
+  });
+  /* arrastrar y soltar */
+  var dragId=null;
+  $('board').addEventListener('dragstart',function(e){
+    var li=e.target.closest('li[data-id]'); if(!li) return;
+    dragId=li.getAttribute('data-id'); li.classList.add('dragging');
+    try{ e.dataTransfer.setData('text/plain',dragId); e.dataTransfer.effectAllowed='move'; }catch(x){}
+  });
+  $('board').addEventListener('dragend',function(){ dragId=null; document.querySelectorAll('.dragging,.over').forEach(function(n){n.classList.remove('dragging','over');}); });
+  $('board').addEventListener('dragover',function(e){
+    var c=e.target.closest('.col'); if(!c||!dragId) return; e.preventDefault();
+    document.querySelectorAll('.col.over').forEach(function(n){ if(n!==c) n.classList.remove('over'); }); c.classList.add('over');
+  });
+  $('board').addEventListener('drop',function(e){
+    var c=e.target.closest('.col'); if(!c||!dragId) return; e.preventDefault();
+    var day=parseInt(c.getAttribute('data-day'),10), li=e.target.closest('li[data-id]'), idx=null;
+    if(li){ idx=st.days[day].indexOf(li.getAttribute('data-id')); if(idx<0) idx=null; }
+    var id=dragId; dragId=null; focusNext={attr:'data-up',id:id}; moveStop(id,day,idx);
+  });
+
+  $('add-day').addEventListener('click',function(){ st.days.push([]); refresh(); say('Día '+st.days.length+' añadido.'); });
+  ['f-region','f-type','f-walk','f-season'].forEach(function(id){$(id).addEventListener('change',renderList);});
+  $('f-add-day').addEventListener('change',function(){ st.active=parseInt(this.value,10)||0; save(); });
+
+  function bindField(id,key,cb){ $(id).addEventListener('input',function(){ st[key]=this.value; if(cb) cb(); renderSummary(); save(); }); $(id).addEventListener('change',function(){ st[key]=this.value; if(cb) cb(); renderSummary(); save(); }); }
+  bindField('g-group','group',function(){ tip(); renderList(); });
+  bindField('g-pax','pax'); bindField('g-month','month',function(){ renderList(); });
+  bindField('c-name','name'); bindField('c-contact','contact'); bindField('c-notes','notes');
+  function tip(){
+    $('group-tip').textContent=(st.group==='mayores'||st.group==='multigeneracional')?'Te marcaremos las paradas con mucha caminata y te avisaremos si un día queda muy cargado.':(st.group==='familia-ninos'?'Recomendamos como máximo 2 paradas principales por día para que los niños disfruten.':'');
+  }
+
+  ['send-wa','send-mail'].forEach(function(id){
+    $(id).addEventListener('click',function(e){
+      var f=$('sendform');
+      if(!$('c-name').value.trim()||!$('c-contact').value.trim()){ e.preventDefault(); $('copy-msg').textContent='Indica tu nombre y un WhatsApp o email para poder responderte.'; ($('c-name').value.trim()?$('c-contact'):$('c-name')).focus(); }
+    });
+  });
+  $('copy').addEventListener('click',function(){
+    var txt=$('summary').value, msg=$('copy-msg');
+    function ok(){ msg.textContent='Resumen copiado.'; }
+    function fb(){ try{ $('summary').select(); document.execCommand('copy')?ok():msg.textContent='Selecciona el texto y cópialo manualmente.'; }catch(x){ msg.textContent='Selecciona el texto y cópialo manualmente.'; } }
+    if(navigator.clipboard&&navigator.clipboard.writeText) navigator.clipboard.writeText(txt).then(ok,fb); else fb();
+  });
+  $('reset').addEventListener('click',function(){
+    try{ localStorage.removeItem(KEY); }catch(e){}
+    st={group:'',pax:'',month:'',days:[[],[],[]],name:'',contact:'',notes:'',tripId:'',active:0};
+    syncFields(); $('restored').hidden=true; refresh();
+  });
+
+  function syncFields(){
+    $('g-group').value=st.group; $('g-pax').value=st.pax; $('g-month').value=st.month;
+    $('c-name').value=st.name; $('c-contact').value=st.contact; $('c-notes').value=st.notes; tip();
+  }
+
+  /* ---------- arranque ---------- */
+  load();
+  var tripQ=E.q('trip'), addQ=E.q('add'), t0=tripQ&&E.trip(tripQ);
+  if(t0){
+    st.tripId=t0.id; st.days=t0.itinerary.map(function(d){return d.stops.filter(function(id){return E.stop(id);});});
+    if(!st.days.length) st.days=[[]];
+    restored=false;
+  }
+  if(restored) $('restored').hidden=false;
+  syncFields();
+  if(addQ && E.stop(addQ)){ if(!inTrip(addQ)) st.days[Math.min(st.active,st.days.length-1)].push(addQ); }
+  refresh();
+  if(addQ && E.stop(addQ)) say(E.stop(addQ).name+' añadida a tu viaje.');
+});
+</script>
+</body>
+</html>

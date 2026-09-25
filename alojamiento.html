@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Alojamiento y experiencias — Esencia Vietnam</title>
+<meta name="description" content="Hoteles y experiencias seleccionados para viajar en familia por el Centro de Vietnam.">
+<link rel="stylesheet" href="assets/css/site.css">
+<script src="data/site.js"></script>
+<script src="data/credits.js"></script>
+<script src="assets/js/site.js"></script>
+</head>
+<body>
+<div id="site-header"></div>
+<main>
+  <div class="container page-head">
+    <div class="crumbs"><a href="index.html">Inicio</a> › Alojamiento y experiencias</div>
+    <h1>Alojamiento y experiencias</h1>
+    <p class="lead">Dónde dormirás y qué vivirás con tu familia. Cuéntanos qué te interesa y lo incluimos en tu viaje.</p>
+  </div>
+  <section class="section"><div class="container">
+    <form class="filters" onsubmit="return false" aria-label="Filtros">
+      <div class="field"><label for="f-kind">Tipo</label><select id="f-kind"><option value="">Todos</option><option value="hotel">Hoteles</option><option value="experiencia">Experiencias</option></select></div>
+      <div class="field"><label for="f-region">Región</label><select id="f-region"><option value="">Todas</option></select></div>
+    </form>
+    <p class="route" id="count" aria-live="polite"></p>
+    <div class="grid c3" id="list"></div>
+  </div></section>
+</main>
+<div id="site-footer"></div>
+<script>
+E.ready(function(){
+  var St=E.D.stays, $=function(i){return document.getElementById(i);};
+  var regs=[]; St.forEach(function(s){ if(regs.indexOf(s.region)<0) regs.push(s.region); });
+  regs.forEach(function(r){var o=document.createElement('option');o.value=r;o.textContent=E.regionName(r);$('f-region').appendChild(o);});
+  function card(s){
+    var isHotel=s.kind==='hotel';
+    var stars=isHotel&&s.stars?'<span class="tag">'+s.stars+'★</span>':'';
+    var wa=E.waLink('Hola, quisiera información sobre "'+s.name+'" ('+E.regionName(s.region)+') para mi viaje a Vietnam.');
+    return '<article class="card"><img class="media" loading="lazy" src="'+E.esc(s.image)+'" alt="'+E.esc(s.name)+'">'+
+      '<div class="body"><div class="tags"><span class="tag">'+(isHotel?'Hotel':'Experiencia')+'</span><span class="tag">'+E.regionName(s.region)+'</span>'+stars+'</div>'+
+      '<h3>'+E.esc(s.name)+'</h3><p>'+E.esc(s.summary)+'</p>'+(s.todo?'<p>'+E.todo(s.todo)+'</p>':'')+
+      '<div class="foot"><a class="btn small" href="'+wa+'" target="_blank" rel="noopener">Preguntar</a><a class="btn small ghost" href="constructor.html">Diseñar viaje</a></div></div></article>';
+  }
+  function render(){
+    var k=$('f-kind').value, r=$('f-region').value;
+    var l=St.filter(function(s){return (!k||s.kind===k)&&(!r||s.region===r);});
+    $('list').innerHTML=l.length?l.map(card).join(''):'<p>No hay resultados con estos filtros.</p>';
+    $('count').textContent=l.length+(l.length===1?' resultado':' resultados');
+  }
+  $('f-kind').addEventListener('change',render); $('f-region').addEventListener('change',render);
+  render();
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Créditos de fotos — Esencia Vietnam</title>
+<meta name="description" content="Autores y licencias de las fotos usadas en Esencia Vietnam.">
+<link rel="stylesheet" href="assets/css/site.css">
+<script src="data/site.js"></script>
+<script src="data/credits.js"></script>
+<script src="assets/js/site.js"></script>
+<style>.person{display:flex;gap:18px;align-items:flex-start}.person .ph{flex:0 0 120px;height:120px;border-radius:50%;background:var(--gold-soft);display:flex;align-items:center;justify-content:center;text-align:center;font-size:12px;color:var(--muted);padding:8px;overflow:hidden}.person .ph img{width:100%;height:100%;object-fit:cover}.quote{border-left:4px solid var(--gold);padding-left:16px;margin:0}.thumb{width:110px;height:76px;object-fit:cover;border-radius:6px;display:block}.steps{counter-reset:s;list-style:none;padding:0;margin:0}.steps li{counter-increment:s;position:relative;padding:8px 0 8px 46px}.steps li::before{content:counter(s);position:absolute;left:0;top:6px;width:32px;height:32px;border-radius:50%;background:var(--gold);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700}table{border-collapse:collapse;width:100%}th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}@media(max-width:520px){.person{flex-direction:column}}</style>
+</head>
+<body>
+<div id="site-header"></div>
+<main>
+  <div class="container page-head">
+    <div class="crumbs"><a href="index.html">Inicio</a> › Créditos de fotos</div>
+    <h1>Créditos de fotos</h1>
+  </div>
+  <section class="section"><div class="container">
+    <p class="lead narrow">Las fotos de este sitio proceden de Wikimedia Commons con licencias libres. Gracias a sus autores.</p>
+    <div class="table-wrap"><table id="cr"><thead><tr><th>Imagen</th><th>Autor</th><th>Licencia</th><th>Enlace</th></tr></thead><tbody></tbody></table></div>
+  </div></section>
+  <section class="section alt"><div class="container narrow">
+    <h2>Texto de atribución</h2>
+    <p>Las imágenes marcadas CC BY-SA se usan bajo la licencia Creative Commons Atribución-CompartirIgual: se indica el autor y la licencia, y se enlaza a esta última (<a href="https://creativecommons.org/licenses/by-sa/4.0/deed.es" target="_blank" rel="noopener">CC BY-SA 4.0</a>, <a href="https://creativecommons.org/licenses/by-sa/3.0/deed.es" target="_blank" rel="noopener">CC BY-SA 3.0</a>). Si adapta alguna de ellas, debe distribuir el resultado bajo la misma licencia. Las marcadas CC BY exigen atribución y las CC0 no exigen nada.</p>
+  </div></section>
+</main>
+<div id="site-footer"></div>
+<script>E.ready(function(){
+var $=function(i){return document.getElementById(i);};
+var cr=E.D.credits;
+$('cr').querySelector('tbody').innerHTML=Object.keys(cr).map(function(k){var c=cr[k];
+  return '<tr><td><img class="thumb" loading="lazy" src="'+E.esc(k)+'" alt="Miniatura de '+E.esc(k.replace(/^images\//,''))+'"></td><td>'+E.esc(c.author)+'</td><td>'+E.esc(c.license)+'</td><td>'+(c.url?'<a href="'+E.esc(c.url)+'" target="_blank" rel="noopener">Ver fuente</a>':'')+'</td></tr>';
+}).join('');
+
+});</script>
+</body>
+</html>

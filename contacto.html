@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Solicitar presupuesto — Esencia Vietnam</title>
+<meta name="description" content="Cuéntanos tu viaje a Vietnam y recibe una propuesta personalizada en 24 horas.">
+<link rel="stylesheet" href="assets/css/site.css">
+<script src="data/site.js"></script>
+<script src="data/credits.js"></script>
+<script src="assets/js/site.js"></script>
+<style>
+fieldset{border:1px solid var(--line);border-radius:10px;padding:16px 18px 4px;margin:0 0 20px}
+legend{font-family:var(--serif);font-weight:700;color:var(--green-900);padding:0 8px}
+.req{color:var(--warn)}
+.priv{background:var(--paper);border-left:4px solid var(--gold);padding:8px 12px;border-radius:6px;font-size:13.5px;color:var(--muted);margin-bottom:14px}
+</style>
+</head>
+<body>
+<div id="site-header"></div>
+<main>
+  <div class="container page-head">
+    <div class="crumbs"><a href="index.html">Inicio</a> › Contacto</div>
+    <h1>Solicitar presupuesto</h1>
+    <p class="lead">Respondemos en 24 horas. Cuanta más información nos des, más precisa será la primera propuesta.</p>
+  </div>
+  <section class="section" style="padding-top:10px"><div class="container">
+    <div class="layout-side">
+      <form class="form" id="f" novalidate>
+        <p class="route"><span class="req">*</span> Campos obligatorios</p>
+        <fieldset><legend>Datos básicos</legend>
+          <div class="two">
+            <div class="field"><label for="nombre">Nombre completo <span class="req">*</span></label><input id="nombre" required autocomplete="name"></div>
+            <div class="field"><label for="email">Correo electrónico <span class="req">*</span></label><input id="email" type="email" required autocomplete="email"></div>
+          </div>
+          <div class="two">
+            <div class="field"><label for="wa">WhatsApp <span class="req">*</span></label><input id="wa" type="tel" required autocomplete="tel" placeholder="+34 600 000 000"></div>
+            <div class="field"><label for="personas">Número de personas <span class="req">*</span></label><input id="personas" type="number" min="1" required></div>
+          </div>
+          <div class="field"><label for="fecha">Mes o fechas previstas <span class="req">*</span></label><input id="fecha" required placeholder="Ej.: del 10 al 20 de noviembre"></div>
+        </fieldset>
+        <fieldset><legend>Para preparar mejor tu propuesta</legend>
+          <div class="field"><label for="edades">Edades de los viajeros</label><input id="edades" placeholder="Ej.: 72, 70, 45, 43, 12, 9"></div>
+          <div class="two">
+            <div class="field"><label for="aloj">Alojamiento deseado</label><select id="aloj"><option value="">Sin preferencia</option><option>3★</option><option>4★</option><option>5★</option><option>Boutique / con encanto</option></select></div>
+            <div class="field"><label for="presu">Presupuesto orientativo por persona</label><input id="presu" placeholder="Ej.: 1.500 USD"></div>
+          </div>
+          <div class="field"><label for="ocasion">Ocasión especial o deseo particular</label><textarea id="ocasion" placeholder="Aniversario, cumpleaños, algo que no os queréis perder…"></textarea></div>
+        </fieldset>
+        <fieldset><legend>Salud, comida y movilidad (opcional)</legend>
+          <div class="priv">Solo lo usamos para adaptar tu viaje. Puedes dejarlo en blanco y comentarlo más tarde, en persona. <span id="priv-todo"></span></div>
+          <div class="field"><label for="salud">Comida, salud o movilidad</label><textarea id="salud" placeholder="Ej.: vegetariano, alergias, alguien camina despacio…"></textarea></div>
+        </fieldset>
+        <fieldset><legend>Cómo prefieres que te contactemos</legend>
+          <div class="two">
+            <div class="field"><label for="pref">Preferencia</label><select id="pref"><option>WhatsApp</option><option>Correo electrónico</option><option>Llamada</option></select></div>
+            <div class="field"><label for="franja">Franja horaria (hora de tu país)</label><select id="franja"><option value="">Cualquiera</option><option>Mañana</option><option>Mediodía</option><option>Tarde</option><option>Noche</option></select></div>
+          </div>
+        </fieldset>
+        <div id="err" class="pace-warn" role="alert" hidden></div>
+        <div class="row" style="margin-top:14px">
+          <button class="btn wa" type="submit">Enviar por WhatsApp</button>
+          <a class="btn ghost" id="mail" href="#">Enviar por correo</a>
+        </div>
+        <p class="route" style="margin-top:12px">Se abrirá WhatsApp (o tu aplicación de correo) con el mensaje ya redactado; solo tienes que pulsar enviar.</p>
+      </form>
+      <aside class="sticky-side"><div class="form">
+        <h3>Compromiso de respuesta</h3>
+        <p><b>Te respondemos en 24 horas</b> con una propuesta o con las preguntas necesarias para preparar tu presupuesto.</p>
+        <h3>Otras vías de contacto</h3>
+        <ul class="checks" style="margin-bottom:14px" id="vias"></ul>
+        <p class="route">Licencia de operador: <span id="lic"></span></p>
+      </div></aside>
+    </div>
+  </div></section>
+</main>
+<div id="site-footer"></div>
+<script>
+E.ready(function(){
+  var C=E.C, $=function(i){return document.getElementById(i);};
+  $('priv-todo').innerHTML=E.todo('política de privacidad / tratamiento de datos');
+  $('vias').innerHTML='<li>WhatsApp: <a target="_blank" rel="noopener" href="'+E.waLink('Hola, quisiera información sobre un viaje a Vietnam.')+'">'+E.esc(C.whatsappLabel)+'</a></li>'+
+    '<li>Correo: <a href="'+E.mailLink('Consulta')+'">'+E.esc(C.email)+'</a></li>'+
+    '<li><a target="_blank" rel="noopener" href="'+E.esc(C.tripadvisor)+'">Opiniones en Tripadvisor</a></li>';
+  $('lic').innerHTML=C.licenseNumber?E.esc(C.licenseNumber):E.todo('número de licencia');
+  var tripId=E.q('trip'), trip=tripId?E.trip(tripId):null;
+  function build(){
+    var v=function(i){return $(i).value.trim();}, L=[];
+    L.push('Hola, quisiera solicitar un presupuesto para viajar a Vietnam.');
+    if(trip) L.push('Viaje de interés: '+trip.title);
+    L.push('','Nombre: '+v('nombre'),'Email: '+v('email'),'WhatsApp: '+v('wa'),'Personas: '+v('personas'),'Fechas: '+v('fecha'));
+    if(v('edades')) L.push('Edades: '+v('edades'));
+    if(v('aloj')) L.push('Alojamiento: '+v('aloj'));
+    if(v('presu')) L.push('Presupuesto orientativo por persona: '+v('presu'));
+    if(v('ocasion')) L.push('Ocasión especial / deseos: '+v('ocasion'));
+    if(v('salud')) L.push('Comida, salud o movilidad: '+v('salud'));
+    L.push('Contacto preferido: '+v('pref')+(v('franja')?' ('+v('franja')+')':''));
+    return L.join('\n');
+  }
+  function valid(){
+    var miss=[['nombre','nombre'],['email','correo electrónico'],['wa','WhatsApp'],['personas','número de personas'],['fecha','fechas']].filter(function(p){return !$(p[0]).value.trim();});
+    var e=$('err');
+    if(miss.length){e.hidden=false;e.textContent='Por favor completa: '+miss.map(function(p){return p[1];}).join(', ')+'.';$(miss[0][0]).focus();return false;}
+    e.hidden=true;return true;
+  }
+  $('f').addEventListener('submit',function(ev){ev.preventDefault();if(valid())window.open(E.waLink(build()),'_blank','noopener');});
+  $('mail').addEventListener('click',function(ev){ev.preventDefault();if(valid())location.href=E.mailLink('Solicitud de presupuesto — '+$('nombre').value.trim(),build());});
+});
+</script>
+</body>
+</html>

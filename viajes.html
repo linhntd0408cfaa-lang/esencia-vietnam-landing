@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Viajes sugeridos — Esencia Vietnam</title>
+<meta name="description" content="Viajes privados sugeridos por Vietnam: filtra por tipo de grupo, número de días y región.">
+<link rel="stylesheet" href="assets/css/site.css">
+<script src="data/site.js"></script>
+<script src="data/credits.js"></script>
+<script src="assets/js/site.js"></script>
+</head>
+<body>
+<div id="site-header"></div>
+<main>
+  <div class="container page-head">
+    <div class="crumbs"><a href="index.html">Inicio</a> › Viajes sugeridos</div>
+    <h1>Viajes sugeridos</h1>
+    <p class="lead">Itinerarios a ritmo lento que podemos ajustar a tu grupo.</p>
+  </div>
+  <section class="section" style="padding-top:10px"><div class="container">
+    <div class="filters" role="search" aria-label="Filtrar viajes">
+      <div class="field"><label for="f-grupo">Tipo de grupo</label><select id="f-grupo"><option value="">Todos</option></select></div>
+      <div class="field"><label for="f-dias">Número de días</label><select id="f-dias"><option value="">Cualquiera</option><option value="1-4">Hasta 4 días</option><option value="5-7">5 a 7 días</option><option value="8-99">8 días o más</option></select></div>
+      <div class="field"><label for="f-region">Región</label><select id="f-region"><option value="">Todas</option></select></div>
+      <button type="button" class="btn small ghost" id="f-reset">Limpiar filtros</button>
+    </div>
+    <p id="count" aria-live="polite" class="route"></p>
+    <div class="grid c3" id="list"></div>
+    <div id="empty" class="pace-warn" hidden>No hay viajes con esos filtros. <a href="contacto.html">Cuéntanos qué buscas</a> y te lo preparamos a medida.</div>
+    <aside class="pace-ok" style="margin-top:28px"><b>Sobre los precios de referencia.</b> <span id="pn-text"></span> Los precios son orientativos: el presupuesto final depende de fechas, número de personas y alojamiento. Si un viaje no muestra precio, <a href="contacto.html">solicita presupuesto</a>.</aside>
+  </div></section>
+</main>
+<div id="site-footer"></div>
+<script>
+E.ready(function(){
+  var trips=E.D.trips;
+  function fill(id,vals,label){var s=document.getElementById(id);vals.forEach(function(v){var o=document.createElement('option');o.value=v;o.textContent=label(v);s.appendChild(o);});}
+  var groups=[],regions=[];
+  trips.forEach(function(t){t.groups.forEach(function(g){if(groups.indexOf(g)<0)groups.push(g);});t.region.forEach(function(r){if(regions.indexOf(r)<0)regions.push(r);});});
+  fill('f-grupo',groups,function(g){return g.charAt(0).toUpperCase()+g.slice(1);});
+  fill('f-region',regions,E.regionName);
+  var notes=[];trips.forEach(function(t){var n=E.priceNote(t);if(n&&notes.indexOf(n)<0)notes.push(n);});
+  document.getElementById('pn-text').innerHTML=notes.join(' ');
+  function card(t){
+    var h=E.tripCard(t);
+    if(!t.price||!t.price.amount) h=h.replace(/<div><span class="price">[\s\S]*?<\/div><a class="btn small"/,'<div><span class="price">Solicitar presupuesto</span></div><a class="btn small"');
+    return h;
+  }
+  function apply(){
+    var g=document.getElementById('f-grupo').value,d=document.getElementById('f-dias').value,r=document.getElementById('f-region').value;
+    var res=trips.filter(function(t){
+      if(g&&t.groups.indexOf(g)<0)return false;
+      if(r&&t.region.indexOf(r)<0)return false;
+      if(d){var p=d.split('-');if(t.days<+p[0]||t.days>+p[1])return false;}
+      return true;});
+    document.getElementById('list').innerHTML=res.map(card).join('');
+    document.getElementById('empty').hidden=res.length>0;
+    document.getElementById('count').textContent=res.length+(res.length===1?' viaje encontrado':' viajes encontrados');
+  }
+  ['f-grupo','f-dias','f-region'].forEach(function(id){document.getElementById(id).addEventListener('change',apply);});
+  document.getElementById('f-reset').addEventListener('click',function(){['f-grupo','f-dias','f-region'].forEach(function(id){document.getElementById(id).value='';});apply();});
+  apply();
+});
+</script>
+</body>
+</html>

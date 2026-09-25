@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Vietnam para mayores — Esencia Vietnam</title>
+<meta name="description" content="Viajar a Vietnam a ritmo lento: hoteles cómodos, poca caminata y apoyo de salud.">
+<link rel="stylesheet" href="assets/css/site.css">
+<script src="data/site.js"></script>
+<script src="data/credits.js"></script>
+<script src="assets/js/site.js"></script>
+<style>.person{display:flex;gap:18px;align-items:flex-start}.person .ph{flex:0 0 120px;height:120px;border-radius:50%;background:var(--gold-soft);display:flex;align-items:center;justify-content:center;text-align:center;font-size:12px;color:var(--muted);padding:8px;overflow:hidden}.person .ph img{width:100%;height:100%;object-fit:cover}.quote{border-left:4px solid var(--gold);padding-left:16px;margin:0}.thumb{width:110px;height:76px;object-fit:cover;border-radius:6px;display:block}.steps{counter-reset:s;list-style:none;padding:0;margin:0}.steps li{counter-increment:s;position:relative;padding:8px 0 8px 46px}.steps li::before{content:counter(s);position:absolute;left:0;top:6px;width:32px;height:32px;border-radius:50%;background:var(--gold);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700}table{border-collapse:collapse;width:100%}th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}@media(max-width:520px){.person{flex-direction:column}}</style>
+</head>
+<body>
+<div id="site-header"></div>
+<main>
+  <div class="container page-head">
+    <div class="crumbs"><a href="index.html">Inicio</a> › Vietnam para mayores</div>
+    <h1>Vietnam para mayores</h1>
+  </div>
+  <section class="section"><div class="container">
+    <p class="lead narrow">Un viaje pensado para quien no tiene prisa: menos paradas, más descanso y alguien pendiente de usted.</p>
+    <div class="grid c3" style="margin-top:24px">
+      <div class="card"><div class="body"><h3>Ritmo lento</h3><ul class="checks"><li>Máximo dos paradas principales por día.</li><li>Días ligeros tras los vuelos largos.</li><li>Cualquier parada se puede omitir según el ánimo del grupo.</li><li>Cada parada indica cuánto se camina.</li></ul></div></div>
+      <div class="card"><div class="body"><h3>Alojamiento cómodo</h3><ul class="checks"><li>Hoteles de 4–5★ en el itinerario de ejemplo.</li><li>Hoteles con ascensor: <span id="lift"></span></li></ul></div></div>
+      <div class="card"><div class="body"><h3>Apoyo de salud</h3><ul class="checks"><li>Seguro de viaje y asistencia médica 24/7 incluidos.</li><li>Puede contarnos, si lo desea, sus necesidades de salud o alimentación (opcional y confidencial).</li></ul></div></div>
+    </div>
+  </div></section>
+  <section class="section alt"><div class="container">
+    <h2>Paradas con poca caminata</h2>
+    <div class="grid c3" id="easy"></div>
+  </div></section>
+  <section class="section"><div class="container narrow">
+    <h2>Historia de viajeros mayores</h2>
+    <p id="story"></p>
+    <h2 style="margin-top:32px">Hable con una persona</h2>
+    <p>Cuéntenos cómo es su grupo y diseñaremos el ritmo con usted.</p>
+    <div class="row"><a class="btn wa" id="cta-wa" href="#">Escribir por WhatsApp</a><a class="btn ghost" id="cta-mail" href="#">Enviar un correo</a></div>
+  </div></section>
+</main>
+<div id="site-footer"></div>
+<script>E.ready(function(){
+var $=function(i){return document.getElementById(i);};
+$('lift').innerHTML=E.todo('confirmar hoteles con ascensor');
+$('story').innerHTML=E.todo('historia real de un viajero mayor, con su permiso');
+$('easy').innerHTML=E.D.stops.filter(function(s){return s.walking==='bajo';}).map(E.stopCard).join('');
+var w=$('cta-wa'); if(w) w.href=E.waLink('Hola, viajaremos con personas mayores y quisiera consultar el ritmo del viaje.'); var m=$('cta-mail'); if(m) m.href=E.mailLink('Consulta — Esencia Vietnam','Hola, viajaremos con personas mayores y quisiera consultar el ritmo del viaje.');
+});</script>
+</body>
+</html>

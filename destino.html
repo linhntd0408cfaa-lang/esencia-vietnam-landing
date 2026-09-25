@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Destino — Esencia Vietnam</title>
+<meta name="description" content="Ficha de una parada: resumen, duración, caminata, mejor época y paradas cercanas.">
+<link rel="stylesheet" href="assets/css/site.css">
+<script src="data/site.js"></script>
+<script src="data/credits.js"></script>
+<script src="assets/js/site.js"></script>
+<style>
+.hero-img{width:100%;max-height:480px;object-fit:cover;border-radius:var(--radius)}
+.credit{font-size:12.5px;color:var(--muted);margin-top:6px}
+.facts{list-style:none;margin:0 0 20px;padding:0;display:grid;gap:8px}
+.facts li{background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px 14px}
+.facts b{color:var(--green-900)}
+.mini{height:260px}
+</style>
+</head>
+<body>
+<div id="site-header"></div>
+<main>
+  <div class="container page-head">
+    <div class="crumbs"><a href="index.html">Inicio</a> › <a href="destinos.html">Destinos</a> › <span id="crumb">Destino</span></div>
+    <h1 id="title">Destino</h1>
+  </div>
+  <section class="section"><div class="container" id="content"></div></section>
+</main>
+<div id="site-footer"></div>
+<script>
+E.ready(function(){
+  var s=E.stop(E.q('id')||''), box=document.getElementById('content');
+  if(!s){
+    document.title='Destino no encontrado — Esencia Vietnam';
+    document.getElementById('title').textContent='No encontramos esa parada';
+    document.getElementById('crumb').textContent='No encontrado';
+    box.innerHTML='<p class="lead">Puede que el enlace haya cambiado o que la parada aún no esté publicada.</p><p class="row"><a class="btn" href="destinos.html">Ver todos los destinos</a> <a class="btn ghost" href="'+E.waLink('Hola, buscaba una parada en Vietnam y no la encuentro en la web.')+'" target="_blank" rel="noopener">Preguntar por WhatsApp</a></p>';
+    return;
+  }
+  document.title=s.name+' — Esencia Vietnam';
+  document.getElementById('title').textContent=s.name;
+  document.getElementById('crumb').textContent=s.name;
+  var near=E.D.stops.filter(function(o){return o.region===s.region&&o.id!==s.id;});
+  var wa=E.waLink('Hola, tengo una pregunta sobre "'+s.name+'" ('+E.regionName(s.region)+') para mi viaje a Vietnam.');
+  box.innerHTML=
+   '<div class="layout-side"><div>'+
+     '<img class="hero-img" src="'+E.esc(s.image)+'" alt="'+E.esc(s.name)+'">'+E.credit(s.image)+
+     '<h2 style="margin-top:24px">Resumen</h2><p class="lead">'+E.esc(s.summary)+'</p>'+
+     '<ul class="facts">'+
+       '<li><b>Región:</b> '+E.regionName(s.region)+'</li>'+
+       '<li><b>Duración de la visita:</b> '+E.esc(s.duration)+'</li>'+
+       '<li><b>Caminata:</b> '+E.walkLabel(s.walking)+'</li>'+
+       '<li><b>Mejor época:</b> '+E.esc(s.bestSeason)+'</li>'+
+       '<li><b>Peso en el día:</b> '+(s.weight==='principal'?'Parada principal (cuenta para el ritmo del día)':'Parada ligera (se combina fácilmente)')+'</li>'+
+     '</ul>'+
+     '<div class="row"><a class="btn" href="constructor.html?add='+encodeURIComponent(s.id)+'">Añadir a mi viaje</a>'+
+     '<a class="btn ghost" href="'+wa+'" target="_blank" rel="noopener">Preguntar a un especialista</a></div>'+
+   '</div><aside class="sticky-side"><h3>Ubicación</h3><div id="mini" class="map mini" role="region" aria-label="Mapa de '+E.esc(s.name)+'"></div>'+
+   '<p class="route" style="margin-top:8px">Mapa © OpenStreetMap.</p></aside></div>'+
+   '<h2 style="margin-top:44px">Paradas cercanas en '+E.regionName(s.region)+'</h2>'+
+   (near.length?'<div class="grid c3">'+near.map(E.stopCard).join('')+'</div>':'<p>Aún no hay otras paradas en esta región.</p>');
+  if(typeof s.lat==='number'){
+    E.loadLeaflet(function(){
+      try{
+        var m=E.newMap(document.getElementById('mini')); m.setView([s.lat,s.lng],12);
+        L.marker([s.lat,s.lng],{title:s.name,alt:s.name}).addTo(m).bindPopup('<strong>'+E.esc(s.name)+'</strong><br><a href="destino.html?id='+encodeURIComponent(s.id)+'">Ver destino</a>').openPopup();
+      }catch(e){}
+    });
+  } else document.getElementById('mini').outerHTML='<p>Ubicación por confirmar.</p>';
+});
+</script>
+</body>
+</html>

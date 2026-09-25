@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Nosotros — Esencia Vietnam</title>
+<meta name="description" content="Quiénes están detrás de Esencia Vietnam: equipo, licencia y cómo trabajamos.">
+<link rel="stylesheet" href="assets/css/site.css">
+<script src="data/site.js"></script>
+<script src="data/credits.js"></script>
+<script src="assets/js/site.js"></script>
+<style>.person{display:flex;gap:18px;align-items:flex-start}.person .ph{flex:0 0 120px;height:120px;border-radius:50%;background:var(--gold-soft);display:flex;align-items:center;justify-content:center;text-align:center;font-size:12px;color:var(--muted);padding:8px;overflow:hidden}.person .ph img{width:100%;height:100%;object-fit:cover}.quote{border-left:4px solid var(--gold);padding-left:16px;margin:0}.thumb{width:110px;height:76px;object-fit:cover;border-radius:6px;display:block}.steps{counter-reset:s;list-style:none;padding:0;margin:0}.steps li{counter-increment:s;position:relative;padding:8px 0 8px 46px}.steps li::before{content:counter(s);position:absolute;left:0;top:6px;width:32px;height:32px;border-radius:50%;background:var(--gold);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700}table{border-collapse:collapse;width:100%}th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}@media(max-width:520px){.person{flex-direction:column}}</style>
+</head>
+<body>
+<div id="site-header"></div>
+<main>
+  <div class="container page-head">
+    <div class="crumbs"><a href="index.html">Inicio</a> › Nosotros</div>
+    <h1>Nosotros</h1>
+  </div>
+  <section class="section"><div class="container">
+    <p class="lead narrow">Detrás de cada viaje hay personas con nombre y apellido. Esto es lo que puede saber de nosotros antes de reservar.</p>
+    <h2>El equipo</h2>
+    <div class="grid c2" id="team"></div>
+  </div></section>
+  <section class="section alt"><div class="container">
+    <h2>Quiénes somos, en datos</h2>
+    <div class="grid c3">
+      <div class="card"><div class="body"><h3>Licencia de operador</h3><p id="lic"></p></div></div>
+      <div class="card"><div class="body"><h3>Años de actividad</h3><p id="years"></p></div></div>
+      <div class="card"><div class="body"><h3>Reseñas verificables</h3><p>Nuestras opiniones están en Tripadvisor, con nombre de cliente y fecha. <a href="opiniones.html">Ver opiniones</a>.</p></div></div>
+    </div>
+  </div></section>
+  <section class="section"><div class="container narrow">
+    <h2>Cómo trabajamos</h2>
+    <ol class="steps">
+      <li><b>Conversamos primero.</b> Nos cuenta quién viaja, qué edades tienen y qué ritmo desean, por WhatsApp o videollamada.</li>
+      <li><b>Diseñamos a medida.</b> Proponemos un itinerario pausado, con pocas paradas por día y margen para descansar.</li>
+      <li><b>Ajustamos juntos.</b> Cambiamos lo que haga falta hasta que se sienta cómodo con el plan.</li>
+      <li><b>Le acompañamos durante el viaje.</b> Asistencia médica 24/7 incluida.</li>
+    </ol>
+    <p style="margin-top:20px">Precio cerrado, sin paradas comerciales. Más detalles en <a href="garantias.html">Garantías y políticas</a>.</p>
+    <div class="row" style="margin-top:20px"><a class="btn wa" id="cta-wa" href="#">Hablar con una persona</a><a class="btn ghost" id="cta-mail" href="#">Enviar un correo</a></div>
+  </div></section>
+</main>
+<div id="site-footer"></div>
+<script>E.ready(function(){
+var $=function(i){return document.getElementById(i);};
+$('team').innerHTML=E.D.team.map(function(p){
+  var ph=p.photo?'<img src="'+E.esc(p.photo)+'" alt="Foto de '+E.esc(p.name)+'">':'Foto '+E.todo('pendiente');
+  var lang=p.languages&&p.languages.length?E.esc(p.languages.join(', ')):E.todo('idiomas');
+  return '<article class="card"><div class="body person"><div class="ph">'+ph+'</div><div><h3>'+E.esc(p.name)+'</h3><p><b>'+E.esc(p.role)+'</b></p><p>'+E.esc(p.bio||'')+'</p><p><b>Idiomas:</b> '+lang+'</p></div></div></article>';
+}).join('');
+$('lic').innerHTML=E.C.licenseNumber?E.esc(E.C.licenseNumber):E.todo('número de licencia de operador de viajes internacionales y organismo emisor');
+$('years').innerHTML=E.todo('años de actividad de la empresa');
+var w=$('cta-wa'); if(w) w.href=E.waLink('Hola, quisiera conocer más sobre su equipo y cómo trabajan.'); var m=$('cta-mail'); if(m) m.href=E.mailLink('Consulta — Esencia Vietnam','Hola, quisiera conocer más sobre su equipo y cómo trabajan.');
+});</script>
+</body>
+</html>
