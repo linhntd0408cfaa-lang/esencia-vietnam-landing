@@ -75,12 +75,12 @@
   };
 
   /* cabecera, pie, botón WhatsApp */
-  var NAV = [['viajes.html','Viajes'],['constructor.html','Diseña tu viaje'],['destinos.html','Destinos'],['alojamiento.html','Alojamiento y experiencias'],['mayores.html','Para mayores'],['guia.html','Guía'],['nosotros.html','Nosotros'],['contacto.html','Contacto']];
+  var NAV = [['viajes.html','Viajes'],['constructor.html','Diseña tu viaje'],['destinos.html','Destinos'],['alojamiento.html','Alojamiento'],['mayores.html','Para mayores'],['guia.html','Guía'],['nosotros.html','Nosotros'],['contacto.html','Contacto']];
   function render(){
     var page = location.pathname.split('/').pop() || 'index.html';
     var hd = document.getElementById('site-header');
     if(hd){
-      hd.outerHTML = (C.demo?'<div class="demo-banner">Vista previa — el precio y algunos datos son de ejemplo</div>':'')+
+      hd.outerHTML = (C.demo?'<div class="demo-banner">Vista previa — algunos datos están pendientes de confirmar</div>':'')+
         '<header class="site-header"><div class="container"><a class="brand" href="index.html">'+C.brand+'<small>Viajes privados · Vietnam</small></a>'+
         '<button class="nav-toggle" aria-expanded="false" aria-controls="nav">Menú</button>'+
         '<nav class="nav" id="nav" aria-label="Principal">'+NAV.map(function(n){return '<a href="'+n[0]+'"'+(n[0]===page?' aria-current="page"':'')+'>'+n[1]+'</a>';}).join('')+

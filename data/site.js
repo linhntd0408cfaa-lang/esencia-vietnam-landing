@@ -7,7 +7,7 @@ window.ESENCIA_DATA = {
     email: 'piutravel9818@gmail.com',
     tripadvisor: 'https://www.tripadvisor.com.vn/Attraction_Review-g293924-d28038416-Reviews-Piu_Piu_Travel-Hanoi.html',
     demo: true,          // muestra la banda "vista previa"
-    showPrices: true,    // false => todas las tarjetas muestran "Solicitar presupuesto"
+    showPrices: false,   // sin precios por ahora
     licenseNumber: null  // null => se muestra "pendiente"
   },
 
