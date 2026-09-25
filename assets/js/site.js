@@ -70,7 +70,7 @@
   };
   E.newMap = function(el){
     var m = L.map(el,{scrollWheelZoom:false}).setView([16.0,108.1],8);
-    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:18,attribution:'© OpenStreetMap'}).addTo(m);
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',{maxZoom:19,subdomains:'abcd',attribution:'© OpenStreetMap contributors © CARTO'}).addTo(m);
     return m;
   };
 
