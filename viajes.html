@@ -24,7 +24,7 @@
     <div class="chips" id="chips" role="group" aria-label="Tipo de experiencia"></div>
     <div class="filters" role="search" aria-label="Filtrar viajes">
       <div class="field"><label for="f-grupo">Tipo de grupo</label><select id="f-grupo"><option value="">Todos</option></select></div>
-      <div class="field"><label for="f-dias">Número de días</label><select id="f-dias"><option value="">Cualquiera</option><option value="1-4">Hasta 4 días</option><option value="5-7">5 a 7 días</option><option value="8-99">8 días o más</option></select></div>
+      <div class="field"><label for="f-dias">Número de días</label><select id="f-dias"><option value="">Cualquiera</option></select></div>
       <div class="field"><label for="f-region">Región</label><select id="f-region"><option value="">Todas</option></select></div>
       <div class="field"><label for="f-esfuerzo">Nivel de esfuerzo</label><select id="f-esfuerzo"><option value="">Cualquiera</option><option value="suave">Muy suave</option><option value="moderado">Moderado</option><option value="activo">Más activo</option></select></div>
       <div class="field"><label for="f-orden">Ordenar por</label><select id="f-orden"><option value="">Recomendado</option><option value="asc">Duración: menor a mayor</option><option value="desc">Duración: mayor a menor</option></select></div>
@@ -32,7 +32,8 @@
     </div>
     <aside class="pace-ok" style="margin-bottom:22px"><b>¿Cuándo viajar?</b> Marzo (fuera de Semana Santa) y noviembre suelen ser los mejores meses. Conviene evitar agosto por el calor y de septiembre a mediados de octubre por las tormentas del centro. Es una orientación general: os aconsejamos según el viaje y el año.</aside>
     <p id="count" aria-live="polite" class="route"></p>
-    <div class="tcards" id="list"></div>
+    <p class="route center" style="margin:0 0 8px"><b>¿Cuántos días tenéis?</b></p><div class="chips" id="jump"></div>
+    <div id="list"></div>
     <div id="empty" class="pace-warn" hidden>No hay viajes con esos filtros. <a href="contacto.html">Cuéntanos qué buscas</a> y te lo preparamos a medida.</div>
     <aside class="pace-ok" style="margin-top:28px"><b>Sobre los precios de referencia.</b> <span id="pn-text"></span> Los precios son orientativos: el presupuesto final depende de fechas, número de personas y alojamiento. Si un viaje no muestra precio, <a href="contacto.html">solicita presupuesto</a>.</aside>
   </div></section>
@@ -42,6 +43,7 @@
 E.ready(function(){
   var trips=E.D.trips;
   var cat=E.q('cat')||'';
+  (function(){var c={};trips.forEach(function(t){c[t.days]=(c[t.days]||0)+1;});var s=document.getElementById('f-dias');Object.keys(c).map(Number).sort(function(a,b){return a-b;}).forEach(function(k){var o=document.createElement('option');o.value=k;o.textContent=k+' días ('+c[k]+(c[k]===1?' viaje)':' viajes)');s.appendChild(o);});var q=E.q('dias');if(q)s.value=q;})();
   function renderChips(){var el=document.getElementById('chips');var items=[['','Todas']].concat(Object.keys(E.CATS).map(function(k){return [k,E.CATS[k]];}));el.innerHTML=items.map(function(i){return '<button type="button" class="chip'+(i[0]===cat?' on':'')+'" data-c="'+i[0]+'" aria-pressed="'+(i[0]===cat)+'">'+i[1]+'</button>';}).join('');el.querySelectorAll('.chip').forEach(function(b){b.addEventListener('click',function(){cat=b.dataset.c;renderChips();apply();});});}
   function fill(id,vals,label){var s=document.getElementById(id);vals.forEach(function(v){var o=document.createElement('option');o.value=v;o.textContent=label(v);s.appendChild(o);});}
   var groups=[],regions=[];
@@ -62,10 +64,12 @@ E.ready(function(){
       if(cat&&(t.cats||[]).indexOf(cat)<0)return false;
       if(ef&&t.effort!==ef)return false;
       if(r&&t.region.indexOf(r)<0)return false;
-      if(d){var p=d.split('-');if(t.days<+p[0]||t.days>+p[1])return false;}
+      if(d&&t.days!==+d)return false;
       return true;});
     var o=document.getElementById('f-orden').value; if(o){res=res.slice().sort(function(a,b){return o==='asc'?a.days-b.days:b.days-a.days;});}
-    document.getElementById('list').innerHTML=res.map(card).join('');
+    var by={};res.forEach(function(t){(by[t.days]=by[t.days]||[]).push(t);});var keys=Object.keys(by).map(Number).sort(function(a,b){return o==='desc'?b-a:a-b;});
+    document.getElementById('list').innerHTML=keys.map(function(k){var n=by[k].length;return '<section class="dgroup" id="dias-'+k+'"><h2>'+k+' días <small>'+n+(n===1?' opción':' opciones')+'</small></h2><div class="tcards">'+by[k].map(card).join('')+'</div></section>';}).join('');
+    document.getElementById('jump').innerHTML=keys.length>1?keys.map(function(k){return '<a class="chip" href="#dias-'+k+'">'+k+' días · '+by[k].length+'</a>';}).join(''):'';
     document.getElementById('empty').hidden=res.length>0;
     document.getElementById('count').textContent='Hemos encontrado '+res.length+(res.length===1?' viaje para ti':' viajes para ti');
   }

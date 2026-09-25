@@ -9,9 +9,9 @@
   E.byId = function(list,id){ for(var i=0;i<list.length;i++) if(list[i].id===id) return list[i]; return null; };
   E.trip = function(id){ return E.byId(D.trips,id); };
   E.stop = function(id){ return E.byId(D.stops,id); };
-  E.regionName = function(r){ return {'da-nang':'Da Nang','hoi-an':'Hoi An','hue':'Hue','ha-noi':'Hanói','ninh-binh':'Ninh Binh','ha-long':'Ha Long','sa-pa':'Sa Pa','cao-bang':'Cao Bang','pu-luong':'Pu Luong','ha-giang':'Ha Giang','ho-chi-minh':'Ciudad Ho Chi Minh','mekong':'Delta del Mekong','phu-quoc':'Phu Quoc'}[r]||r; };
+  E.regionName = function(r){ return {'da-nang':'Da Nang','hoi-an':'Hoi An','hue':'Hue','mai-chau':'Mai Chau','ha-noi':'Hanói','ninh-binh':'Ninh Binh','ha-long':'Ha Long','sa-pa':'Sa Pa','cao-bang':'Cao Bang','pu-luong':'Pu Luong','ha-giang':'Ha Giang','ho-chi-minh':'Ciudad Ho Chi Minh','mekong':'Delta del Mekong','phu-quoc':'Phu Quoc'}[r]||r; };
   E.walkLabel = function(w){ return {bajo:'Poca caminata',medio:'Caminata moderada',alto:'Mucha caminata / escaleras'}[w]||w; };
-  E.MACRO = {'ha-noi':'norte','ninh-binh':'norte','ha-long':'norte','sa-pa':'norte','cao-bang':'norte','pu-luong':'norte','ha-giang':'norte','da-nang':'centro','hoi-an':'centro','hue':'centro','ho-chi-minh':'sur','mekong':'sur','phu-quoc':'sur'};
+  E.MACRO = {'mai-chau':'norte','ha-noi':'norte','ninh-binh':'norte','ha-long':'norte','sa-pa':'norte','cao-bang':'norte','pu-luong':'norte','ha-giang':'norte','da-nang':'centro','hoi-an':'centro','hue':'centro','ho-chi-minh':'sur','mekong':'sur','phu-quoc':'sur'};
   E.macro = function(r){ return E.MACRO[r]||''; };
   E.ZONAS = {norte:'Norte de Vietnam',centro:'Centro de Vietnam',sur:'Sur de Vietnam'};
   E.CATS = {cultura:'Cultura y patrimonio',gastronomia:'Gastronomía y sobremesa',naturaleza:'Naturaleza sin esfuerzo',montanas:'Montañas y carretera',playa:'Playa y descanso'};
@@ -78,7 +78,7 @@
     opts = opts||{};
     var main = dayStops.filter(function(id){var s=E.stop(id);return s&&s.weight==='principal';}).length;
     var msgs = [];
-    if(main>2) msgs.push('Este día tiene '+main+' paradas principales. Para un grupo con mayores o niños recomendamos un máximo de 2.');
+    var span=opts.span||1; if(main>2*span) msgs.push((span>1?'Estos '+span+' días tienen ':'Este día tiene ')+main+' paradas principales. Para un grupo con mayores recomendamos un máximo de 2 al día.');
     if(opts.arrival && main>0) msgs.push('El día de llegada conviene dejarlo ligero tras el vuelo.');
     return msgs;
   };

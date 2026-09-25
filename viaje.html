@@ -53,7 +53,7 @@ E.ready(function(){
       '<div class="tags"><span class="tag">'+E.esc(s.duration)+'</span><span class="tag">'+E.walkLabel(s.walking)+'</span><span class="tag">Mejor época: '+E.esc(s.bestSeason)+'</span></div></div></div>';
   }
   var days=t.itinerary.map(function(d,i){
-    var msgs=E.paceCheck(d.stops,{arrival:i===0});
+    var msgs=E.paceCheck(d.stops,{arrival:i===0&&!(d.span>1),span:d.span});
     var meals=(d.meals&&d.meals.length)?'<div class="tags" style="margin:8px 0">'+d.meals.map(function(m){return '<span class="meal">'+E.esc(m)+'</span>';}).join('')+'</div>':'<p class="route">Sin comidas incluidas este día.</p>';
     return '<details class="acc"'+(i===0?' open':'')+'><summary>Día '+d.day+' · '+E.esc(d.title)+'</summary><div class="day-body">'+
       (d.stops.length?d.stops.map(stopHTML).join(''):'<p class="route">Día sin paradas programadas.</p>')+meals+
@@ -71,6 +71,7 @@ E.ready(function(){
   var inc=(t.included||[]), exc=(t.excluded||[]);
   root.innerHTML='<div class="layout-side"><div>'+
     '<p class="lead">'+E.esc(t.tagline)+'</p>'+
+    (t.intro?'<p>'+E.esc(t.intro)+'</p>':'')+
     (t.notes&&t.notes.length?'<ul class="checks" style="margin-bottom:18px">'+t.notes.map(function(n){return '<li>'+E.esc(n)+'</li>';}).join('')+'</ul>':'')+
     '<div class="tags" style="margin-bottom:22px"><span class="tag">'+t.days+' días / '+t.nights+' noches</span>'+(t.tier?'<span class="tag">Alojamiento '+E.esc(t.tier)+'</span>':'')+''+t.region.map(function(r){return '<span class="tag">'+E.regionName(r)+'</span>';}).join('')+t.groups.map(function(g){return '<span class="tag">'+E.esc(g)+'</span>';}).join('')+'</div>'+
     '<h2>Itinerario día a día</h2>'+days+

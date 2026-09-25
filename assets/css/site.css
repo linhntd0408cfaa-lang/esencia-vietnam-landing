@@ -199,3 +199,11 @@ details.acc .acc-body{padding:0 18px 16px;color:var(--muted)}
 .chip.on{background:var(--green-900);color:#fff}
 .teffort{position:absolute;z-index:2;top:14px;left:14px;font-size:11.5px;font-weight:600;letter-spacing:.04em;background:rgba(255,255,255,.92);color:var(--green-900);padding:4px 10px;border-radius:999px}
 body{font-size:17px}
+
+/* ---- grupos por número de días ---- */
+a.chip{text-decoration:none;display:inline-block}
+a.chip:hover{background:var(--gold-soft)}
+.dgroup{margin:40px 0 8px;scroll-margin-top:96px}
+.dgroup h2{font-size:clamp(22px,3vw,30px);border-bottom:1px solid var(--line);padding-bottom:10px;margin-bottom:18px}
+.dgroup h2 small{font:500 14px var(--sans);color:var(--muted);margin-left:10px;letter-spacing:.04em}
+.day .n{min-width:44px;width:auto;padding:0 8px;font-size:13px;border-radius:22px;white-space:nowrap}

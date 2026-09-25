@@ -54,6 +54,12 @@
     </div>
     <button type="button" class="scroll-cue" id="scroll-cue" aria-label="Bajar">SCROLL<span></span></button>
   </section>
+  <section class="section alt" id="duracion"><div class="container center">
+    <p class="kicker">Elegid por duración</p>
+    <h2>¿Cuántos días tenéis?</h2>
+    <div class="chips" id="dur-chips" style="margin-top:18px"></div>
+  </div></section>
+  <script>E.ready(function(){var c={};E.D.trips.forEach(function(t){c[t.days]=(c[t.days]||0)+1;});document.getElementById('dur-chips').innerHTML=Object.keys(c).map(Number).sort(function(a,b){return a-b;}).map(function(k){return '<a class="chip" href="viajes.html?dias='+k+'">'+k+' días · '+c[k]+(c[k]===1?' viaje':' viajes')+'</a>';}).join('');});</script>
 
 
   <section class="container">

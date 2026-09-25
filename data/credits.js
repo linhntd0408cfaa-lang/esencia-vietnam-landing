@@ -33,3 +33,11 @@ Object.assign(window.ESENCIA_DATA.credits, {
   'images/trip-mekong.jpg': {author:'CaCo789', license:'CC BY-SA 4.0', url:'https://commons.wikimedia.org/wiki/File:Mekong_Delta_Ham_Luong_River.jpg'},
   'images/trip-phu-quoc.jpg': {author:'Vivu Vietnam', license:'CC BY-SA 4.0', url:'https://commons.wikimedia.org/wiki/File:Hon_Thom_Cable_Car_aerial_view_Phu_Quoc_Island_Vietnam.jpg'}
 });
+
+/* Fotos de paradas adicionales (Wikimedia Commons; licencia verificada con la API de metadatos) */
+Object.assign(window.ESENCIA_DATA.credits, {
+  'images/stop-mai-chau.jpg': {author:'Shyamal', license:'CC BY-SA 4.0', url:'https://commons.wikimedia.org/wiki/File:Mai_Chau_rice_field.jpg'},
+  'images/stop-my-son.jpg': {author:'Gary Todd', license:'CC0 1.0', url:'https://commons.wikimedia.org/wiki/File:My_Son_Cham_Ruins,_Group_A.jpg'},
+  'images/stop-cu-chi.jpg': {author:'Balon Greyjoy', license:'CC0 1.0', url:'https://commons.wikimedia.org/wiki/File:20190925_Cu_Chi_tunnel_entrance.jpg'},
+  'images/stop-can-tho.jpg': {author:'Andre Hospers', license:'CC BY 4.0', url:'https://commons.wikimedia.org/wiki/File:Floating_market_Can_Tho_(22246).jpg'}
+});
