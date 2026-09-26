@@ -2,8 +2,8 @@
 window.ESENCIA_DATA = {
   config: {
     brand: 'Esencia Vietnam',
-    whatsapp: '84829973678',
-    whatsappLabel: '+84 82 997 3678',
+    whatsapp: '84333067385',
+    whatsappLabel: '+84 333 067 385',
     email: 'esenciavietnam@gmail.com',
     tripadvisor: 'https://www.tripadvisor.com.vn/Attraction_Review-g293924-d28038416-Reviews-Piu_Piu_Travel-Hanoi.html',
     demo: true,          // muestra la banda "vista previa"
