@@ -49,6 +49,7 @@ E.ready(function(){
   var groups=[],regions=[];
   trips.forEach(function(t){t.groups.forEach(function(g){if(groups.indexOf(g)<0)groups.push(g);});t.region.forEach(function(r){if(regions.indexOf(r)<0)regions.push(r);});});
   fill('f-grupo',groups,function(g){return g.charAt(0).toUpperCase()+g.slice(1);});
+  var gq=E.q('grupo'); if(gq&&groups.indexOf(gq)>=0) document.getElementById('f-grupo').value=gq;
   fill('f-region',regions,E.regionName);
   var notes=[];trips.forEach(function(t){var n=E.priceNote(t);if(n&&notes.indexOf(n)<0)notes.push(n);});
   document.getElementById('pn-text').innerHTML=notes.join(' ');

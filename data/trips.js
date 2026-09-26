@@ -5,19 +5,19 @@
   function stop(id,name,region,type,lat,lng,image,weight,duration,walking,bestSeason,summary){
     D.stops.push({id:id,name:name,region:region,type:type,lat:lat,lng:lng,image:image,weight:weight,duration:duration,walking:walking,bestSeason:bestSeason,summary:summary,coordsApprox:true});
   }
-  stop('barrio-antiguo-hanoi','Barrio antiguo de Hanói','ha-noi','ciudad',21.0340,105.8500,'images/trip-hanoi.jpg','ligera','2–3 h','medio','oct–abr','Cada calle fue un gremio: la del papel, la de la hojalata, la de la seda.');
-  stop('lago-hoan-kiem','Lago Hoan Kiem','ha-noi','ciudad',21.0287,105.8523,'images/trip-hanoi.jpg','ligera','1 h','bajo','oct–abr','Al amanecer solo hay vecinos haciendo taichí.');
-  stop('templo-literatura','Templo de la Literatura','ha-noi','cultura',21.0293,105.8355,'images/trip-hanoi.jpg','ligera','1–1,5 h','bajo','oct–abr','Fue la primera universidad del país, fundada en 1070.');
-  stop('tam-coc','Ninh Binh y Tam Coc','ninh-binh','naturaleza',20.2155,105.9370,'images/trip-ninh-binh.jpg','principal','3–4 h','bajo','nov–abr','Arrozales y montañas de caliza; se recorre en barca de remos (las remeras reman con los pies).');
+  stop('barrio-antiguo-hanoi','Barrio antiguo de Hanói','ha-noi','ciudad',21.0327,105.854,'images/stop-barrio-antiguo-hanoi.jpg','ligera','2–3 h','medio','oct–abr','Cada calle fue un gremio: la del papel, la de la hojalata, la de la seda.');
+  stop('lago-hoan-kiem','Lago Hoan Kiem','ha-noi','ciudad',21.0288,105.8525,'images/stop-lago-hoan-kiem.jpg','ligera','1 h','bajo','oct–abr','Al amanecer solo hay vecinos haciendo taichí.');
+  stop('templo-literatura','Templo de la Literatura','ha-noi','cultura',21.0287,105.8359,'images/trip-hanoi.jpg','ligera','1–1,5 h','bajo','oct–abr','Fue la primera universidad del país, fundada en 1070.');
+  stop('tam-coc','Ninh Binh y Tam Coc','ninh-binh','naturaleza',20.2177,105.9295,'images/trip-ninh-binh.jpg','principal','3–4 h','bajo','nov–abr','Arrozales y montañas de caliza; se recorre en barca de remos (las remeras reman con los pies).');
   stop('bahia-ha-long','Bahía de Ha Long','ha-long','naturaleza',20.9101,107.1839,'images/trip-ha-long.jpg','principal','1 día o noche a bordo','bajo','oct–abr','Crucero entre islotes de caliza; la cueva Sung Sot se recorre por dentro, iluminada.');
   stop('sa-pa-arrozales','Sa Pa y arrozales en terraza','sa-pa','naturaleza',22.3364,103.8438,'images/trip-sa-pa.jpg','principal','medio día','medio','sep–nov','A 1.600 metros de altura; tren de Muong Hoa, pueblos del valle y arrozales.');
-  stop('fansipan','Fansipan','sa-pa','naturaleza',22.3033,103.7750,'images/trip-fansipan.jpg','principal','medio día','bajo','sep–nov','El techo de Indochina (3.143 m): se sube en teleférico, no andando.');
-  stop('ban-gioc','Cascada de Ban Gioc','cao-bang','naturaleza',22.8547,106.7233,'images/trip-cao-bang.jpg','principal','2 h','bajo','sep–nov','Hace frontera con China: la mitad del salto es vietnamita y la otra mitad no.');
-  stop('pu-luong','Pu Luong','pu-luong','naturaleza',20.4800,105.2000,'images/trip-pu-luong.jpg','principal','1 día','medio','sep–oct','Arrozales, norias de bambú y muy poca gente.');
-  stop('ma-pi-leng','Paso de Ma Pi Leng (Ha Giang)','ha-giang','naturaleza',23.2364,105.4008,'images/trip-ha-giang.jpg','principal','2 días de circuito','bajo','sep–nov','Se abrió a mano en los años sesenta, picando la roca durante seis años.');
-  stop('correos-saigon','Oficina Central de Correos','ho-chi-minh','cultura',10.7799,106.6999,'images/trip-hcmc.jpg','ligera','1 h','bajo','dic–abr','La proyectó el estudio de Gustave Eiffel y sigue funcionando como oficina de verdad.');
-  stop('delta-mekong','Delta del Mekong','mekong','naturaleza',10.3600,106.3600,'images/trip-mekong.jpg','principal','1 día','bajo','dic–abr','En barca por canales de cocoteros.');
-  stop('phu-quoc-isla','Isla de Phu Quoc','phu-quoc','playa',10.2270,103.9670,'images/trip-phu-quoc.jpg','principal','varios días','bajo','nov–abr','Teleférico sobre el mar de casi ocho kilómetros, pimienta, salsa de pescado y vino de sim.');
+  stop('fansipan','Fansipan','sa-pa','naturaleza',22.3033,103.775,'images/trip-fansipan.jpg','principal','medio día','bajo','sep–nov','El techo de Indochina (3.143 m): se sube en teleférico, no andando.');
+  stop('ban-gioc','Cascada de Ban Gioc','cao-bang','naturaleza',22.8543,106.7233,'images/trip-cao-bang.jpg','principal','2 h','bajo','sep–nov','Hace frontera con China: la mitad del salto es vietnamita y la otra mitad no.');
+  stop('pu-luong','Pu Luong','pu-luong','naturaleza',20.499,105.2013,'images/trip-pu-luong.jpg','principal','1 día','medio','sep–oct','Arrozales, norias de bambú y muy poca gente.');
+  stop('ma-pi-leng','Paso de Ma Pi Leng (Ha Giang)','ha-giang','naturaleza',23.2408,105.4108,'images/trip-ha-giang.jpg','principal','2 días de circuito','bajo','sep–nov','Se abrió a mano en los años sesenta, picando la roca durante seis años.');
+  stop('correos-saigon','Oficina Central de Correos','ho-chi-minh','cultura',10.78,106.7,'images/trip-hcmc.jpg','ligera','1 h','bajo','dic–abr','La proyectó el estudio de Gustave Eiffel y sigue funcionando como oficina de verdad.');
+  stop('delta-mekong','Delta del Mekong','mekong','naturaleza',10.3581,106.3606,'images/trip-mekong.jpg','principal','1 día','bajo','dic–abr','En barca por canales de cocoteros.');
+  stop('phu-quoc-isla','Isla de Phu Quoc','phu-quoc','playa',10.2205,103.9598,'images/trip-phu-quoc.jpg','principal','varios días','bajo','nov–abr','Teleférico sobre el mar de casi ocho kilómetros, pimienta, salsa de pescado y vino de sim.');
 
   stop('mai-chau','Valle de Mai Chau','mai-chau','pueblo',20.6580,105.0500,'images/stop-mai-chau.jpg','principal','1 día','bajo','sep–nov','Valle de arrozales y casas sobre pilotes de la etnia thai, a ritmo de pueblo.');
   stop('my-son','Santuario de My Son','da-nang','cultura',15.7640,108.1240,'images/stop-my-son.jpg','principal','2–3 h','medio','feb–abr','Ruinas del reino de Champa, Patrimonio Mundial, entre montañas.');
@@ -35,7 +35,9 @@
   "nights": 3,
   "groups": [
    "amigos",
-   "mayores"
+   "mayores",
+   "familias",
+   "parejas"
   ],
   "tier": null,
   "region": [
@@ -43,7 +45,7 @@
    "ninh-binh",
    "ha-long"
   ],
-  "image": "images/trip-ha-long.jpg",
+  "image": "images/trip-hanoi.jpg",
   "route": [
    "Hanói",
    "Ninh Binh",
@@ -107,7 +109,9 @@
   "nights": 3,
   "groups": [
    "amigos",
-   "mayores"
+   "mayores",
+   "familias",
+   "parejas"
   ],
   "tier": null,
   "region": [
@@ -187,7 +191,9 @@
   "nights": 4,
   "groups": [
    "amigos",
-   "mayores"
+   "mayores",
+   "familias",
+   "parejas"
   ],
   "tier": null,
   "region": [
@@ -195,7 +201,7 @@
    "ha-long",
    "ninh-binh"
   ],
-  "image": "images/trip-ha-long.jpg",
+  "image": "images/stop-barrio-antiguo-hanoi.jpg",
   "route": [
    "Hanói",
    "Ha Long",
@@ -267,7 +273,8 @@
   "nights": 4,
   "groups": [
    "amigos",
-   "mayores"
+   "mayores",
+   "parejas"
   ],
   "tier": null,
   "region": [
@@ -344,7 +351,9 @@
   "nights": 5,
   "groups": [
    "amigos",
-   "mayores"
+   "mayores",
+   "familias",
+   "parejas"
   ],
   "tier": null,
   "region": [
@@ -352,7 +361,7 @@
    "ninh-binh",
    "ha-long"
   ],
-  "image": "images/trip-ha-long.jpg",
+  "image": "images/trip-ninh-binh.jpg",
   "route": [
    "Hanói",
    "Ninh Binh",
@@ -424,7 +433,9 @@
   "nights": 5,
   "groups": [
    "amigos",
-   "mayores"
+   "mayores",
+   "familias",
+   "parejas"
   ],
   "tier": null,
   "region": [
@@ -432,7 +443,7 @@
    "hue",
    "da-nang"
   ],
-  "image": "images/day4-hue.jpg",
+  "image": "images/stop-cam-thanh.jpg",
   "route": [
    "Hoi An",
    "Hue",
@@ -609,7 +620,8 @@
   "nights": 5,
   "groups": [
    "amigos",
-   "mayores"
+   "mayores",
+   "parejas"
   ],
   "tier": null,
   "region": [
@@ -617,7 +629,7 @@
    "sa-pa",
    "ha-long"
   ],
-  "image": "images/trip-sa-pa.jpg",
+  "image": "images/trip-fansipan.jpg",
   "route": [
    "Hanói",
    "Sa Pa",
@@ -791,7 +803,9 @@
   "nights": 6,
   "groups": [
    "amigos",
-   "mayores"
+   "mayores",
+   "familias",
+   "parejas"
   ],
   "tier": null,
   "region": [
@@ -800,7 +814,7 @@
    "ha-long",
    "hue"
   ],
-  "image": "images/day4-hue.jpg",
+  "image": "images/trip-ha-long.jpg",
   "route": [
    "Hanói",
    "Ninh Binh",
@@ -884,7 +898,8 @@
   "nights": 6,
   "groups": [
    "amigos",
-   "mayores"
+   "mayores",
+   "parejas"
   ],
   "tier": null,
   "region": [
@@ -893,7 +908,7 @@
    "ninh-binh",
    "ha-long"
   ],
-  "image": "images/trip-ninh-binh.jpg",
+  "image": "images/extra-hanoi-noche.jpg",
   "route": [
    "Hanói",
    "Sa Pa",
@@ -985,7 +1000,8 @@
   "nights": 6,
   "groups": [
    "amigos",
-   "mayores"
+   "mayores",
+   "parejas"
   ],
   "tier": null,
   "region": [
@@ -993,7 +1009,7 @@
    "sa-pa",
    "ha-long"
   ],
-  "image": "images/trip-ha-long.jpg",
+  "image": "images/extra-sa-pa-2.jpg",
   "route": [
    "Hanói",
    "Sa Pa",
@@ -1085,7 +1101,9 @@
   "nights": 7,
   "groups": [
    "amigos",
-   "mayores"
+   "mayores",
+   "familias",
+   "parejas"
   ],
   "tier": null,
   "region": [
@@ -1096,7 +1114,7 @@
    "hoi-an",
    "da-nang"
   ],
-  "image": "images/day2-hoi-an.jpg",
+  "image": "images/day4-hue.jpg",
   "route": [
    "Hanói",
    "Ninh Binh",
@@ -1191,7 +1209,9 @@
   "nights": 7,
   "groups": [
    "amigos",
-   "mayores"
+   "mayores",
+   "familias",
+   "parejas"
   ],
   "tier": null,
   "region": [
@@ -1199,7 +1219,7 @@
    "mekong",
    "phu-quoc"
   ],
-  "image": "images/trip-mekong.jpg",
+  "image": "images/trip-hcmc.jpg",
   "route": [
    "Ciudad Ho Chi Minh",
    "Mekong",
@@ -1394,7 +1414,7 @@
    "ha-giang",
    "ha-long"
   ],
-  "image": "images/trip-ha-long.jpg",
+  "image": "images/extra-ha-long-2.jpg",
   "route": [
    "Hanói",
    "Ha Giang",
@@ -1491,7 +1511,9 @@
   "nights": 8,
   "groups": [
    "amigos",
-   "mayores"
+   "mayores",
+   "familias",
+   "parejas"
   ],
   "tier": null,
   "region": [
@@ -1502,7 +1524,7 @@
    "hoi-an",
    "da-nang"
   ],
-  "image": "images/day4-hue.jpg",
+  "image": "images/stop-thien-mu.jpg",
   "route": [
    "Hanói",
    "Ninh Binh",
@@ -1608,7 +1630,9 @@
   "nights": 10,
   "groups": [
    "amigos",
-   "mayores"
+   "mayores",
+   "familias",
+   "parejas"
   ],
   "tier": null,
   "region": [
@@ -1620,7 +1644,7 @@
    "ho-chi-minh",
    "mekong"
   ],
-  "image": "images/trip-mekong.jpg",
+  "image": "images/stop-hai-van.jpg",
   "route": [
    "Hanói",
    "Ninh Binh",
@@ -1688,7 +1712,9 @@
   "nights": 8,
   "groups": [
    "amigos",
-   "mayores"
+   "mayores",
+   "familias",
+   "parejas"
   ],
   "tier": null,
   "region": [
@@ -1696,7 +1722,7 @@
    "mekong",
    "phu-quoc"
   ],
-  "image": "images/trip-hcmc.jpg",
+  "image": "images/trip-mekong.jpg",
   "route": [
    "Ciudad Ho Chi Minh",
    "Mekong",
@@ -1768,7 +1794,8 @@
   "nights": 7,
   "groups": [
    "amigos",
-   "mayores"
+   "mayores",
+   "parejas"
   ],
   "tier": null,
   "region": [
@@ -1778,7 +1805,7 @@
    "ninh-binh",
    "ha-long"
   ],
-  "image": "images/trip-sa-pa.jpg",
+  "image": "images/extra-saigon-catedral.jpg",
   "route": [
    "Hanói",
    "Sa Pa",
@@ -1853,7 +1880,9 @@
   "nights": 11,
   "groups": [
    "amigos",
-   "mayores"
+   "mayores",
+   "familias",
+   "parejas"
   ],
   "tier": null,
   "region": [
@@ -1865,7 +1894,7 @@
    "ha-noi",
    "ha-long"
   ],
-  "image": "images/day2-hoi-an.jpg",
+  "image": "images/stop-marmol.jpg",
   "route": [
    "Ciudad Ho Chi Minh",
    "Mekong",
@@ -1941,7 +1970,9 @@
   "nights": 10,
   "groups": [
    "amigos",
-   "mayores"
+   "mayores",
+   "familias",
+   "parejas"
   ],
   "tier": null,
   "region": [
@@ -1953,7 +1984,7 @@
    "ha-noi",
    "ha-long"
   ],
-  "image": "images/day3-ba-na-hills.jpg",
+  "image": "images/extra-hoi-an-rio.jpg",
   "route": [
    "Ciudad Ho Chi Minh",
    "Mekong",
@@ -2041,7 +2072,7 @@
    "ha-noi",
    "ha-long"
   ],
-  "image": "images/trip-sa-pa.jpg",
+  "image": "images/extra-hue-perfumes.jpg",
   "route": [
    "Ciudad Ho Chi Minh",
    "Mekong",
@@ -2136,7 +2167,9 @@
   "nights": 11,
   "groups": [
    "amigos",
-   "mayores"
+   "mayores",
+   "familias",
+   "parejas"
   ],
   "tier": null,
   "region": [
@@ -2147,7 +2180,7 @@
    "ho-chi-minh",
    "mekong"
   ],
-  "image": "images/trip-mekong.jpg",
+  "image": "images/trip-ha-long.jpg",
   "route": [
    "Hanói",
    "Ha Long",
@@ -2236,7 +2269,7 @@
    "ho-chi-minh",
    "mekong"
   ],
-  "image": "images/stop-mai-chau.jpg",
+  "image": "images/stop-hai-van.jpg",
   "route": [
    "Hanói",
    "Mai Chau",
@@ -2332,7 +2365,7 @@
    "ho-chi-minh",
    "mekong"
   ],
-  "image": "images/day4-hue.jpg",
+  "image": "images/extra-da-nang-han.jpg",
   "route": [
    "Hanói",
    "Ha Long",
@@ -2421,7 +2454,7 @@
    "ho-chi-minh",
    "mekong"
   ],
-  "image": "images/day3-ba-na-hills.jpg",
+  "image": "images/extra-trang-an.jpg",
   "route": [
    "Hanói",
    "Ninh Binh",
@@ -2514,7 +2547,9 @@
   "nights": 6,
   "groups": [
    "amigos",
-   "mayores"
+   "mayores",
+   "familias",
+   "parejas"
   ],
   "tier": null,
   "region": [
@@ -2523,7 +2558,7 @@
    "ho-chi-minh",
    "ninh-binh"
   ],
-  "image": "images/trip-mekong.jpg",
+  "image": "images/trip-phu-quoc.jpg",
   "route": [
    "Phu Quoc",
    "Can Tho",
@@ -2606,7 +2641,7 @@
    "ho-chi-minh",
    "hoi-an"
   ],
-  "image": "images/trip-hcmc.jpg",
+  "image": "images/stop-barrio-antiguo-hanoi.jpg",
   "route": [
    "Hanói",
    "Ha Long",
@@ -2678,7 +2713,9 @@
   "nights": 8,
   "groups": [
    "amigos",
-   "mayores"
+   "mayores",
+   "familias",
+   "parejas"
   ],
   "tier": null,
   "region": [
@@ -2689,7 +2726,7 @@
    "ho-chi-minh",
    "mekong"
   ],
-  "image": "images/trip-ha-long.jpg",
+  "image": "images/day2-hoi-an.jpg",
   "route": [
    "Hanói",
    "Ha Long",
@@ -2762,7 +2799,9 @@
   "nights": 8,
   "groups": [
    "amigos",
-   "mayores"
+   "mayores",
+   "familias",
+   "parejas"
   ],
   "tier": null,
   "region": [
@@ -2773,7 +2812,7 @@
    "ho-chi-minh",
    "mekong"
   ],
-  "image": "images/day2-hoi-an.jpg",
+  "image": "images/stop-lago-hoan-kiem.jpg",
   "route": [
    "Hanói",
    "Ha Long",
@@ -2946,7 +2985,9 @@
   "nights": 8,
   "groups": [
    "amigos",
-   "mayores"
+   "mayores",
+   "familias",
+   "parejas"
   ],
   "tier": null,
   "region": [
@@ -2958,7 +2999,7 @@
    "ho-chi-minh",
    "mekong"
   ],
-  "image": "images/day2-hoi-an.jpg",
+  "image": "images/day3-ba-na-hills.jpg",
   "route": [
    "Hanói",
    "Ninh Binh",
@@ -3044,7 +3085,8 @@
   "nights": 9,
   "groups": [
    "amigos",
-   "mayores"
+   "mayores",
+   "parejas"
   ],
   "tier": null,
   "region": [
@@ -3056,7 +3098,7 @@
    "ho-chi-minh",
    "mekong"
   ],
-  "image": "images/day4-hue.jpg",
+  "image": "images/trip-hanoi.jpg",
   "route": [
    "Hanói",
    "Sa Pa",
@@ -3165,7 +3207,7 @@
    "hoi-an",
    "mekong"
   ],
-  "image": "images/day2-hoi-an.jpg",
+  "image": "images/trip-pu-luong.jpg",
   "route": [
    "Hanói",
    "Mai Chau",
@@ -3268,7 +3310,9 @@
   "nights": 5,
   "groups": [
    "amigos",
-   "mayores"
+   "mayores",
+   "familias",
+   "parejas"
   ],
   "tier": null,
   "region": [
@@ -3278,7 +3322,7 @@
    "hoi-an",
    "ho-chi-minh"
   ],
-  "image": "images/day4-hue.jpg",
+  "image": "images/stop-khai-dinh.jpg",
   "route": [
    "Hanói",
    "Ha Long",
@@ -3366,7 +3410,9 @@
   "nights": 7,
   "groups": [
    "amigos",
-   "mayores"
+   "mayores",
+   "familias",
+   "parejas"
   ],
   "tier": null,
   "region": [
@@ -3475,7 +3521,8 @@
   "nights": 9,
   "groups": [
    "amigos",
-   "mayores"
+   "mayores",
+   "parejas"
   ],
   "tier": null,
   "region": [
@@ -3484,7 +3531,7 @@
    "ninh-binh",
    "ha-long"
   ],
-  "image": "images/stop-mai-chau.jpg",
+  "image": "images/stop-lago-hoan-kiem.jpg",
   "route": [
    "Hanói",
    "Mai Chau",
@@ -3574,7 +3621,9 @@
   "nights": 10,
   "groups": [
    "amigos",
-   "mayores"
+   "mayores",
+   "familias",
+   "parejas"
   ],
   "tier": null,
   "region": [
@@ -3694,7 +3743,7 @@
    "hoi-an",
    "ho-chi-minh"
   ],
-  "image": "images/stop-mai-chau.jpg",
+  "image": "images/day4-hue.jpg",
   "route": [
    "Hanói",
    "Mai Chau",
@@ -3789,7 +3838,9 @@
   "nights": 7,
   "groups": [
    "amigos",
-   "mayores"
+   "mayores",
+   "familias",
+   "parejas"
   ],
   "tier": null,
   "region": [
@@ -3798,7 +3849,7 @@
    "hoi-an",
    "ho-chi-minh"
   ],
-  "image": "images/trip-ha-long.jpg",
+  "image": "images/extra-hanoi-noche.jpg",
   "route": [
    "Hanói",
    "Ha Long",
@@ -3892,7 +3943,7 @@
    "ninh-binh",
    "ha-long"
   ],
-  "image": "images/trip-ninh-binh.jpg",
+  "image": "images/stop-thien-mu.jpg",
   "route": [
    "Ciudad Ho Chi Minh",
    "Mekong",
@@ -3989,7 +4040,9 @@
   "nights": 8,
   "groups": [
    "amigos",
-   "mayores"
+   "mayores",
+   "familias",
+   "parejas"
   ],
   "tier": null,
   "region": [
@@ -4001,7 +4054,7 @@
    "mekong",
    "ho-chi-minh"
   ],
-  "image": "images/trip-hcmc.jpg",
+  "image": "images/day3-ba-na-hills.jpg",
   "route": [
    "Hanói",
    "Ninh Binh",
@@ -4087,7 +4140,9 @@
   "nights": 9,
   "groups": [
    "amigos",
-   "mayores"
+   "mayores",
+   "familias",
+   "parejas"
   ],
   "tier": null,
   "region": [
@@ -4100,7 +4155,7 @@
    "ha-long",
    "ha-noi"
   ],
-  "image": "images/trip-ninh-binh.jpg",
+  "image": "images/stop-cam-thanh.jpg",
   "route": [
    "Ciudad Ho Chi Minh",
    "Can Tho",
@@ -4207,7 +4262,7 @@
    "hoi-an",
    "ho-chi-minh"
   ],
-  "image": "images/trip-hcmc.jpg",
+  "image": "images/trip-sa-pa.jpg",
   "route": [
    "Hanói",
    "Ha Long",

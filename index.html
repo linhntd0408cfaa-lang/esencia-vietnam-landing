@@ -47,7 +47,7 @@
 .tabs button[aria-selected="true"]{color:var(--green-900);border-bottom-color:var(--gold)}
 .tabs button:focus-visible{outline:3px solid var(--gold);outline-offset:-3px}
 .trav-grid{display:grid;gap:18px;grid-template-columns:1fr}
-@media(min-width:700px){.trav-grid{grid-template-columns:1.25fr 1fr 1fr}}
+@media(min-width:700px){.trav-grid{grid-template-columns:repeat(3,1fr)}}
 .trav{position:relative;display:flex;flex-direction:column;justify-content:flex-end;min-height:420px;border-radius:6px;overflow:hidden;color:#fff;text-decoration:none;padding:22px;background-color:var(--green-700);background-size:cover;background-position:center;cursor:pointer;border:0;font:inherit;text-align:left;width:100%}
 .trav::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(23,51,42,.15),rgba(23,51,42,.88));z-index:0}
 .trav.fallback{background-image:linear-gradient(160deg,#3f7060,#17332a)}
@@ -55,7 +55,6 @@
 .trav h3{color:#fff;font-size:clamp(26px,3.4vw,34px);margin:0 0 6px}
 .trav p{margin:0 0 10px;font-size:17px;color:#f1ebdc}
 .trav .tag2{align-self:flex-start;background:var(--gold-soft);color:var(--green-900);font-weight:700;font-size:14px;padding:5px 12px;border-radius:99px}
-.trav.main{min-height:480px;box-shadow:0 0 0 3px var(--gold)}
 .trav:hover,.trav:focus-visible{filter:brightness(1.06)}
 .trav:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
 .month-sel{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;max-width:760px;margin:0 auto 24px}
@@ -167,22 +166,21 @@
       <div role="tabpanel" id="panel-viajero" aria-labelledby="tab-viajero">
         <!-- Fotos esperadas: images/viajero-amigos.jpg, images/viajero-familias.jpg, images/viajero-parejas.jpg -->
         <div class="trav-grid">
-          <a class="trav main fallback" href="viajes.html" data-img="images/viajero-amigos.jpg">
-            <span class="tag2">Nuestro viaje principal</span>
+          <a class="trav fallback" href="viajes.html?grupo=amigos" data-img="images/viajero-amigos.jpg" data-fb="images/day2-hoi-an.jpg">
             <h3>Grupos de amigos</h3>
             <p>Vuestro grupo, vuestro ritmo. Viajes privados pensados para compartir.</p>
             <span class="btn small light">Ver viajes</span>
           </a>
-          <button type="button" class="trav fallback" data-enquire data-traveller="familias" data-img="images/viajero-familias.jpg">
-            <span class="tag2">A medida</span>
+          <a class="trav fallback" href="viajes.html?grupo=familias" data-img="images/viajero-familias.jpg" data-fb="images/stop-cam-thanh.jpg">
             <h3>Familias</h3>
-            <p>Un viaje diseñado para todas las edades.</p>
-          </button>
-          <button type="button" class="trav fallback" data-enquire data-traveller="parejas" data-img="images/viajero-parejas.jpg">
-            <span class="tag2">A medida</span>
+            <p>Varias generaciones juntas, con el ritmo que marcan los mayores.</p>
+            <span class="btn small light">Ver viajes</span>
+          </a>
+          <a class="trav fallback" href="viajes.html?grupo=parejas" data-img="images/viajero-parejas.jpg" data-fb="images/trip-ha-long.jpg">
             <h3>Parejas</h3>
-            <p>Un viaje tranquilo, para dos.</p>
-          </button>
+            <p>Un viaje tranquilo y a medida, para dos.</p>
+            <span class="btn small light">Ver viajes</span>
+          </a>
         </div>
       </div>
 
@@ -217,11 +215,6 @@
     </div>
   </section>
 
-  <section class="section alt" id="duracion"><div class="container center">
-    <p class="kicker">Elegid por duración</p>
-    <h2>¿Cuántos días tenéis?</h2>
-    <div class="chips" id="dur-chips" style="margin-top:18px"></div>
-  </div></section>
 
   <!-- 6) QUÉ HACEMOS -->
   <!-- Imagen esperada: images/nosotros-home.jpg -->
@@ -294,17 +287,14 @@ E.ready(function(){
   var wa=document.getElementById('wa-close'); if(wa) wa.href=E.waLink('Hola, quisiera información sobre un viaje a Vietnam.');
 
   // Imágenes de las fichas por viajero (si cargan; si no, degradado)
-  function bg(el,src,cls){
+  function bg(el,src,cls,fb){
     var im=new Image();
     im.onload=function(){el.style.backgroundImage='url('+src+')';if(cls)el.classList.remove(cls);};
+    im.onerror=function(){if(!fb)return;var i2=new Image();i2.onload=function(){el.style.backgroundImage='url('+fb+')';if(cls)el.classList.remove(cls);};i2.src=fb;};
     im.src=src;
   }
-  Array.prototype.forEach.call(document.querySelectorAll('.trav[data-img]'),function(el){bg(el,el.getAttribute('data-img'),'fallback');});
+  Array.prototype.forEach.call(document.querySelectorAll('.trav[data-img]'),function(el){bg(el,el.getAttribute('data-img'),'fallback',el.getAttribute('data-fb'));});
   bg(document.getElementById('what-img'),'images/nosotros-home.jpg');
-
-  // Chips de duración
-  var c={};trips.forEach(function(t){c[t.days]=(c[t.days]||0)+1;});
-  document.getElementById('dur-chips').innerHTML=Object.keys(c).map(Number).sort(function(a,b){return a-b;}).map(function(k){return '<a class="chip" href="viajes.html?dias='+k+'">'+k+' días · '+c[k]+(c[k]===1?' viaje':' viajes')+'</a>';}).join('');
 
   // Populares (provisional)
   var pop=['01','02','10','14','19','20'];

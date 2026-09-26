@@ -96,8 +96,9 @@
     var s=document.createElement('script'); s.src='https://unpkg.com/leaflet@1.9.4/dist/leaflet.js'; s.onload=cb; document.head.appendChild(s);
   };
   E.newMap = function(el){
-    var m = L.map(el,{scrollWheelZoom:false}).setView([16.0,108.1],8);
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',{maxZoom:19,subdomains:'abcd',attribution:'© OpenStreetMap contributors © CARTO'}).addTo(m);
+    var m = L.map(el,{scrollWheelZoom:false,minZoom:5,maxBounds:[[6.5,100.5],[25.5,112.5]],maxBoundsViscosity:.8}).setView([16.0,107.6],6);
+    var osm = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:18,attribution:'© OpenStreetMap contributors'}).addTo(m), swapped=false;
+    osm.on('tileerror',function(){ if(swapped) return; swapped=true; m.removeLayer(osm); L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}',{maxZoom:18,attribution:'Tiles © Esri'}).addTo(m); });
     return m;
   };
 

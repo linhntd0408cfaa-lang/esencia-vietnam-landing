@@ -9,6 +9,7 @@
 <link rel="stylesheet" href="assets/css/site.css">
 <script src="data/site.js"></script>
 <script src="data/trips.js"></script>
+<script src="data/stop-details.js"></script>
 <script src="data/credits.js"></script>
 <script src="assets/js/site.js"></script>
 <style>
@@ -49,6 +50,7 @@ E.ready(function(){
    '<div class="layout-side"><div>'+
      '<img class="hero-img" src="'+E.esc(s.image)+'" alt="'+E.esc(s.name)+'">'+E.credit(s.image)+
      '<h2 style="margin-top:24px">Resumen</h2><p class="lead">'+E.esc(s.summary)+'</p>'+
+     ((E.D.stopDetails&&E.D.stopDetails[s.id])?'<h3 style="margin-top:18px">Qué descubriréis</h3><p>'+E.esc(E.D.stopDetails[s.id])+'</p>':'')+
      '<ul class="facts">'+
        '<li><b>Región:</b> '+E.regionName(s.region)+'</li>'+
        '<li><b>Duración de la visita:</b> '+E.esc(s.duration)+'</li>'+

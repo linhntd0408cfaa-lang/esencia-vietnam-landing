@@ -41,3 +41,19 @@ Object.assign(window.ESENCIA_DATA.credits, {
   'images/stop-cu-chi.jpg': {author:'Balon Greyjoy', license:'CC0 1.0', url:'https://commons.wikimedia.org/wiki/File:20190925_Cu_Chi_tunnel_entrance.jpg'},
   'images/stop-can-tho.jpg': {author:'Andre Hospers', license:'CC BY 4.0', url:'https://commons.wikimedia.org/wiki/File:Floating_market_Can_Tho_(22246).jpg'}
 });
+
+/* Fotos nuevas anti-repeticion (Wikimedia Commons; licencia verificada con la API de metadatos). stop-thanh-ha.jpg es un recorte del original. */
+Object.assign(window.ESENCIA_DATA.credits, {
+  'images/stop-barrio-antiguo-hanoi.jpg': {author:'Richard Mortel', license:'CC BY 2.0', url:'https://commons.wikimedia.org/wiki/File:Old_Quarter_street_scene,_Hanoi_(5)_(26720959079).jpg'},
+  'images/stop-lago-hoan-kiem.jpg': {author:'Takeshi Aida', license:'CC BY-SA 2.0', url:'https://commons.wikimedia.org/wiki/File:Hoan_Kiem_Lake,_Turtle_Tower,_Daytime_(20231223)_(53489228584).jpg'},
+  'images/stop-thanh-ha.jpg': {author:'Lê Tấn Lộc', license:'CC BY-SA 3.0', url:'https://commons.wikimedia.org/wiki/File:Sản_phẩm_làng_gốm_Thanh_Hà.JPG'},
+  'images/extra-hoi-an-rio.jpg': {author:'Nguyen QuocTrung', license:'CC BY-SA 4.0', url:'https://commons.wikimedia.org/wiki/File:Thu_Bồn_River_at_night_-_Hội_An_2022.jpg'},
+  'images/extra-ha-long-2.jpg': {author:'lumoplank', license:'CC0 1.0', url:'https://commons.wikimedia.org/wiki/File:Ha_Long_Bay_-_Halong1407.jpg'},
+  'images/extra-sa-pa-2.jpg': {author:'Andre Hospers', license:'CC BY 4.0', url:'https://commons.wikimedia.org/wiki/File:Ta_Van_Muong_Ha_vallei_(56941).jpg'},
+  'images/extra-trang-an.jpg': {author:'Jakub Hałun', license:'CC BY 4.0', url:'https://commons.wikimedia.org/wiki/File:Trang_An_Landscape_Complex,_Ninh_Binh_Province,_Vietnam,_20240202_1447_5310.jpg'},
+  'images/extra-da-nang-han.jpg': {author:'Gary Todd', license:'CC0 1.0', url:'https://commons.wikimedia.org/wiki/File:Han_River,_Da_Nang,_Vietnam_(15428173695).jpg'},
+  'images/extra-hue-perfumes.jpg': {author:'CEphoto, Uwe Aranas', license:'CC BY-SA 3.0', url:'https://commons.wikimedia.org/wiki/File:Hue_Vietnam_Tomb-of-Emperor-Minh-Mang-01.jpg'},
+  'images/extra-phu-quoc-2.jpg': {author:'Elmschrat', license:'CC0 1.0', url:'https://commons.wikimedia.org/wiki/File:1_Phu_Quoc_sunset.jpg'},
+  'images/extra-saigon-catedral.jpg': {author:'Steffen Schmitz', license:'CC BY-SA 4.0', url:'https://commons.wikimedia.org/wiki/File:Ho_Chi_Minh_City,_Notre-Dame_Basilica,_2020-01_CN-01.jpg'},
+  'images/extra-hanoi-noche.jpg': {author:'Rungbachduong', license:'CC BY-SA 3.0', url:'https://commons.wikimedia.org/wiki/File:Long_Bien_Bridge_night.jpg'}
+});

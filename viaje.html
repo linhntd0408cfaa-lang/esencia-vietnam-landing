@@ -57,6 +57,7 @@ E.ready(function(){
     var meals=(d.meals&&d.meals.length)?'<div class="tags" style="margin:8px 0">'+d.meals.map(function(m){return '<span class="meal">'+E.esc(m)+'</span>';}).join('')+'</div>':'<p class="route">Sin comidas incluidas este día.</p>';
     return '<details class="acc"'+(i===0?' open':'')+'><summary>'+(d.span>1?'Días ':'Día ')+d.day+' · '+E.esc(d.title)+'</summary><div class="day-body">'+
       (d.stops.length?d.stops.map(stopHTML).join(''):'<p class="route">Día sin paradas programadas.</p>')+meals+
+      (d.schedule&&d.schedule.length?'<ul class="sched">'+d.schedule.map(function(x){return '<li><b>'+E.esc(x[0])+'</b> '+E.esc(x[1])+'</li>';}).join('')+'</ul>':'')+
       (d.pace?'<div class="pace-ok"><b>Ritmo:</b> '+E.esc(d.pace)+'</div>':'')+
       msgs.map(function(m){return '<div class="pace-warn" style="margin-top:8px">'+E.esc(m)+'</div>';}).join('')+
       '</div></details>';
@@ -74,11 +75,35 @@ E.ready(function(){
     (t.intro?'<p>'+E.esc(t.intro)+'</p>':'')+
     (t.notes&&t.notes.length?'<ul class="checks" style="margin-bottom:18px">'+t.notes.map(function(n){return '<li>'+E.esc(n)+'</li>';}).join('')+'</ul>':'')+
     '<div class="tags" style="margin-bottom:22px"><span class="tag">'+t.days+' días / '+t.nights+' noches</span>'+(t.tier?'<span class="tag">Alojamiento '+E.esc(t.tier)+'</span>':'')+''+t.region.map(function(r){return '<span class="tag">'+E.regionName(r)+'</span>';}).join('')+t.groups.map(function(g){return '<span class="tag">'+E.esc(g)+'</span>';}).join('')+'</div>'+
+    '<h2>Mapa del viaje</h2><div id="trip-map" class="map" style="height:340px"></div><p class="route" style="margin-top:6px">Las paradas aparecen numeradas por día.</p>'+
+    '<div class="detail-box"><div><b>Itinerario detallado con horarios.</b> Cada día, hora por hora: salidas, visitas, descansos y comidas.</div>'+
+    '<a class="btn small" id="pdf-btn" href="#" data-enquire data-trip="'+E.esc(t.id)+'">Descargar itinerario detallado</a></div>'+
     '<h2>Itinerario día a día</h2>'+days+
     '<h2 style="margin-top:36px">Qué incluye y qué no</h2>'+
     (t.includedNote?'<p>'+E.todo(t.includedNote)+'</p>':'')+
     '<div class="table-wrap"><table><thead><tr><th>Incluido</th><th>No incluido</th></tr></thead><tbody><tr><td><ul class="checks">'+inc.map(function(x){return '<li>'+E.esc(x)+'</li>';}).join('')+'</ul></td><td><ul class="checks no">'+exc.map(function(x){return '<li>'+E.esc(x)+'</li>';}).join('')+'</ul></td></tr></tbody></table></div>'+
     '</div><aside aria-label="Reservar">'+side+'</aside></div>';
+
+  /* mapa pequeño del viaje */
+  E.loadLeaflet(function(){
+    var el=document.getElementById('trip-map'); if(!el) return;
+    var pts=[], all=[];
+    t.itinerary.forEach(function(d){ d.stops.forEach(function(sid){ var s=E.stop(sid); if(s&&typeof s.lat==='number') all.push({s:s,day:d.day}); }); });
+    if(!all.length){ el.style.display='none'; var h=el.previousElementSibling; if(h) h.style.display='none'; var n=el.nextElementSibling; if(n) n.style.display='none'; return; }
+    var m=E.newMap(el);
+    all.forEach(function(x){
+      pts.push([x.s.lat,x.s.lng]);
+      var ic=L.divIcon({className:'',html:'<span class="pin">'+x.day+'</span>',iconSize:[30,30],iconAnchor:[15,15]});
+      L.marker([x.s.lat,x.s.lng],{icon:ic}).addTo(m).bindPopup('<b>'+E.esc(x.s.name)+'</b><br>Día '+x.day+' · <a href="destino.html?id='+encodeURIComponent(x.s.id)+'">Ver</a>');
+    });
+    if(pts.length>1) L.polyline(pts,{color:'#b08d57',weight:3,dashArray:'6 6'}).addTo(m);
+    m.fitBounds(pts,{padding:[34,34],maxZoom:9});
+  });
+  /* PDF del itinerario detallado (si existe itinerarios/<código>.pdf) */
+  if(t.code){ var url='itinerarios/'+t.code+'.pdf';
+    fetch(url,{method:'HEAD'}).then(function(r){ if(!r.ok) return; var b=document.getElementById('pdf-btn'); if(!b) return; b.removeAttribute('data-enquire'); b.setAttribute('href',url); b.setAttribute('download',''); }).catch(function(){});
+  }
+
   var cr=usedImgs.map(E.credit).join('');
   if(cr) root.insertAdjacentHTML('beforeend','<p class="route" style="margin-top:30px">Créditos de fotos:</p>'+cr);
 });
