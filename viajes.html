@@ -62,6 +62,7 @@ E.ready(function(){
     var res=trips.filter(function(t){
       if(g&&t.groups.indexOf(g)<0)return false;
       if(cat&&(t.cats||[]).indexOf(cat)<0)return false;
+      var qt=E.q('q');if(qt){var nz=function(x){return String(x).toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'');};var hay=nz([t.title,t.tagline,t.route.join(' '),(t.notes||[]).join(' ')].join(' '));if(hay.indexOf(nz(qt))<0)return false;}
       if(ef&&t.effort!==ef)return false;
       if(r&&t.region.indexOf(r)<0)return false;
       if(d&&t.days!==+d)return false;

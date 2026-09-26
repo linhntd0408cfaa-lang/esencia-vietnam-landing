@@ -109,28 +109,238 @@
   ];
   E.navHTML = function(page){
     return NAV.map(function(n){var cur=n.k.indexOf(page)>=0;
-      return '<div class="nav-item"><a class="nav-top" href="'+n.h+'"'+(cur?' aria-current="page"':'')+'>'+n.t+'</a><div class="nav-sub">'+n.sub.map(function(s){return '<a href="'+s[1]+'">'+s[0]+'</a>';}).join('')+'</div></div>';}).join('')+
-      '<a class="btn small nav-cta" href="contacto.html">Pedir presupuesto</a>';
+      return '<div class="nav-item"><a class="nav-top" href="'+n.h+'"'+(cur?' aria-current="page"':'')+'>'+n.t+'</a><div class="nav-sub">'+n.sub.map(function(s){return '<a href="'+s[1]+'">'+s[0]+'</a>';}).join('')+'</div></div>';}).join('');
   };
+
+  /* ---------- utilidades de diálogo / panel ---------- */
+  var FOCUSABLE = 'a[href],button:not([disabled]),input:not([disabled]):not([type=hidden]),select:not([disabled]),textarea:not([disabled]),[tabindex]:not([tabindex="-1"])';
+  function trapTab(root, e){
+    if(e.key!=='Tab') return;
+    var f = Array.prototype.filter.call(root.querySelectorAll(FOCUSABLE), function(x){return x.offsetParent!==null || x===document.activeElement;});
+    if(!f.length) return;
+    var first=f[0], last=f[f.length-1];
+    if(e.shiftKey && (document.activeElement===first || !root.contains(document.activeElement))){ e.preventDefault(); last.focus(); }
+    else if(!e.shiftKey && document.activeElement===last){ e.preventDefault(); first.focus(); }
+  }
+  function lockScroll(on){ document.documentElement.classList.toggle('no-scroll', !!on); }
+
+  /* ---------- panel de menú (hamburguesa) ---------- */
+  var menuOpener = null;
+  function menuHTML(){
+    var zonas = Object.keys(E.ZONAS).map(function(z){return ['<a href="destinos.html?zona='+z+'">'+E.esc(E.ZONAS[z].replace(' de Vietnam',''))+'</a>'];}).join('');
+    var exps = Object.keys(E.CATS).map(function(c){return '<a href="viajes.html?cat='+c+'">'+E.esc(E.CATS[c])+'</a>';}).join('')+
+      '<a href="constructor.html">Diseña tu viaje</a><a href="alojamiento.html">Alojamiento</a>';
+    return '<div class="menu-backdrop" data-menu-close></div>'+
+      '<aside class="menu-panel" id="menu-panel" role="dialog" aria-modal="true" aria-label="Menú principal" tabindex="-1">'+
+      '<div class="menu-top"><span class="menu-title">Menú</span><button type="button" class="icon-btn" data-menu-close aria-label="Cerrar menú"><svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true"><path d="M5 5l14 14M19 5L5 19" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></button></div>'+
+      '<a class="menu-wa" href="'+E.waLink()+'" target="_blank" rel="noopener"><span>WhatsApp</span><b>'+E.esc(C.whatsappLabel)+'</b></a>'+
+      '<form class="menu-search" action="viajes.html" method="get" role="search"><label class="sr" for="menu-q">Buscar viajes</label><input id="menu-q" type="search" name="q" placeholder="Buscar un viaje o destino" autocomplete="off"><button type="submit" aria-label="Buscar"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><circle cx="11" cy="11" r="6.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M16 16l5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button></form>'+
+      '<nav class="menu-links" aria-label="Menú">'+
+      '<div class="menu-group"><a class="menu-big" href="destinos.html">Destinos</a><div class="menu-sub">'+zonas+'</div></div>'+
+      '<div class="menu-group"><a class="menu-big" href="viajes.html">Experiencias</a><div class="menu-sub">'+exps+'</div></div>'+
+      '<div class="menu-group"><a class="menu-big" href="nosotros.html">Nosotros</a><div class="menu-sub"><a href="nosotros.html">Quiénes somos</a><a href="opiniones.html">Opiniones</a><a href="mayores.html">Para mayores</a><a href="guia.html">Guía de viaje</a><a href="garantias.html">Garantías y políticas</a></div></div>'+
+      '<div class="menu-group"><a class="menu-big" href="contacto.html">Contacto</a></div>'+
+      '</nav>'+
+      '<a class="menu-ta" href="'+E.esc(C.tripadvisor||'#')+'" target="_blank" rel="noopener">★ 5.0/5 en Tripadvisor · 282 opiniones</a>'+
+      '</aside>';
+  }
+  function openMenu(btn){
+    var w=document.getElementById('menu-wrap'); if(!w) return;
+    menuOpener = btn||document.activeElement;
+    w.hidden=false;
+    void w.offsetWidth;
+    w.classList.add('open');
+    lockScroll(true);
+    var hb=document.querySelector('.hamburger'); if(hb) hb.setAttribute('aria-expanded','true');
+    var p=document.getElementById('menu-panel'); p.focus();
+  }
+  function closeMenu(noFocus){
+    var w=document.getElementById('menu-wrap'); if(!w||w.hidden) return;
+    w.classList.remove('open');
+    var hb=document.querySelector('.hamburger'); if(hb) hb.setAttribute('aria-expanded','false');
+    setTimeout(function(){ if(!w.classList.contains('open')) w.hidden=true; },260);
+    if(!document.getElementById('enquire') || !document.getElementById('enquire').open) lockScroll(false);
+    if(!noFocus && menuOpener && menuOpener.focus) menuOpener.focus();
+  }
+
+  /* ---------- modal de consulta ---------- */
+  var MESES = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+  var PREFIJOS = ['+34','+351','+52','+54','+57','+56','+44','+1','+84'];
+  var COMO = ['Facebook','Instagram','Google','Tripadvisor','Recomendación de un amigo','Otro'];
+  function opts(list, sel, first){ return (first?'<option value="">'+first+'</option>':'')+list.map(function(x){var v=Array.isArray(x)?x[0]:x, l=Array.isArray(x)?x[1]:x; return '<option value="'+E.esc(v)+'"'+(v===sel?' selected':'')+'>'+E.esc(l)+'</option>';}).join(''); }
+  function enquiryHTML(){
+    var y=new Date().getFullYear(), years=[y,y+1,y+2];
+    var days=[]; for(var d=4; d<=16; d++) days.push([String(d),d+' días']); days.push(['más de 16','Más de 16 días']);
+    var ppl=[]; for(var p=1;p<=12;p++) ppl.push([String(p),p===1?'1 persona':p+' personas']); ppl.push(['más de 12','Más de 12 personas']);
+    var dests = [['norte','Norte de Vietnam'],['centro','Centro de Vietnam'],['sur','Sur de Vietnam'],['no-se','Todavía no lo sé']];
+    return '<div class="enq-head"><h2 id="enq-title">Consulta tu viaje</h2><button type="button" class="icon-btn" data-enq-close aria-label="Cerrar"><svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true"><path d="M5 5l14 14M19 5L5 19" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></button></div>'+
+    '<div class="enq-body" id="enq-body">'+
+    '<form id="enq-form" novalidate>'+
+      '<p class="enq-intro">Cuéntanos cómo imaginas el viaje. Te enviaremos una propuesta sin compromiso.</p>'+
+      '<h3 class="enq-sec">Tu viaje</h3>'+
+      '<fieldset class="enq-fs"><legend>¿A dónde os gustaría ir?</legend><div class="enq-checks">'+
+        dests.map(function(x){return '<label class="chk"><input type="checkbox" name="dest" value="'+x[1]+'"><span>'+x[1]+'</span></label>';}).join('')+
+      '</div></fieldset>'+
+      '<div class="enq-row"><div class="enq-f"><label for="enq-mes">¿Cuándo?</label><select id="enq-mes" name="mes">'+opts(MESES,'','Mes')+'</select></div>'+
+      '<div class="enq-f"><label for="enq-anio" class="sr">Año</label><select id="enq-anio" name="anio">'+opts(years.map(String),'','Año')+'</select></div></div>'+
+      '<div class="enq-row"><div class="enq-f"><label for="enq-dias">¿Cuántos días?</label><select id="enq-dias" name="dias">'+opts(days,'','Elige')+'</select></div>'+
+      '<div class="enq-f"><label for="enq-pers">¿Cuántas personas?</label><select id="enq-pers" name="pers">'+opts(ppl,'','Elige')+'</select></div></div>'+
+      '<div class="enq-f"><label for="enq-pres">Presupuesto orientativo por persona (opcional)</label><input id="enq-pres" name="pres" type="text" autocomplete="off"><p class="enq-hint">Si lo prefieres, puedes dejarlo en blanco.</p></div>'+
+      '<div class="enq-f"><label for="enq-com">Comentarios</label><textarea id="enq-com" name="com" rows="4" placeholder="Intereses, ritmo, celebraciones, necesidades de movilidad…"></textarea></div>'+
+      '<h3 class="enq-sec">Tus datos</h3>'+
+      '<div class="enq-row"><div class="enq-f"><label for="enq-nom">Nombre</label><input id="enq-nom" name="nom" type="text" autocomplete="given-name" required></div>'+
+      '<div class="enq-f"><label for="enq-ape">Apellidos</label><input id="enq-ape" name="ape" type="text" autocomplete="family-name" required></div></div>'+
+      '<div class="enq-f"><label for="enq-mail">Email</label><input id="enq-mail" name="mail" type="email" autocomplete="email" required></div>'+
+      '<div class="enq-f"><label for="enq-mail2">Confirmar email</label><input id="enq-mail2" name="mail2" type="email" autocomplete="off" required></div>'+
+      '<div class="enq-f"><label for="enq-tel">Teléfono</label><div class="enq-tel"><select id="enq-pref" name="pref" aria-label="Prefijo">'+opts(PREFIJOS.concat([['otro','Otro']]),'+34')+'</select><input id="enq-tel" name="tel" type="tel" autocomplete="tel-national" required></div></div>'+
+      '<div class="enq-f"><label for="enq-como">¿Cómo nos conociste?</label><select id="enq-como" name="como">'+opts(COMO,'','Elige')+'</select></div>'+
+      '<div class="enq-switch"><input type="checkbox" id="enq-news" name="news" role="switch"><label for="enq-news"><span class="sw" aria-hidden="true"></span><span>Quiero recibir novedades <b id="enq-news-t">No</b></span></label></div>'+
+      '<div class="enq-err" id="enq-err" role="alert" aria-live="assertive"></div>'+
+      '<button type="submit" class="btn enq-send">Enviar consulta</button>'+
+      '<p class="enq-priv">Usaremos tus datos solo para responder a tu consulta. No los compartimos con terceros.</p>'+
+    '</form></div>';
+  }
+  function buildEnquiry(){
+    var dlg=document.getElementById('enquire'); if(dlg) return dlg;
+    dlg=document.createElement('dialog'); dlg.id='enquire'; dlg.className='enquiry'; dlg.setAttribute('aria-labelledby','enq-title');
+    dlg.innerHTML=enquiryHTML();
+    document.body.appendChild(dlg);
+    dlg.addEventListener('click',function(e){
+      if(e.target===dlg || (e.target.closest && e.target.closest('[data-enq-close]'))) closeEnquiry();
+    });
+    dlg.addEventListener('cancel',function(e){ e.preventDefault(); closeEnquiry(); });
+    dlg.addEventListener('keydown',function(e){ trapTab(dlg,e); });
+    dlg.querySelector('#enq-news').addEventListener('change',function(e){ dlg.querySelector('#enq-news-t').textContent=e.target.checked?'Sí':'No'; });
+    dlg.querySelector('#enq-form').addEventListener('submit',function(e){ e.preventDefault(); sendEnquiry(dlg); });
+    return dlg;
+  }
+  var enqOpener=null;
+  function closeEnquiry(){
+    var dlg=document.getElementById('enquire'); if(!dlg||!dlg.open) return;
+    if(dlg.close) dlg.close(); else dlg.removeAttribute('open');
+    lockScroll(false);
+    if(enqOpener && enqOpener.focus && document.contains(enqOpener)) enqOpener.focus();
+  }
+  E.openEnquiry = function(o){
+    o=o||{};
+    closeMenu(true);
+    var dlg=buildEnquiry();
+    if(!enqOpener || !dlg.open) enqOpener=document.activeElement;
+    /* reiniciar si estaba en confirmación */
+    if(dlg.querySelector('.enq-done')){ dlg.innerHTML=enquiryHTML(); dlg.querySelector('#enq-news').addEventListener('change',function(e){ dlg.querySelector('#enq-news-t').textContent=e.target.checked?'Sí':'No'; }); dlg.querySelector('#enq-form').addEventListener('submit',function(e){ e.preventDefault(); sendEnquiry(dlg); }); }
+    var com=dlg.querySelector('#enq-com'), pre=[];
+    var labels={amigos:'un grupo de amigos',familias:'una familia',parejas:'una pareja'};
+    if(o.traveller) pre.push('Viajamos como '+(labels[o.traveller]||o.traveller)+'.');
+    if(o.trip){ var t=E.trip(o.trip); pre.push('Me interesa el viaje: '+(t?t.title:o.trip)+'.'); }
+    if(pre.length && !com.value.trim()) com.value=pre.join(' ');
+    if(dlg.showModal){ if(!dlg.open) dlg.showModal(); } else dlg.setAttribute('open','');
+    lockScroll(true);
+    var b=dlg.querySelector('.enq-body'); if(b) b.scrollTop=0;
+    var f=dlg.querySelector('input[name=dest]'); if(f) f.focus();
+  };
+  function fieldVal(form,n){ var el=form.elements[n]; return el?String(el.value||'').trim():''; }
+  function sendEnquiry(dlg){
+    var f=dlg.querySelector('#enq-form'), err=dlg.querySelector('#enq-err'), errs=[], first=null;
+    function bad(id,msg){ errs.push(msg); var el=dlg.querySelector('#'+id); if(el){ el.setAttribute('aria-invalid','true'); if(!first) first=el; } }
+    Array.prototype.forEach.call(f.querySelectorAll('[aria-invalid]'),function(x){x.removeAttribute('aria-invalid');});
+    var nom=fieldVal(f,'nom'), ape=fieldVal(f,'ape'), mail=fieldVal(f,'mail'), mail2=fieldVal(f,'mail2'), tel=fieldVal(f,'tel');
+    if(!nom) bad('enq-nom','Escribe tu nombre.');
+    if(!ape) bad('enq-ape','Escribe tus apellidos.');
+    if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(mail)) bad('enq-mail','Escribe un email válido.');
+    else if(mail.toLowerCase()!==mail2.toLowerCase()) bad('enq-mail2','Los dos emails no coinciden.');
+    if(!/[0-9]{6,}/.test(tel.replace(/[\s.\-()]/g,''))) bad('enq-tel','Escribe un teléfono válido.');
+    if(errs.length){ err.textContent=errs.join(' '); if(first) first.focus(); return; }
+    err.textContent='';
+    var dest=Array.prototype.map.call(f.querySelectorAll('input[name=dest]:checked'),function(x){return x.value;}).join(', ')||'Sin indicar';
+    var mes=fieldVal(f,'mes'), anio=fieldVal(f,'anio');
+    var cuando=(mes||anio)?((mes+' '+anio).trim()):'Sin indicar';
+    var news=f.elements.news.checked?'Sí':'No';
+    var lines=['Hola, quisiera consultar un viaje a Vietnam.','',
+      'TU VIAJE',
+      'Destino: '+dest,
+      'Cuándo: '+cuando,
+      'Días: '+(fieldVal(f,'dias')||'Sin indicar'),
+      'Personas: '+(fieldVal(f,'pers')||'Sin indicar'),
+      'Presupuesto orientativo por persona: '+(fieldVal(f,'pres')||'Sin indicar'),
+      'Comentarios: '+(fieldVal(f,'com')||'—'),'',
+      'MIS DATOS',
+      'Nombre: '+nom+' '+ape,
+      'Email: '+mail,
+      'Teléfono: '+(f.elements.pref.value==='otro'?'':f.elements.pref.value+' ')+tel,
+      'Cómo nos conoció: '+(fieldVal(f,'como')||'Sin indicar'),
+      'Quiere recibir novedades: '+news];
+    var msg=lines.join('\n');
+    var wa=E.waLink(msg), ml=E.mailLink('Consulta de viaje a Vietnam', msg);
+    var body=dlg.querySelector('#enq-body');
+    body.innerHTML='<div class="enq-done" tabindex="-1"><h3>¡Gracias, '+E.esc(nom)+'!</h3>'+
+      '<p>Hemos abierto WhatsApp con tu consulta ya redactada. Solo tienes que pulsar «Enviar» en WhatsApp para que nos llegue.</p>'+
+      '<p><a class="btn" href="'+wa+'" target="_blank" rel="noopener">Abrir WhatsApp de nuevo</a></p>'+
+      '<p class="enq-alt">¿Prefieres el correo? <a href="'+ml+'">Enviar la consulta por email</a></p>'+
+      '<p><button type="button" class="btn ghost small" data-enq-close>Cerrar</button></p></div>';
+    var done=body.querySelector('.enq-done'); if(done) done.focus();
+    dlg.scrollTop=0; body.scrollTop=0;
+    window.open(wa,'_blank','noopener');
+  }
+  document.addEventListener('click',function(e){
+    var t=e.target.closest && e.target.closest('[data-enquire]');
+    if(!t) return;
+    e.preventDefault();
+    E.openEnquiry({traveller:t.getAttribute('data-traveller')||'',trip:t.getAttribute('data-trip')||''});
+  });
+
+  /* ---------- pie ---------- */
+  function footerHTML(){
+    var zonas=Object.keys(E.ZONAS).map(function(z){return '<li><a href="destinos.html?zona='+z+'">'+E.esc(E.ZONAS[z])+'</a></li>';}).join('');
+    var cats=Object.keys(E.CATS).map(function(c){return '<li><a href="viajes.html?cat='+c+'">'+E.esc(E.CATS[c])+'</a></li>';}).join('');
+    return '<footer class="site-footer">'+
+      '<div class="ft-sub"><div class="container ft-sub-in"><div><h2>Recibe ideas de viaje por Vietnam</h2><p>Sin spam. Puedes darte de baja cuando quieras.</p></div>'+
+      '<form class="ft-form" id="ft-form"><label class="sr" for="ft-nom">Nombre</label><input id="ft-nom" name="nom" type="text" placeholder="Nombre" autocomplete="given-name" required>'+
+      '<label class="sr" for="ft-mail">Email</label><input id="ft-mail" name="mail" type="email" placeholder="Email" autocomplete="email" required><button type="submit" class="btn">Suscribirme</button></form></div></div>'+
+      '<div class="container"><div class="ft-badges">'+E.todo('sellos y acreditaciones')+'</div>'+
+      '<div class="ft-cols">'+
+        '<div><h3>Esencia Vietnam</h3><ul><li><a href="#" data-enquire>Hablar con un experto</a></li><li><a href="contacto.html">Contacto</a></li><li><a href="opiniones.html">Opiniones</a></li></ul></div>'+
+        '<div><h3>Información útil</h3><ul><li><a href="guia.html">Guía de viaje</a></li><li><a href="mayores.html">Para mayores</a></li><li><a href="garantias.html">Garantías y políticas</a></li><li><a href="creditos.html">Créditos de fotos</a></li></ul></div>'+
+        '<div><h3>Destinos</h3><ul>'+zonas+'</ul></div>'+
+        '<div><h3>Experiencias</h3><ul>'+cats+'</ul></div>'+
+      '</div>'+
+      '<div class="ft-end"><span>Hanói, Vietnam</span><span>WhatsApp: <a href="'+E.waLink()+'" target="_blank" rel="noopener">'+E.esc(C.whatsappLabel)+'</a></span><span><a href="'+E.mailLink('Consulta')+'">'+E.esc(C.email)+'</a></span>'+
+      '<span>Licencia de operador de viajes internacionales: '+(C.licenseNumber?E.esc(C.licenseNumber):E.todo('número de licencia'))+'</span></div>'+
+      '</div></footer>';
+  }
+
   function render(){
     var page = location.pathname.split('/').pop() || 'index.html';
     var hd = document.getElementById('site-header');
     if(hd){
       hd.outerHTML = (C.demo?'<div class="demo-banner">Vista previa — algunos datos están pendientes de confirmar</div>':'')+
-        '<header class="site-header"><div class="container"><a class="brand" href="index.html" aria-label="'+C.brand+'"><img class="brand-logo" src="images/logo.png" alt="'+C.brand+'"></a>'+
-        '<button class="nav-toggle" aria-expanded="false" aria-controls="nav">Menú</button>'+
-        '<nav class="nav" id="nav" aria-label="Principal">'+E.navHTML(page)+
-        '</nav></div></header>';
-      var t=document.querySelector('.nav-toggle'), nv=document.getElementById('nav');
-      t.addEventListener('click',function(){var o=nv.classList.toggle('open');t.setAttribute('aria-expanded',o);});
+        '<header class="site-header"><div class="container hd-in">'+
+        '<a class="brand wordmark" href="index.html" aria-label="'+E.esc(C.brand)+' — inicio"><span class="wm-top">ESENCIA</span><span class="wm-sub" aria-hidden="true"><i></i>VIETNAM<i></i></span></a>'+
+        '<nav class="nav" id="nav" aria-label="Principal">'+E.navHTML(page)+'</nav>'+
+        '<div class="hd-actions">'+
+        '<button type="button" class="hamburger" aria-label="Abrir menú" aria-expanded="false" aria-controls="menu-panel"><svg viewBox="0 0 28 28" width="28" height="28" aria-hidden="true"><path d="M4 8h20M4 14h20M4 20h20" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></button>'+
+        '<button type="button" class="btn hd-cta" data-enquire>Consultar ahora</button>'+
+        '</div></div></header>'+
+        '<div class="menu-wrap" id="menu-wrap" hidden>'+menuHTML()+'</div>';
+      var hb=document.querySelector('.hamburger'), mw=document.getElementById('menu-wrap');
+      hb.addEventListener('click',function(){ openMenu(hb); });
+      mw.addEventListener('click',function(e){
+        if(e.target.closest('[data-menu-close]')) closeMenu();
+        else if(e.target.closest('a[href]') && !e.target.closest('a[target=_blank]')) closeMenu(true);
+      });
+      mw.addEventListener('keydown',function(e){ trapTab(document.getElementById('menu-panel'),e); });
+      document.addEventListener('keydown',function(e){
+        if(e.key==='Escape' && mw.classList.contains('open')){ var d=document.getElementById('enquire'); if(!(d&&d.open)) closeMenu(); }
+      });
     }
     var ft = document.getElementById('site-footer');
     if(ft){
-      ft.outerHTML = '<footer class="site-footer"><div class="container"><div class="grid c3">'+
-        '<div><h4>'+C.brand+'</h4><p>Viajes privados por Vietnam para familias de varias generaciones y grupos de amigos. Atención en español.</p></div>'+
-        '<div><h4>Contacto</h4><ul><li>WhatsApp: <a href="'+E.waLink()+'">'+C.whatsappLabel+'</a></li><li><a href="'+E.mailLink('Consulta')+'">'+C.email+'</a></li><li><a href="contacto.html">Solicitar presupuesto</a></li></ul></div>'+
-        '<div><h4>Información</h4><ul><li><a href="garantias.html">Garantías y políticas</a></li><li><a href="opiniones.html">Opiniones</a></li><li><a href="guia.html">Guía de viaje</a></li><li><a href="creditos.html">Créditos de fotos</a></li></ul></div></div>'+
-        '<div class="legal">Licencia de operador de viajes internacionales: '+(C.licenseNumber?E.esc(C.licenseNumber):E.todo('número de licencia'))+'</div></div></footer>';
+      ft.outerHTML = footerHTML();
+      var sf=document.getElementById('ft-form');
+      if(sf) sf.addEventListener('submit',function(e){
+        e.preventDefault();
+        var n=sf.elements.nom.value.trim(), m=sf.elements.mail.value.trim();
+        location.href=E.mailLink('Suscripción','Nombre: '+n+'\nEmail: '+m+'\nQuiero suscribirme a las novedades de Esencia Vietnam.');
+      });
     }
     if(!document.querySelector('.wa-fab')){
       var a=document.createElement('a'); a.className='wa-fab'; a.href=E.waLink('Hola, quisiera información sobre un viaje a Vietnam.'); a.target='_blank'; a.rel='noopener'; a.textContent='WhatsApp'; document.body.appendChild(a);
