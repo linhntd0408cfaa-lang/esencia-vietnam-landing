@@ -4,7 +4,7 @@ window.ESENCIA_DATA = {
     brand: 'Esencia Vietnam',
     whatsapp: '84829973678',
     whatsappLabel: '+84 82 997 3678',
-    email: 'piutravel9818@gmail.com',
+    email: 'esenciavietnam@gmail.com',
     tripadvisor: 'https://www.tripadvisor.com.vn/Attraction_Review-g293924-d28038416-Reviews-Piu_Piu_Travel-Hanoi.html',
     demo: true,          // muestra la banda "vista previa"
     showPrices: false,   // sin precios por ahora
