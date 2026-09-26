@@ -310,3 +310,16 @@ dialog.enquiry::backdrop{background:rgba(15,42,32,.6)}
 .sched{list-style:none;margin:10px 0;padding:0;border-left:2px solid var(--gold-soft)}
 .sched li{padding:5px 0 5px 16px;position:relative}
 .sched li b{display:inline-block;min-width:54px;color:var(--green-700)}
+
+
+/* ---- portada: vídeo a pantalla completa con menú transparente (estilo Black Tomato) ---- */
+body.home .demo-banner{position:absolute;top:0;left:0;right:0;z-index:70}
+body.home .site-header{position:fixed;top:30px;left:0;right:0;background:transparent;border-bottom:0;backdrop-filter:none;transition:background .3s,top .3s,box-shadow .3s}
+body.home .site-header.solid{top:0;background:rgba(251,248,241,.97);border-bottom:1px solid var(--line);backdrop-filter:blur(6px)}
+body.home .site-header:not(.solid) .wm-top,
+body.home .site-header:not(.solid) .wm-sub,
+body.home .site-header:not(.solid) .nav .nav-top,
+body.home .site-header:not(.solid) .nav a{color:#fff;text-shadow:0 1px 10px rgba(0,0,0,.45)}
+body.home .site-header:not(.solid) .wm-sub i{background:#e8d9bb}
+body.home .site-header:not(.solid) .hamburger{color:#fff}
+body.home .site-header:not(.solid) .hamburger svg{filter:drop-shadow(0 1px 6px rgba(0,0,0,.45))}

@@ -14,7 +14,7 @@
 <script src="assets/js/site.js"></script>
 <style>
 /* ---------- Hero ---------- */
-.hero-video{position:relative;min-height:calc(100vh - 80px);display:flex;align-items:center;text-align:center;padding:90px 0 110px;overflow:hidden;background:#17332a url(images/day3-ba-na-hills.jpg) center 35%/cover no-repeat;color:#fff}
+.hero-video{position:relative;min-height:100vh;min-height:100svh;display:flex;align-items:center;text-align:center;padding:130px 0 120px;overflow:hidden;background:#17332a url(images/day3-ba-na-hills.jpg) center 35%/cover no-repeat;color:#fff}
 .hero-video .hero-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0}
 .hero-video::before{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,rgba(15,30,24,.55),rgba(15,30,24,.35) 45%,rgba(15,30,24,.72))}
 .hero-video .hero-inner{position:relative;z-index:2}
@@ -51,6 +51,8 @@
 .trav{position:relative;display:flex;flex-direction:column;justify-content:flex-end;min-height:420px;border-radius:6px;overflow:hidden;color:#fff;text-decoration:none;padding:22px;background-color:var(--green-700);background-size:cover;background-position:center;cursor:pointer;border:0;font:inherit;text-align:left;width:100%}
 .trav::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(23,51,42,.15),rgba(23,51,42,.88));z-index:0}
 .trav.fallback{background-image:linear-gradient(160deg,#3f7060,#17332a)}
+.trav svg.ill{position:absolute;left:8%;right:8%;top:6%;height:52%;width:84%;z-index:0}
+.trav:not(.fallback) svg.ill{display:none}
 .trav>*{position:relative;z-index:1}
 .trav h3{color:#fff;font-size:clamp(26px,3.4vw,34px);margin:0 0 6px}
 .trav p{margin:0 0 10px;font-size:17px;color:#f1ebdc}
@@ -113,7 +115,7 @@
 <main>
   <!-- 1) HERO -->
   <section class="hero-video" aria-label="Portada">
-    <video class="hero-bg" id="hero-video" autoplay muted loop playsinline preload="metadata" poster="images/day3-ba-na-hills.jpg" aria-hidden="true"><source src="videos/hero.mp4" type="video/mp4"></video>
+    <video class="hero-bg" id="hero-video" autoplay muted loop playsinline preload="metadata" poster="images/day3-ba-na-hills.jpg" aria-hidden="true"></video>
     <div class="container hero-inner">
       <h1>El viaje premium y acogedor</h1>
       <p class="lead">Diseñado a medida, para cada viajero.</p>
@@ -166,17 +168,20 @@
       <div role="tabpanel" id="panel-viajero" aria-labelledby="tab-viajero">
         <!-- Fotos esperadas: images/viajero-amigos.jpg, images/viajero-familias.jpg, images/viajero-parejas.jpg -->
         <div class="trav-grid">
-          <a class="trav fallback" href="viajes.html?grupo=amigos" data-img="images/viajero-amigos.jpg" data-fb="images/day2-hoi-an.jpg">
+          <a class="trav fallback" href="viajes.html?grupo=amigos" data-img="images/viajero-amigos.jpg">
+            <svg class="ill" viewBox="0 0 200 200" aria-hidden="true" preserveAspectRatio="xMidYMax meet"><g fill="#e8d9bb" opacity=".92"><circle cx="30.0" cy="91.2" r="11.2"/><rect x="16.0" y="107.4" width="28.0" height="68.6" rx="11.8"/><circle cx="66.0" cy="83.2" r="11.2"/><rect x="52.0" y="99.4" width="28.0" height="76.6" rx="11.8"/><circle cx="102.0" cy="89.2" r="11.2"/><rect x="88.0" y="105.4" width="28.0" height="70.6" rx="11.8"/><circle cx="138.0" cy="81.2" r="11.2"/><rect x="124.0" y="97.4" width="28.0" height="78.6" rx="11.8"/><circle cx="172.0" cy="92.8" r="10.8"/><rect x="158.5" y="108.6" width="27.0" height="67.4" rx="11.3"/></g><g fill="none" stroke="#e8d9bb" stroke-width="2" opacity=".8"><path d="M20 176 H186"/></g></svg>
             <h3>Grupos de amigos</h3>
             <p>Vuestro grupo, vuestro ritmo. Viajes privados pensados para compartir.</p>
             <span class="btn small light">Ver viajes</span>
           </a>
-          <a class="trav fallback" href="viajes.html?grupo=familias" data-img="images/viajero-familias.jpg" data-fb="images/stop-cam-thanh.jpg">
+          <a class="trav fallback" href="viajes.html?grupo=familias" data-img="images/viajero-familias.jpg">
+            <svg class="ill" viewBox="0 0 200 200" aria-hidden="true" preserveAspectRatio="xMidYMax meet"><g fill="#e8d9bb" opacity=".92"><circle cx="28.0" cy="87.2" r="11.2"/><rect x="14.0" y="103.4" width="28.0" height="72.6" rx="11.8"/><circle cx="60.0" cy="91.2" r="11.2"/><rect x="46.0" y="107.4" width="28.0" height="68.6" rx="11.8"/><circle cx="98.0" cy="82.0" r="12.0"/><rect x="83.0" y="99.0" width="30.0" height="77.0" rx="12.6"/><circle cx="132.0" cy="85.6" r="11.6"/><rect x="117.5" y="102.2" width="29.0" height="73.8" rx="12.2"/><circle cx="162.0" cy="117.6" r="7.6"/><rect x="152.5" y="130.2" width="19.0" height="45.8" rx="8.0"/><circle cx="184.0" cy="124.8" r="6.8"/><rect x="175.5" y="136.6" width="17.0" height="39.4" rx="7.1"/></g><g fill="none" stroke="#e8d9bb" stroke-width="2" opacity=".8"><path d="M20 176 H192"/></g></svg>
             <h3>Familias</h3>
             <p>Varias generaciones juntas, con el ritmo que marcan los mayores.</p>
             <span class="btn small light">Ver viajes</span>
           </a>
-          <a class="trav fallback" href="viajes.html?grupo=parejas" data-img="images/viajero-parejas.jpg" data-fb="images/trip-ha-long.jpg">
+          <a class="trav fallback" href="viajes.html?grupo=parejas" data-img="images/viajero-parejas.jpg">
+            <svg class="ill" viewBox="0 0 200 200" aria-hidden="true" preserveAspectRatio="xMidYMax meet"><g fill="#e8d9bb" opacity=".92"><circle cx="84.0" cy="80.8" r="12.8"/><rect x="68.0" y="98.6" width="32.0" height="77.4" rx="13.4"/><circle cx="118.0" cy="84.8" r="12.8"/><rect x="102.0" y="102.6" width="32.0" height="73.4" rx="13.4"/></g><g fill="none" stroke="#e8d9bb" stroke-width="2" opacity=".85"><circle cx="101" cy="46" r="15"/><path d="M40 176 H162"/></g></svg>
             <h3>Parejas</h3>
             <p>Un viaje tranquilo y a medida, para dos.</p>
             <span class="btn small light">Ver viajes</span>
@@ -278,7 +283,6 @@
 <div id="site-footer"></div>
 <script>
 E.ready(function(){
-  E.snow();
   var D=E.D, C=E.C||{};
   var trips=(D.trips||[]).slice();
 
@@ -372,6 +376,8 @@ E.ready(function(){
 (function(){
   var v=document.getElementById('hero-video'), tg=document.getElementById('vid-toggle');
   if(v){
+    v.src=matchMedia('(max-width:700px)').matches?'videos/hero-m.mp4':'videos/hero.mp4';
+    v.muted=true; v.loop=true; var pp=v.play(); if(pp&&pp.catch) pp.catch(function(){});
     var drop=function(){if(v.parentNode)v.remove();if(tg)tg.hidden=true;};
     v.addEventListener('error',drop,true);
     var s=v.querySelector('source'); if(s) s.addEventListener('error',drop);
@@ -388,6 +394,8 @@ E.ready(function(){
       v.addEventListener('play',ic);v.addEventListener('pause',ic);
     }
   }
+  document.body.classList.add('home');
+  E.ready(function(){ var hd=document.querySelector('.site-header'); function up(){ if(hd) hd.classList.toggle('solid',window.scrollY>60); } window.addEventListener('scroll',up,{passive:true}); up(); });
   var c=document.getElementById('scroll-cue');
   if(c) c.addEventListener('click',function(){window.scrollTo({top:document.querySelector('.hero-video').offsetHeight,behavior:'smooth'});});
 })();
