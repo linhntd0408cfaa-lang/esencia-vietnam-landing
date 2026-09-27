@@ -24,6 +24,14 @@
 .stoplist .nm{font-weight:600;color:var(--green-900)}
 .stoplist .mt{font-size:13px;color:var(--muted)}
 .stoplist .acts{display:flex;gap:6px;align-items:center}
+.zbtns{display:flex;gap:10px;flex-wrap:wrap}
+.zbtn{background:#fff;border:2px solid var(--green-900);color:var(--green-900)}
+.zbtn.on{background:var(--green-900);color:#fff}
+.zona-stops{margin-top:16px}
+.chiplist{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:8px}
+.chiplist li{background:#fff;border:1px solid var(--line);border-radius:999px;padding:6px 14px;font-size:14.5px}
+.chiplist li.on{background:var(--gold-soft);border-color:var(--gold);font-weight:600}
+
 .opts{display:flex;gap:14px;flex-wrap:wrap;align-items:end;margin-bottom:16px}
 .opts .field{margin:0}
 .board{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px;align-items:start}
@@ -126,18 +134,27 @@ h2[tabindex="-1"]:focus-visible,h1[tabindex="-1"]:focus-visible{outline:3px soli
       <button type="button" class="btn ghost small" id="days-plus">+1 día</button>
     </div>
 
-    <div class="step-head" style="margin-top:28px"><h3>Elige paradas en el mapa o en la lista</h3></div>
-    <form class="filters" onsubmit="return false" aria-label="Filtros de paradas">
-      <div class="field"><label for="f-region">Región</label><select id="f-region"><option value="">Todas</option></select></div>
-      <div class="field"><label for="f-type">Tipo</label><select id="f-type"><option value="">Todos</option></select></div>
-      <div class="field"><label for="f-walk">Caminata</label><select id="f-walk"><option value="">Cualquiera</option></select></div>
-      <div class="field"><label for="f-add-day">Añadir al día</label><select id="f-add-day"></select></div>
-      <div class="field"><label><input type="checkbox" id="f-season"> Solo en su mejor época (según el mes)</label></div>
-    </form>
-    <div class="bld">
-      <div><div id="bmap" class="map" role="region" aria-label="Mapa de paradas"></div><p class="route" id="bmap-note" style="margin-top:8px">Pulsa un marcador y usa «Añadir a mi viaje». La lista de al lado hace lo mismo sin mapa.</p></div>
-      <div><p class="count route" id="count" aria-live="polite"></p><ul class="stoplist" id="stoplist"></ul></div>
+    <div class="step-head" style="margin-top:28px"><h3>1. Puntos de referencia</h3>
+      <p class="lead">Elige una región para ver sus paradas.</p></div>
+    <div class="zbtns" role="group" aria-label="Región de Vietnam">
+      <button type="button" class="btn zbtn" data-zona="norte">Norte de Vietnam</button>
+      <button type="button" class="btn zbtn" data-zona="centro">Centro de Vietnam</button>
+      <button type="button" class="btn zbtn" data-zona="sur">Sur de Vietnam</button>
     </div>
+    <div class="zona-stops" id="zona-stops" hidden>
+      <p class="route" id="zona-stops-count"></p>
+      <ul class="chiplist" id="zona-stops-list"></ul>
+    </div>
+    <div id="bmap-wrap" style="margin-top:16px" hidden><div id="bmap" class="map" role="region" aria-label="Mapa de la región elegida"></div><p class="route" id="bmap-note" style="margin-top:8px">Cada marcador es una de las paradas de esta región.</p></div>
+
+    <div class="step-head" style="margin-top:28px"><h3>2. Añade una parada</h3>
+      <p class="lead">Elige una de la lista, o escribe la vuestra en «Otro lugar».</p></div>
+    <form class="filters" onsubmit="return false" aria-label="Añadir parada">
+      <div class="field"><label for="pick-stop">Parada</label><select id="pick-stop"><option value="">Elige una región primero…</option></select></div>
+      <div class="field" id="pick-other-wrap" hidden><label for="pick-other">¿Qué lugar?</label><input id="pick-other" type="text" placeholder="Escribe el nombre del lugar"></div>
+      <div class="field"><label for="f-add-day">Añadir al día</label><select id="f-add-day"></select></div>
+      <button type="button" class="btn" id="pick-add">Añadir</button>
+    </form>
 
     <div class="step-head" style="margin-top:28px"><h3>Organiza tus días</h3>
       <p class="lead">Te avisamos si un día queda demasiado cargado (recomendamos no más de 2 paradas principales al día). Si echas en falta un lugar, escríbelo en «Otro lugar» dentro del día que quieras.</p></div>
@@ -250,7 +267,6 @@ E.ready(function(){
   MONTHS.forEach(function(m,i){var o=document.createElement('option');o.value=i+1;o.textContent=cap(m);$('g-month').appendChild(o);});
   function uniq(k){var r=[];E.D.stops.forEach(function(s){if(r.indexOf(s[k])<0)r.push(s[k]);});return r;}
   function fill(sel,vals,label){vals.forEach(function(v){var o=document.createElement('option');o.value=v;o.textContent=label(v);sel.appendChild(o);});}
-  fill($('f-region'),uniq('region'),E.regionName); fill($('f-type'),uniq('type'),cap); fill($('f-walk'),['bajo','medio','alto'],E.walkLabel);
 
   /* ---------- acciones sobre días ---------- */
   function addStop(id,dayIdx){
@@ -293,23 +309,24 @@ E.ready(function(){
   }
   function say(t){ $('live').textContent=t; }
 
-  /* ---------- lista de paradas ---------- */
-  function filtered(){
-    var r=$('f-region').value,t=$('f-type').value,w=$('f-walk').value,se=$('f-season').checked;
-    return E.D.stops.filter(function(s){return (!r||s.region===r)&&(!t||s.type===t)&&(!w||s.walking===w)&&(!se||inSeason(s));});
-  }
+  /* ---------- región y selector único de paradas ---------- */
+  var zona='';
+  function stopsInZona(z){ return E.D.stops.filter(function(s){ return E.macro(s.region)===z; }); }
   function renderList(){
-    var l=filtered();
-    $('count').textContent=l.length+(l.length===1?' parada':' paradas');
-    var senior=(st.group==='mayores'||st.group==='multigeneracional');
-    $('stoplist').innerHTML=l.length?l.map(function(s){
-      var added=inTrip(s.id), warn=[];
-      if(senior&&s.walking==='alto') warn.push('<span class="tag warnt">Mucha caminata</span>');
-      if(st.month&&!inSeason(s)) warn.push('<span class="tag warnt">Fuera de mejor época</span>');
-      return '<li><div><div class="nm">'+E.esc(s.name)+'</div><div class="mt">'+E.regionName(s.region)+' · '+E.esc(s.duration)+' · '+E.walkLabel(s.walking)+'</div>'+(warn.length?'<div class="tags" style="margin-top:4px">'+warn.join('')+'</div>':'')+'</div>'+
-        '<div class="acts"><a class="btn small ghost" href="destino.html?id='+encodeURIComponent(s.id)+'" target="_blank" rel="noopener">Ver</a>'+
-        (added?'<button type="button" class="btn small ghost" data-rm="'+E.esc(s.id)+'">Quitar</button>':'<button type="button" class="btn small" data-add="'+E.esc(s.id)+'">Añadir</button>')+'</div></li>';
-    }).join(''):'<li>No hay paradas con estos filtros.</li>';
+    var l=zona?stopsInZona(zona):[];
+    $('zona-stops').hidden=!zona;
+    $('bmap-wrap').hidden=!zona;
+    if(zona){
+      $('zona-stops-count').textContent=l.length+(l.length===1?' parada en ':' paradas en ')+E.ZONAS[zona]+'.';
+      $('zona-stops-list').innerHTML=l.map(function(s){return '<li class="'+(inTrip(s.id)?'on':'')+'">'+E.esc(s.name)+(inTrip(s.id)?' ✓':'')+'</li>';}).join('');
+      ensureMap();
+    }
+    var sel=$('pick-stop'), cur=sel.value;
+    sel.innerHTML=(zona?'<option value="">Elige…</option>':'<option value="">Elige una región primero…</option>')+
+      l.map(function(s){return '<option value="'+E.esc(s.id)+'"'+(inTrip(s.id)?' disabled':'')+'>'+E.esc(s.name)+(inTrip(s.id)?' (ya añadida)':'')+'</option>';}).join('')+
+      (zona?'<option value="__other__">Otro lugar (escríbelo)</option>':'');
+    if(l.some(function(s){return s.id===cur;})) sel.value=cur; else if(cur==='__other__') sel.value='__other__';
+    $('pick-other-wrap').hidden=(sel.value!=='__other__');
     renderMarkers(l);
   }
 
@@ -326,12 +343,12 @@ E.ready(function(){
         (added?'<em>Ya está en tu viaje</em>':'<button type="button" data-add="'+E.esc(s.id)+'">Añadir a mi viaje</button>'));
       pts.push([s.lat,s.lng]);
     });
-    if(pts.length && !renderMarkers.fitted){ map.fitBounds(pts,{padding:[30,30],maxZoom:12}); renderMarkers.fitted=true; }
+    if(pts.length && renderMarkers.fitted!==zona){ map.fitBounds(pts,{padding:[30,30],maxZoom:12}); renderMarkers.fitted=zona; }
   }
   function ensureMap(){
     if(map) return;
     E.loadLeaflet(function(){
-      try{ map=E.newMap($('bmap')); layer=L.layerGroup().addTo(map); renderMarkers(filtered()); }
+      try{ map=E.newMap($('bmap')); layer=L.layerGroup().addTo(map); renderMarkers(zona?stopsInZona(zona):[]); }
       catch(e){ $('bmap-note').textContent='No se pudo cargar el mapa; usa la lista.'; }
     });
     setTimeout(function(){ if(!window.L) $('bmap-note').textContent='No se pudo cargar el mapa; usa la lista.'; },8000);
@@ -542,7 +559,20 @@ E.ready(function(){
     var id=dragId; dragId=null; focusNext={attr:'data-up',id:id}; moveStop(id,day,idx);
   });
 
-  ['f-region','f-type','f-walk','f-season'].forEach(function(id){$(id).addEventListener('change',renderList);});
+  document.querySelectorAll('.zbtn').forEach(function(b){
+    b.addEventListener('click',function(){
+      zona=b.getAttribute('data-zona');
+      document.querySelectorAll('.zbtn').forEach(function(x){x.classList.toggle('on',x===b);});
+      renderList();
+    });
+  });
+  $('pick-stop').addEventListener('change',function(){ $('pick-other-wrap').hidden=(this.value!=='__other__'); });
+  $('pick-add').addEventListener('click',function(){
+    var v=$('pick-stop').value, day=parseInt($('f-add-day').value,10)||0;
+    if(!v) return;
+    if(v==='__other__'){ var t=$('pick-other').value; if(!t||!t.trim()) return; addCustom(t,day); $('pick-other').value=''; }
+    else addStop(v,day);
+  });
   $('f-add-day').addEventListener('change',function(){ st.active=parseInt(this.value,10)||0; save(); });
 
   $('days-update').addEventListener('click',function(){ setDaysCount($('days-count').value); });
