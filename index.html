@@ -376,7 +376,8 @@ E.ready(function(){
 (function(){
   var v=document.getElementById('hero-video'), tg=document.getElementById('vid-toggle');
   if(v){
-    v.src=matchMedia('(max-width:700px)').matches?'videos/hero-m.mp4':'videos/hero.mp4';
+    var vp=Math.max(window.innerWidth*(window.devicePixelRatio||1),0);
+    v.src='videos/hero.mp4?v=4';
     v.muted=true; v.loop=true; var pp=v.play(); if(pp&&pp.catch) pp.catch(function(){});
     var drop=function(){if(v.parentNode)v.remove();if(tg)tg.hidden=true;};
     v.addEventListener('error',drop,true);
