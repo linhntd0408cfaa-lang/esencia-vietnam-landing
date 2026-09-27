@@ -323,3 +323,9 @@ body.home .site-header:not(.solid) .nav a{color:#fff;text-shadow:0 1px 10px rgba
 body.home .site-header:not(.solid) .wm-sub i{background:#e8d9bb}
 body.home .site-header:not(.solid) .hamburger{color:#fff}
 body.home .site-header:not(.solid) .hamburger svg{filter:drop-shadow(0 1px 6px rgba(0,0,0,.45))}
+
+/* ---- confirmación del formulario de novedades ---- */
+.ft-form-msg{flex-basis:100%;margin:8px 0 0;color:#fff;font-weight:600;font-size:14.5px}
+
+/* ---- confirmación del formulario de novedades ---- */
+.ft-form-msg{flex-basis:100%;margin:8px 0 0;color:#fff;font-weight:600;font-size:14.5px}

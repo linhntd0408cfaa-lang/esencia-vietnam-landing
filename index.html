@@ -78,14 +78,22 @@
 /* ---------- Carrusel ---------- */
 .car-head{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap;margin-bottom:22px}
 .car-head h2{margin:0}
+.car-head-center{flex-direction:column;align-items:center;text-align:center;margin-bottom:30px}
+.two-ways{display:grid;gap:16px;grid-template-columns:1fr;max-width:720px;margin:26px auto 0;width:100%}
+@media(min-width:640px){.two-ways{grid-template-columns:1fr 1fr}}
+.two-way-card{display:flex;flex-direction:column;gap:8px;align-items:flex-start;text-align:left;background:#fff;border:1px solid var(--line);border-radius:10px;padding:22px;text-decoration:none;color:inherit;transition:box-shadow .2s,transform .2s}
+.two-way-card:hover,.two-way-card:focus-visible{box-shadow:0 10px 24px rgba(23,51,42,.12);transform:translateY(-2px)}
+.two-way-h{font-family:var(--serif);font-size:19px;color:var(--green-900);font-weight:700}
+.two-way-p{color:var(--muted);font-size:15px}
+.two-way-card .btn{margin-top:6px;pointer-events:none}
+.car-nav{display:flex;justify-content:center;gap:10px;margin-bottom:14px}
 .car-wrap{position:relative}
 .car{list-style:none;margin:0;padding:4px 2px 18px;display:flex;gap:20px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;-webkit-overflow-scrolling:touch}
 .car>li{flex:0 0 min(84vw,340px);scroll-snap-align:start;display:flex}
 .car>li>.card{width:100%}
-.car-btns{display:flex;gap:10px}
-.car-btns button{width:52px;height:52px;border-radius:50%;border:2px solid var(--green-900);background:#fff;color:var(--green-900);font-size:24px;cursor:pointer;line-height:1}
-.car-btns button:hover{background:var(--green-900);color:#fff}
-.car-btns button:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
+.car-nav button{width:52px;height:52px;border-radius:50%;border:2px solid var(--green-900);background:#fff;color:var(--green-900);font-size:24px;cursor:pointer;line-height:1}
+.car-nav button:hover{background:var(--green-900);color:#fff}
+.car-nav button:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
 .car:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
 @media(prefers-reduced-motion:reduce){.car{scroll-behavior:auto}}
 /* ---------- Qué hacemos ---------- */
@@ -155,6 +163,21 @@
     </div>
   </section>
 
+  <!-- 3b) FILOSOFÍA — el camino -->
+  <section class="section alt philo">
+    <div class="container">
+      <div class="in">
+        <p class="kicker">Cómo trabajamos</p>
+        <h2>Todo viaje abre un camino</h2>
+        <p>Y nosotros somos quienes lo trazamos.</p>
+        <p>Antes de ser una empresa, fuimos guías. Recorrimos Vietnam paso a paso, aprendiendo qué ritmo pide cada lugar y qué detalle marca la diferencia entre visitarlo y de verdad entenderlo.</p>
+        <p>Ese camino no lo dibuja un mapa genérico: lo trazamos con vosotros, según quién viaja, cuánto tiempo tenéis y qué queréis sentir al llegar.</p>
+        <p>Por eso no vendemos rutas cerradas. Cada itinerario nace de una conversación, se ajusta con vuestras respuestas y termina siendo un camino que solo existe para vuestro grupo.</p>
+        <p>Nosotros ya lo hemos recorrido antes. Ahora os toca a vosotros — y vamos con vosotros, paso a paso.</p>
+      </div>
+    </div>
+  </section>
+
   <!-- 4) EMPIEZA TU VIAJE -->
   <section class="section alt" id="empezar">
     <div class="container">
@@ -204,19 +227,29 @@
   <!-- 5) EXPLORA -->
   <section class="section" id="explora">
     <div class="container">
-      <div class="car-head">
-        <div>
-          <p class="kicker">Viajes sugeridos</p>
-          <h2>Explora nuestros viajes</h2>
-          <p style="margin:6px 0 0;font-size:18px">Rutas ya pensadas, con tiempo para disfrutar. Todas se pueden ajustar.</p>
-        </div>
-        <div class="car-btns">
-          <button type="button" id="car-prev" aria-label="Viajes anteriores">&#8592;</button>
-          <button type="button" id="car-next" aria-label="Más viajes">&#8594;</button>
+      <div class="car-head car-head-center">
+        <p class="kicker">Viajes sugeridos</p>
+        <h2>Explora nuestros viajes</h2>
+        <p style="margin:6px 0 0;font-size:18px">Rutas ya pensadas, con tiempo para disfrutar. Todas se pueden ajustar.</p>
+        <div class="two-ways">
+          <a class="two-way-card" href="destinos.html">
+            <span class="two-way-h">¿Queréis ver destinos, uno a uno?</span>
+            <span class="two-way-p">Explorad cada lugar por separado, con mapa y detalles.</span>
+            <span class="btn small ghost">Ver destinos</span>
+          </a>
+          <a class="two-way-card" href="viajes.html">
+            <span class="two-way-h">¿Preferís ver viajes ya armados?</span>
+            <span class="two-way-p">Itinerarios completos, día a día, listos para ajustar.</span>
+            <span class="btn small ghost">Ver experiencias</span>
+          </a>
         </div>
       </div>
+      <div class="car-nav">
+        <button type="button" id="car-prev" aria-label="Viajes anteriores">&#8592;</button>
+        <button type="button" id="car-next" aria-label="Más viajes">&#8594;</button>
+      </div>
       <div class="car-wrap"><ul class="car" id="car" tabindex="0" aria-label="Carrusel de viajes"></ul></div>
-      <p style="margin-top:6px"><a href="viajes.html" style="font-weight:700;font-size:18px">Ver todos →</a></p>
+      <p style="margin-top:6px;text-align:center"><a href="viajes.html" style="font-weight:700;font-size:18px">Ver todos →</a></p>
     </div>
   </section>
 

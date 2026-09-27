@@ -96,7 +96,7 @@
     var s=document.createElement('script'); s.src='https://unpkg.com/leaflet@1.9.4/dist/leaflet.js'; s.onload=cb; document.head.appendChild(s);
   };
   E.newMap = function(el){
-    var m = L.map(el,{scrollWheelZoom:false,minZoom:5,maxBounds:[[6.5,100.5],[25.5,112.5]],maxBoundsViscosity:.8}).setView([16.0,107.6],6);
+    var m = L.map(el,{scrollWheelZoom:false,minZoom:6,maxBounds:[[7.5,101.5],[24,110.5]],maxBoundsViscosity:1}).setView([16.0,107.2],6);
     var osm = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:18,attribution:'© OpenStreetMap contributors'}).addTo(m), swapped=false;
     osm.on('tileerror',function(){ if(swapped) return; swapped=true; m.removeLayer(osm); L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}',{maxZoom:18,attribution:'Tiles © Esri'}).addTo(m); });
     return m;
@@ -296,7 +296,7 @@
     return '<footer class="site-footer">'+
       '<div class="ft-sub"><div class="container ft-sub-in"><div><h2>Recibe ideas de viaje por Vietnam</h2><p>Sin spam. Puedes darte de baja cuando quieras.</p></div>'+
       '<form class="ft-form" id="ft-form"><label class="sr" for="ft-nom">Nombre</label><input id="ft-nom" name="nom" type="text" placeholder="Nombre" autocomplete="given-name" required>'+
-      '<label class="sr" for="ft-mail">Email</label><input id="ft-mail" name="mail" type="email" placeholder="Email" autocomplete="email" required><button type="submit" class="btn">Suscribirme</button></form></div></div>'+
+      '<label class="sr" for="ft-mail">Email</label><input id="ft-mail" name="mail" type="email" placeholder="Email" autocomplete="email" required><button type="submit" class="btn">Suscribirme</button></form><p class="ft-form-msg" id="ft-form-msg" hidden></p></div></div>'+
       '<div class="container"><div class="ft-badges">'+E.todo('sellos y acreditaciones')+'</div>'+
       '<div class="ft-cols">'+
         '<div><h3>Esencia Vietnam</h3><ul><li><a href="#" data-enquire>Hablar con un experto</a></li><li><a href="contacto.html">Contacto</a></li><li><a href="opiniones.html">Opiniones</a></li></ul></div>'+
@@ -340,7 +340,10 @@
       if(sf) sf.addEventListener('submit',function(e){
         e.preventDefault();
         var n=sf.elements.nom.value.trim(), m=sf.elements.mail.value.trim();
-        location.href=E.mailLink('Suscripción','Nombre: '+n+'\nEmail: '+m+'\nQuiero suscribirme a las novedades de Esencia Vietnam.');
+        window.open(E.waLink('Hola, quiero apuntarme a las novedades de viaje. Nombre: '+n+'. Email: '+m+'.'),'_blank');
+    var msg=document.getElementById('ft-form-msg');
+    if(msg){ msg.hidden=false; msg.textContent='¡Gracias, '+n+'! Te hemos abierto WhatsApp para confirmarlo — si no se abrió, escríbenos directamente.'; }
+    sf.reset();
       });
     }
     if(!document.querySelector('.wa-fab')){

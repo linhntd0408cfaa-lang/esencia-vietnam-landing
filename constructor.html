@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex">
 <title>Diseña tu viaje — Esencia Vietnam</title>
-<meta name="description" content="Elige paradas en el mapa, organízalas por días con aviso de ritmo y envíanos tu borrador por WhatsApp o email.">
+<meta name="description" content="Cuéntanos sobre tu grupo, elige si quieres diseñar tu propio itinerario o ver uno ya pensado, y envíanos tu borrador por WhatsApp o email.">
 <link rel="stylesheet" href="assets/css/site.css">
 <script src="data/site.js"></script>
 <script src="data/trips.js"></script>
@@ -18,13 +18,13 @@
 .notice[hidden]{display:none}
 .bld{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:24px;align-items:start}
 @media(max-width:900px){.bld{grid-template-columns:1fr}}
-#bmap{height:440px}
-.stoplist{list-style:none;margin:0;padding:0;max-height:440px;overflow:auto;display:grid;gap:8px}
+#bmap,#rmap{height:400px}
+.stoplist{list-style:none;margin:0;padding:0;max-height:400px;overflow:auto;display:grid;gap:8px}
 .stoplist li{background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px 12px;display:flex;gap:10px;justify-content:space-between;align-items:center;flex-wrap:wrap}
 .stoplist .nm{font-weight:600;color:var(--green-900)}
 .stoplist .mt{font-size:13px;color:var(--muted)}
 .stoplist .acts{display:flex;gap:6px;align-items:center}
-.opts{display:flex;gap:14px;flex-wrap:wrap;align-items:end;margin-bottom:12px}
+.opts{display:flex;gap:14px;flex-wrap:wrap;align-items:end;margin-bottom:16px}
 .opts .field{margin:0}
 .board{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px;align-items:start}
 .col{background:#fff;border:2px dashed var(--line);border-radius:var(--radius);padding:12px}
@@ -39,12 +39,23 @@
 .dl .empty{color:var(--muted);font-size:14px;border:none;background:none;cursor:default;padding:4px}
 .col .pace-warn,.col .pace-ok{margin-top:6px}
 .col .pace-warn+.pace-warn{margin-top:6px}
-.addday{margin-top:16px}
+.custom-add{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.custom-add input{flex:1;min-width:140px;font:inherit;font-size:14px;padding:8px 10px;border:1px solid #cfc4aa;border-radius:8px}
 .pricebox{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:22px;box-shadow:var(--shadow)}
-.summary{width:100%;min-height:220px;font:14px/1.5 Consolas,monospace;padding:12px;border:1px solid #cfc4aa;border-radius:8px;background:#fff}
+.summary{width:100%;min-height:180px;font:14px/1.5 Consolas,monospace;padding:12px;border:1px solid #cfc4aa;border-radius:8px;background:#fff}
 .tag.warnt{background:var(--warn-bg);border-color:var(--warn);color:var(--warn)}
 .leaflet-popup-content button{font:inherit;font-weight:600;cursor:pointer;background:var(--gold);color:#fff;border:0;border-radius:999px;padding:6px 14px;margin-top:6px}
 .sr{position:absolute;left:-9999px}
+.scr[hidden]{display:none!important}
+.dcards{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin:20px 0}
+@media(max-width:760px){.dcards{grid-template-columns:1fr}}
+.dcard{background:#fff;border:2px solid var(--line);border-radius:var(--radius);padding:26px 22px;text-align:left;cursor:pointer;font:inherit;display:flex;gap:16px;align-items:flex-start;min-height:110px;width:100%}
+.dcard:hover,.dcard:focus-visible{border-color:var(--gold);box-shadow:var(--shadow)}
+.dcard .dicon{flex:0 0 auto;width:42px;height:42px;color:var(--gold)}
+.dcard .dtitle{display:block;margin:0 0 6px;font-size:19px;font-weight:700;color:var(--green-900)}
+.dcard .dsub{display:block;color:var(--muted);font-size:15px}
+h2[tabindex="-1"],h1[tabindex="-1"]{outline:none}
+h2[tabindex="-1"]:focus-visible,h1[tabindex="-1"]:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
 </style>
 </head>
 <body>
@@ -53,24 +64,69 @@
   <div class="container page-head">
     <div class="crumbs"><a href="index.html">Inicio</a> › Diseña tu viaje</div>
     <h1>Diseña tu viaje</h1>
-    <p class="lead">Elige paradas, ordénalas por días y envíanos el borrador. Un especialista lo revisará contigo; nada es definitivo hasta que lo confirmemos juntos.</p>
+    <p class="lead">Cuéntanos sobre tu grupo, elegís cómo queréis continuar y enviamos el borrador. Un especialista lo revisará con vosotros; nada es definitivo hasta que lo confirmemos juntos.</p>
     <div class="notice" id="restored" hidden>Hemos recuperado tu borrador guardado en este dispositivo. <button type="button" class="btn ghost small" id="reset">Empezar de nuevo</button></div>
   </div>
 
-  <section class="section"><div class="container">
+  <!-- Paso 1: datos del grupo -->
+  <section class="section scr" id="scr-g1"><div class="container">
     <div class="step-head"><p class="kicker">Paso 1</p><h2>Cuéntanos sobre tu grupo</h2></div>
-    <div class="form"><div class="two">
-      <div class="field"><label for="g-group">Tipo de grupo</label><select id="g-group">
-        <option value="">Elige…</option><option value="multigeneracional">Familia multigeneracional</option><option value="mayores">Viaje con personas mayores</option><option value="familia-ninos">Familia con niños</option><option value="amigos">Grupo de amigos</option><option value="pareja">Pareja</option></select></div>
-      <div class="field"><label for="g-pax">Número de personas</label><input id="g-pax" type="number" min="1" max="40" inputmode="numeric" placeholder="Ej.: 6"></div>
+    <div class="form">
+      <div class="two">
+        <div class="field"><label for="g-group">Tipo de grupo</label><select id="g-group">
+          <option value="">Elige…</option><option value="multigeneracional">Familia multigeneracional</option><option value="mayores">Viaje con personas mayores</option><option value="familia-ninos">Familia con niños</option><option value="amigos">Grupo de amigos</option><option value="pareja">Pareja</option></select></div>
+        <div class="field"><label for="g-month">Mes previsto</label><select id="g-month"><option value="">Aún no lo sé</option></select>
+          <div class="hint">Con el mes te mostramos qué paradas están en su mejor época.</div></div>
+      </div>
+      <div class="two">
+        <div class="field"><label for="g-adults">Adultos</label><input id="g-adults" type="number" min="0" max="40" inputmode="numeric" placeholder="Ej.: 4"></div>
+        <div class="field"><label for="g-children">Niños</label><input id="g-children" type="number" min="0" max="40" inputmode="numeric" placeholder="Ej.: 2"></div>
+      </div>
+      <!-- Lista de hoteles por categoría: pendiente, la dará Becky -->
+      <div class="field" style="max-width:360px"><label for="g-hotel">Categoría de hotel deseada</label>
+        <select id="g-hotel"><option value="">Elige…</option><option value="3">3 estrellas</option><option value="4">4 estrellas</option><option value="5">5 estrellas</option><option value="no-se">No lo tengo claro</option></select>
+        <div class="hint" id="hotel-hint"></div>
+      </div>
+      <div class="field"><label for="g-wishes">¿Qué os gustaría vivir en este viaje? (opcional)</label>
+        <textarea id="g-wishes" placeholder="Ej.: cultura, playa, senderismo suave, gastronomía…"></textarea></div>
+      <p id="group-tip" class="route" aria-live="polite"></p>
+      <p><button type="button" class="btn" id="g1-continue">Continuar</button></p>
     </div>
-    <div class="field" style="max-width:340px"><label for="g-month">Mes previsto</label><select id="g-month"><option value="">Aún no lo sé</option></select>
-      <div class="hint">Con el mes te mostramos qué paradas están en su mejor época.</div></div>
-    <p id="group-tip" class="route" aria-live="polite"></p></div>
   </div></section>
 
-  <section class="section alt"><div class="container">
-    <div class="step-head"><p class="kicker">Paso 2</p><h2>Elige paradas en el mapa o en la lista</h2></div>
+  <!-- Paso 1.5: decisión -->
+  <section class="section alt scr" id="scr-decision" hidden><div class="container narrow">
+    <div class="step-head"><p class="kicker">Paso 2</p><h2>¿Cómo queréis continuar?</h2>
+      <p class="lead">Elegid la forma que os resulte más cómoda; podéis cambiar de opción cuando queráis.</p></div>
+    <div class="dcards" role="group" aria-label="Cómo continuar">
+      <button type="button" class="dcard" id="opt-propio">
+        <svg class="dicon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M9 20l-5-2V6l5 2 6-2 5 2v12l-5-2-6 2z"/><path d="M9 8v12M15 6v12"/></svg>
+        <span><span class="dtitle">Quiero diseñarlo yo mismo/a</span><span class="dsub">Elegís las paradas, nosotros vigilamos el ritmo.</span></span>
+      </button>
+      <button type="button" class="dcard" id="opt-sugerido">
+        <svg class="dicon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><rect x="3" y="4" width="18" height="4" rx="1"/><rect x="3" y="10" width="18" height="4" rx="1"/><rect x="3" y="16" width="18" height="4" rx="1"/></svg>
+        <span><span class="dtitle">Prefiero ver itinerarios ya pensados</span><span class="dsub">Elegís entre los que ya tenemos preparados.</span></span>
+      </button>
+    </div>
+    <p><button type="button" class="btn ghost small" id="dec-back">◀ Volver a mis datos</button></p>
+  </div></section>
+
+  <!-- Paso 2A: diseño propio -->
+  <section class="section scr" id="scr-a" hidden><div class="container">
+    <p><button type="button" class="btn ghost small" id="a-back">◀ Volver</button></p>
+    <div class="step-head"><p class="kicker">Paso 3</p><h2>Diseña tu propio itinerario</h2>
+      <p class="lead">Elige paradas y ordénalas por días. Puedes moverlas con los botones ▲ ▼ y «Mover a», o arrastrándolas si lo prefieres; nada obliga a arrastrar con precisión.</p></div>
+    <p><a class="btn ghost" href="destinos.html" target="_blank" rel="noopener">Ver todos los destinos ↗</a></p>
+
+    <div class="step-head" style="margin-top:28px"><h3>¿Cuántos días dura el viaje?</h3></div>
+    <div class="opts" role="group" aria-label="Duración del viaje">
+      <div class="field"><label for="days-count">Número de días</label><input type="number" id="days-count" min="1" max="20" inputmode="numeric"></div>
+      <button type="button" class="btn small" id="days-update">Actualizar días</button>
+      <button type="button" class="btn ghost small" id="days-minus">−1 día</button>
+      <button type="button" class="btn ghost small" id="days-plus">+1 día</button>
+    </div>
+
+    <div class="step-head" style="margin-top:28px"><h3>Elige paradas en el mapa o en la lista</h3></div>
     <form class="filters" onsubmit="return false" aria-label="Filtros de paradas">
       <div class="field"><label for="f-region">Región</label><select id="f-region"><option value="">Todas</option></select></div>
       <div class="field"><label for="f-type">Tipo</label><select id="f-type"><option value="">Todos</option></select></div>
@@ -82,23 +138,35 @@
       <div><div id="bmap" class="map" role="region" aria-label="Mapa de paradas"></div><p class="route" id="bmap-note" style="margin-top:8px">Pulsa un marcador y usa «Añadir a mi viaje». La lista de al lado hace lo mismo sin mapa.</p></div>
       <div><p class="count route" id="count" aria-live="polite"></p><ul class="stoplist" id="stoplist"></ul></div>
     </div>
-  </div></section>
 
-  <section class="section"><div class="container">
-    <div class="step-head"><p class="kicker">Paso 3</p><h2>Organiza tus días</h2>
-      <p class="lead">Arrastra las paradas entre días, o usa los botones ▲ ▼ y «Mover a» (también en el móvil). Te avisamos si un día queda demasiado cargado.</p></div>
+    <div class="step-head" style="margin-top:28px"><h3>Organiza tus días</h3>
+      <p class="lead">Te avisamos si un día queda demasiado cargado (recomendamos no más de 2 paradas principales al día). Si echas en falta un lugar, escríbelo en «Otro lugar» dentro del día que quieras.</p></div>
     <div class="board" id="board"></div>
-    <div class="addday"><button type="button" class="btn ghost small" id="add-day">+ Añadir un día</button></div>
     <p class="sr" id="live" aria-live="polite"></p>
+
+    <p style="margin-top:24px"><button type="button" class="btn" id="a-done">He terminado mi itinerario</button></p>
   </div></section>
 
-  <section class="section alt"><div class="container">
-    <div class="step-head"><p class="kicker">Paso 4</p><h2>Precio estimado</h2></div>
-    <div class="pricebox" id="pricebox"></div>
+  <!-- Resultado con valoración -->
+  <section class="section alt scr" id="scr-result" hidden><div class="container">
+    <p><button type="button" class="btn ghost small" id="result-back">◀ Volver a mi itinerario</button></p>
+    <div class="step-head"><p class="kicker">Resultado</p><h2>Tu itinerario y nuestra valoración</h2></div>
+    <div id="rmap" class="map" role="region" aria-label="Mapa de tu itinerario"></div>
+    <p class="route" id="rmap-note" style="margin:8px 0 20px">Si el mapa no carga, el resumen de más abajo tiene toda la información.</p>
+    <div class="notice" id="assessment" role="status"></div>
+    <div class="field"><label for="result-summary">Resumen de tu borrador</label><textarea id="result-summary" class="summary" readonly></textarea></div>
+    <div class="pricebox" id="pricebox" style="margin:20px 0"></div>
+    <div class="row" style="flex-wrap:wrap;gap:12px">
+      <button type="button" class="btn ghost" id="result-adjust">Quiero reajustarlo</button>
+      <button type="button" class="btn" id="result-send">Enviarlo tal cual a un asesor</button>
+      <a class="btn wa" id="result-help-wa" href="#" target="_blank" rel="noopener">Prefiero que un asesor lo ajuste conmigo</a>
+    </div>
   </div></section>
 
-  <section class="section"><div class="container narrow">
-    <div class="step-head"><p class="kicker">Paso 5</p><h2>Envíanos tu borrador</h2>
+  <!-- Envío -->
+  <section class="section scr" id="scr-send" hidden><div class="container narrow">
+    <p><button type="button" class="btn ghost small" id="send-back">◀ Volver al resultado</button></p>
+    <div class="step-head"><p class="kicker">Último paso</p><h2>Envíanos tu borrador</h2>
       <p class="lead">Rellena lo mínimo; generamos un resumen que puedes revisar antes de enviarlo.</p></div>
     <form class="form" id="sendform" onsubmit="return false" novalidate>
       <div class="two">
@@ -117,13 +185,23 @@
       <p class="route">No hay servidor: al pulsar se abre WhatsApp o tu correo con el texto ya escrito; tú decides si lo envías.</p>
     </form>
   </div></section>
+
+  <!-- Paso 2B: itinerarios ya pensados -->
+  <section class="section alt scr" id="scr-b" hidden><div class="container">
+    <p><button type="button" class="btn ghost small" id="b-back">◀ Volver</button></p>
+    <div class="step-head"><p class="kicker">Itinerarios sugeridos</p><h2>Elige uno de nuestros itinerarios ya pensados</h2>
+      <p class="lead">Agrupados por número de días. Cada uno abre su ficha completa con todos los detalles.</p></div>
+    <div id="b-list"></div>
+  </div></section>
 </main>
 <div id="site-footer"></div>
 <script>
 E.ready(function(){
   var KEY='esencia_borrador_v1';
+  var SCREENS=['g1','decision','a','result','send','b'];
   var MONTHS=['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
   var GROUPS={'multigeneracional':'Familia multigeneracional','mayores':'Viaje con personas mayores','familia-ninos':'Familia con niños','amigos':'Grupo de amigos','pareja':'Pareja'};
+  var HOTELCATS={'3':'3 estrellas','4':'4 estrellas','5':'5 estrellas','no-se':'No lo tienen claro'};
   var ABBR={ene:1,feb:2,mar:3,abr:4,may:5,jun:6,jul:7,ago:8,sep:9,set:9,oct:10,nov:11,dic:12};
   var $=function(i){return document.getElementById(i);};
   function cap(s){return s.charAt(0).toUpperCase()+s.slice(1);}
@@ -137,7 +215,7 @@ E.ready(function(){
   }
   function inSeason(s){ var mo=parseInt(st.month,10); return !mo||seasonMonths(s.bestSeason).indexOf(mo)>=0; }
 
-  var st={group:'',pax:'',month:'',days:[[],[],[]],name:'',contact:'',notes:'',tripId:'',active:0};
+  var st={group:'',pax:'',month:'',adults:'',children:'',hotelCat:'',wishes:'',mode:'',screen:'g1',days:[[]],name:'',contact:'',notes:'',tripId:'',active:0};
   var restored=false, focusNext=null;
 
   /* ---------- persistencia ---------- */
@@ -147,14 +225,26 @@ E.ready(function(){
       var raw=localStorage.getItem(KEY); if(!raw) return;
       var o=JSON.parse(raw);
       if(o && o.days && o.days.length){
-        st.group=o.group||''; st.pax=o.pax||''; st.month=o.month||''; st.name=o.name||''; st.contact=o.contact||''; st.notes=o.notes||''; st.tripId=o.tripId||''; st.active=o.active||0;
-        st.days=o.days.map(function(d){return (d||[]).filter(function(id){return E.stop(id);});});
-        restored=st.days.some(function(d){return d.length;})||!!(st.name||st.contact||st.group||st.pax);
+        st.group=o.group||''; st.pax=o.pax||''; st.month=o.month||'';
+        st.adults=o.adults||''; st.children=o.children||''; st.hotelCat=o.hotelCat||''; st.wishes=o.wishes||''; st.mode=o.mode||''; st.screen=o.screen||'g1';
+        st.name=o.name||''; st.contact=o.contact||''; st.notes=o.notes||''; st.tripId=o.tripId||''; st.active=o.active||0;
+        st.days=o.days.map(function(d){return (d||[]).filter(function(x){ return (x&&typeof x==='object'&&x.custom)?true:!!E.stop(x); });});
+        if(!st.days.length) st.days=[[]];
+        restored=st.days.some(function(d){return d.length;})||!!(st.name||st.contact||st.group||st.adults||st.children||st.hotelCat||st.wishes||st.mode);
       }
     }catch(e){}
   }
   function all(){ var r=[]; st.days.forEach(function(d){d.forEach(function(x){r.push(x);});}); return r; }
   function inTrip(id){ return all().indexOf(id)>=0; }
+
+  /* ---------- paradas personalizadas ("Otro") ---------- */
+  function stopOrCustom(x){
+    if(x && typeof x==='object' && x.custom) return {custom:true,cid:x.cid,name:x.text||'Lugar sin nombre',stop:null};
+    var s=E.stop(x);
+    return {custom:false,id:x,name:s?s.name:'(parada)',stop:s};
+  }
+  function keyOf(x){ var o=stopOrCustom(x); return o.custom?o.cid:o.id; }
+  function indexOfKey(d,key){ for(var i=0;i<d.length;i++){ if(keyOf(d[i])===key) return i; } return -1; }
 
   /* ---------- selects ---------- */
   MONTHS.forEach(function(m,i){var o=document.createElement('option');o.value=i+1;o.textContent=cap(m);$('g-month').appendChild(o);});
@@ -167,21 +257,39 @@ E.ready(function(){
     if(!E.stop(id)||inTrip(id)) return;
     if(dayIdx==null) dayIdx=st.active;
     if(dayIdx>=st.days.length) dayIdx=st.days.length-1;
+    if(dayIdx<0) dayIdx=0;
     st.days[dayIdx].push(id); refresh(); say(E.stop(id).name+' añadida al día '+(dayIdx+1)+'.');
   }
-  function removeStop(id){ st.days.forEach(function(d){var i=d.indexOf(id); if(i>=0) d.splice(i,1);}); refresh(); }
-  function moveStop(id,toDay,toIndex){
-    var from=-1,fi=-1; st.days.forEach(function(d,i){var k=d.indexOf(id); if(k>=0){from=i;fi=k;}});
+  function addCustom(text,dayIdx){
+    text=(text||'').trim(); if(!text) return;
+    if(dayIdx==null) dayIdx=st.active;
+    if(dayIdx>=st.days.length) dayIdx=st.days.length-1;
+    if(dayIdx<0) dayIdx=0;
+    var cid='c'+Date.now().toString(36)+Math.random().toString(36).slice(2,7);
+    st.days[dayIdx].push({custom:true,text:text,cid:cid});
+    refresh(); say('«'+text+'» añadida al día '+(dayIdx+1)+'.');
+  }
+  function removeStop(key){ st.days.forEach(function(d){var i=indexOfKey(d,key); if(i>=0) d.splice(i,1);}); refresh(); }
+  function moveStop(key,toDay,toIndex){
+    var from=-1,fi=-1,item=null;
+    st.days.forEach(function(d,i){var k=indexOfKey(d,key); if(k>=0){from=i;fi=k;item=d[k];}});
     if(from<0) return;
     st.days[from].splice(fi,1);
     if(toIndex==null||toIndex>st.days[toDay].length) toIndex=st.days[toDay].length;
     if(from===toDay && toIndex>fi) toIndex--;
-    st.days[toDay].splice(toIndex,0,id);
+    st.days[toDay].splice(toIndex,0,item);
     refresh();
   }
-  function shift(id,delta){
-    st.days.forEach(function(d,di){var i=d.indexOf(id); if(i<0) return; var j=i+delta;
-      if(j<0||j>=d.length) return; d.splice(i,1); d.splice(j,0,id);});
+  function shift(key,delta){
+    st.days.forEach(function(d){var i=indexOfKey(d,key); if(i<0) return; var j=i+delta;
+      if(j<0||j>=d.length) return; var it=d[i]; d.splice(i,1); d.splice(j,0,it);});
+  }
+  function setDaysCount(n){
+    n=Math.max(1,Math.min(20,parseInt(n,10)||1));
+    while(st.days.length>n){ var removed=st.days.pop(); st.days[st.days.length-1]=st.days[st.days.length-1].concat(removed); }
+    while(st.days.length<n){ st.days.push([]); }
+    if(st.active>=st.days.length) st.active=st.days.length-1;
+    refresh(); say('Ahora tu viaje tiene '+n+' día'+(n===1?'':'s')+'.');
   }
   function say(t){ $('live').textContent=t; }
 
@@ -205,7 +313,7 @@ E.ready(function(){
     renderMarkers(l);
   }
 
-  /* ---------- mapa ---------- */
+  /* ---------- mapa de selección (paso 2A) ---------- */
   var map=null, layer=null;
   function renderMarkers(l){
     if(!map||!layer) return;
@@ -220,11 +328,35 @@ E.ready(function(){
     });
     if(pts.length && !renderMarkers.fitted){ map.fitBounds(pts,{padding:[30,30],maxZoom:12}); renderMarkers.fitted=true; }
   }
-  E.loadLeaflet(function(){
-    try{ map=E.newMap($('bmap')); layer=L.layerGroup().addTo(map); renderMarkers(filtered()); }
-    catch(e){ $('bmap-note').textContent='No se pudo cargar el mapa; usa la lista.'; }
-  });
-  setTimeout(function(){ if(!window.L) $('bmap-note').textContent='No se pudo cargar el mapa; usa la lista.'; },8000);
+  function ensureMap(){
+    if(map) return;
+    E.loadLeaflet(function(){
+      try{ map=E.newMap($('bmap')); layer=L.layerGroup().addTo(map); renderMarkers(filtered()); }
+      catch(e){ $('bmap-note').textContent='No se pudo cargar el mapa; usa la lista.'; }
+    });
+    setTimeout(function(){ if(!window.L) $('bmap-note').textContent='No se pudo cargar el mapa; usa la lista.'; },8000);
+  }
+
+  /* ---------- mapa de resultado ---------- */
+  var rmap=null, rlayer=null;
+  function renderResultMarkers(){
+    if(!rmap||!rlayer) return;
+    rlayer.clearLayers(); var pts=[];
+    all().forEach(function(x){
+      var o=stopOrCustom(x); if(o.custom||!o.stop||typeof o.stop.lat!=='number') return;
+      var s=o.stop;
+      L.marker([s.lat,s.lng],{title:s.name,alt:s.name}).addTo(rlayer).bindPopup('<strong>'+E.esc(s.name)+'</strong>');
+      pts.push([s.lat,s.lng]);
+    });
+    if(pts.length) rmap.fitBounds(pts,{padding:[30,30],maxZoom:12});
+  }
+  function ensureResultMap(){
+    if(rmap){ renderResultMarkers(); return; }
+    E.loadLeaflet(function(){
+      try{ rmap=E.newMap($('rmap')); rlayer=L.layerGroup().addTo(rmap); renderResultMarkers(); }
+      catch(e){ var n=$('rmap-note'); if(n) n.textContent='No se pudo cargar el mapa; el resumen de abajo tiene todos los datos.'; }
+    });
+  }
 
   /* ---------- tablero de días ---------- */
   function renderBoard(){
@@ -235,18 +367,23 @@ E.ready(function(){
         '<div class="pace-ok">'+(d.length?'Ritmo cómodo para este día.':'Día libre por ahora.')+'</div>';
       return '<section class="col" data-day="'+i+'" aria-label="Día '+(i+1)+'"><h3><span>Día '+(i+1)+(i===0?' · llegada':'')+'</span>'+
         (st.days.length>1?'<button type="button" class="btn small ghost" data-rmday="'+i+'" aria-label="Quitar el día '+(i+1)+'">Quitar día</button>':'')+'</h3>'+
-        '<ul class="dl" data-day="'+i+'">'+(d.length?d.map(function(id,k){
-          var s=E.stop(id);
-          return '<li draggable="true" data-id="'+E.esc(id)+'"><span class="nm">'+E.esc(s.name)+'</span><div class="ctl">'+
-            '<button type="button" data-up="'+E.esc(id)+'" aria-label="Subir '+E.esc(s.name)+'"'+(k===0?' disabled':'')+'>▲</button>'+
-            '<button type="button" data-down="'+E.esc(id)+'" aria-label="Bajar '+E.esc(s.name)+'"'+(k===d.length-1?' disabled':'')+'>▼</button>'+
-            '<select data-mv="'+E.esc(id)+'" aria-label="Mover '+E.esc(s.name)+' a otro día"><option value="">Mover a…</option>'+opts.replace('<option value="'+i+'">','<option value="'+i+'" disabled>')+'</select>'+
-            '<button type="button" data-rm="'+E.esc(id)+'" aria-label="Quitar '+E.esc(s.name)+'">✕</button></div></li>';
-        }).join(''):'<li class="empty">Arrastra una parada aquí o añádela desde el paso 2.</li>')+'</ul>'+pace+'</section>';
+        '<ul class="dl" data-day="'+i+'">'+(d.length?d.map(function(x,k){
+          var o=stopOrCustom(x), key=o.custom?o.cid:o.id;
+          return '<li draggable="true" data-id="'+E.esc(key)+'"><span class="nm">'+E.esc(o.name)+(o.custom?' <em class="route">(añadido por vosotros)</em>':'')+'</span><div class="ctl">'+
+            '<button type="button" data-up="'+E.esc(key)+'" aria-label="Subir '+E.esc(o.name)+'"'+(k===0?' disabled':'')+'>▲</button>'+
+            '<button type="button" data-down="'+E.esc(key)+'" aria-label="Bajar '+E.esc(o.name)+'"'+(k===d.length-1?' disabled':'')+'>▼</button>'+
+            '<select data-mv="'+E.esc(key)+'" aria-label="Mover '+E.esc(o.name)+' a otro día"><option value="">Mover a…</option>'+opts.replace('<option value="'+i+'">','<option value="'+i+'" disabled>')+'</select>'+
+            '<button type="button" data-rm="'+E.esc(key)+'" aria-label="Quitar '+E.esc(o.name)+'">✕</button></div></li>';
+        }).join(''):'<li class="empty">Arrastra una parada aquí, añádela desde arriba o escribe una en «Otro lugar».</li>')+'</ul>'+pace+
+        '<form class="custom-add" data-day="'+i+'" onsubmit="return false"><label class="sr" for="custom-'+i+'">Otro lugar para el día '+(i+1)+'</label>'+
+        '<input type="text" id="custom-'+i+'" placeholder="Ej.: un mercado que vimos en un vídeo">'+
+        '<button type="button" class="btn small ghost" data-addcustom="'+i+'">Añadir</button></form>'+
+        '</section>';
     }).join('');
     $('f-add-day').innerHTML=st.days.map(function(_,k){return '<option value="'+k+'">Día '+(k+1)+'</option>';}).join('');
     if(st.active>=st.days.length) st.active=st.days.length-1;
     $('f-add-day').value=st.active;
+    var dc=$('days-count'); if(dc && document.activeElement!==dc) dc.value=st.days.length;
     if(focusNext){ var el=document.querySelector('#board ['+focusNext.attr+'="'+focusNext.id+'"]'); if(el&&!el.disabled) el.focus(); else { var alt=document.querySelector('#board [data-id="'+focusNext.id+'"] button:not([disabled])'); if(alt) alt.focus(); } focusNext=null; }
   }
 
@@ -271,11 +408,14 @@ E.ready(function(){
     L.push('Borrador de viaje a Vietnam (Esencia Vietnam)');
     L.push('Nombre: '+(st.name||'—'));
     L.push('Contacto: '+(st.contact||'—'));
-    L.push('Grupo: '+(GROUPS[st.group]||'sin indicar')+' · Personas: '+(st.pax||'sin indicar')+' · Mes: '+(st.month?MONTHS[st.month-1]:'sin indicar'));
+    var paxTxt=(st.adults||st.children)?((st.adults||'0')+' adulto'+(st.adults==='1'?'':'s')+', '+(st.children||'0')+' niño'+(st.children==='1'?'':'s')):'sin indicar';
+    L.push('Grupo: '+(GROUPS[st.group]||'sin indicar')+' · Personas: '+paxTxt+' · Mes: '+(st.month?MONTHS[st.month-1]:'sin indicar'));
+    L.push('Categoría de hotel deseada: '+(HOTELCATS[st.hotelCat]||'sin indicar'));
+    if(st.wishes) L.push('Qué les gustaría vivir: '+st.wishes);
     L.push('');
     var warns=[];
     st.days.forEach(function(d,i){
-      L.push('Día '+(i+1)+(i===0?' (llegada)':'')+': '+(d.length?d.map(function(id){return E.stop(id).name;}).join(' → '):'libre / por definir'));
+      L.push('Día '+(i+1)+(i===0?' (llegada)':'')+': '+(d.length?d.map(function(x){return stopOrCustom(x).name;}).join(' → '):'libre / por definir'));
       E.paceCheck(d,{arrival:i===0}).forEach(function(m){warns.push('Día '+(i+1)+': '+m);});
     });
     L.push('');
@@ -291,12 +431,78 @@ E.ready(function(){
     $('send-mail').href=E.mailLink('Borrador de viaje a Vietnam'+(st.name?' — '+st.name:''),txt);
   }
 
+  /* ---------- valoración automática (paso Resultado) ---------- */
+  function assessment(){
+    var msgs=[], emptyDays=0, senior=(st.group==='mayores'||st.group==='multigeneracional');
+    st.days.forEach(function(d,i){
+      E.paceCheck(d,{arrival:i===0}).forEach(function(m){msgs.push(m);});
+      if(!d.length) emptyDays++;
+    });
+    var total=all().length;
+    if(st.days.length && total>st.days.length*3){
+      msgs.push('Tenéis '+total+' paradas para '+st.days.length+' día'+(st.days.length===1?'':'s')+'; podría ir muy justo. Quizá conviene quitar alguna parada o añadir un día más.');
+    }
+    if(emptyDays>0){
+      msgs.push('Hay '+emptyDays+' día'+(emptyDays===1?'':'s')+' todavía sin ninguna parada; podéis dejarlo para descansar o añadir algo tranquilo.');
+    }
+    if(senior){
+      var hasAlto=all().some(function(x){var o=stopOrCustom(x); return o.stop&&o.stop.walking==='alto';});
+      if(hasAlto) msgs.push('Vuestro grupo incluye personas mayores, y hay paradas con mucha caminata o escaleras; conviene revisarlas con calma.');
+    }
+    if(!msgs.length) msgs.push('Vuestro itinerario tiene un ritmo cómodo; no hay avisos especiales.');
+    return msgs.slice(0,3);
+  }
+  function renderResult(){
+    renderPrice();
+    $('result-summary').value=summaryText();
+    $('assessment').innerHTML=assessment().map(function(m){return '<p style="margin:4px 0">'+E.esc(m)+'</p>';}).join('');
+    var helpMsg='Hola, hemos preparado un borrador de nuestro viaje a Vietnam y preferimos que un asesor nos ayude a ajustarlo con nosotros.\n\n'+summaryText();
+    $('result-help-wa').href=E.waLink(helpMsg);
+  }
+
+  /* ---------- itinerarios ya pensados (paso 2B) ---------- */
+  function renderSuggested(){
+    var trips=E.D.trips.slice();
+    var g=st.group;
+    var list=g?trips.filter(function(t){return (t.groups||[]).indexOf(g)>=0;}):trips;
+    if(g && !list.length) list=trips;
+    var by={}; list.forEach(function(t){(by[t.days]=by[t.days]||[]).push(t);});
+    var keys=Object.keys(by).map(Number).sort(function(a,b){return a-b;});
+    $('b-list').innerHTML=keys.length?keys.map(function(k){
+      var n=by[k].length;
+      return '<section class="dgroup"><h3>'+k+' día'+(k===1?'':'s')+' · '+n+(n===1?' opción':' opciones')+'</h3><div class="tcards">'+by[k].map(E.tripCard).join('')+'</div></section>';
+    }).join(''):'<p>De momento no tenemos itinerarios preparados que mostrar aquí. <a href="viajes.html">Consulta todos los viajes</a>.</p>';
+  }
+
   function refresh(){ renderBoard(); renderList(); renderPrice(); renderSummary(); save(); }
+
+  /* ---------- pantallas ---------- */
+  function focusHeading(name){
+    var el=$('scr-'+name); if(!el) return;
+    var h=el.querySelector('h1,h2'); if(!h) return;
+    if(!h.hasAttribute('tabindex')) h.setAttribute('tabindex','-1');
+    try{ h.focus(); }catch(e){}
+  }
+  function showScreen(name,opts){
+    opts=opts||{};
+    if(SCREENS.indexOf(name)<0) name='g1';
+    st.screen=name;
+    SCREENS.forEach(function(s){ var el=$('scr-'+s); if(el) el.hidden=(s!==name); });
+    if(name==='a'){ ensureMap(); if(map) setTimeout(function(){map.invalidateSize();},0); }
+    if(name==='result'){ renderResult(); ensureResultMap(); if(rmap) setTimeout(function(){rmap.invalidateSize();},0); }
+    if(name==='b'){ renderSuggested(); }
+    save();
+    if(!opts.silent) focusHeading(name);
+  }
 
   /* ---------- eventos ---------- */
   document.addEventListener('click',function(e){
-    var b=e.target.closest('[data-add],[data-rm],[data-up],[data-down],[data-rmday]'); if(!b) return;
+    var b=e.target.closest('[data-add],[data-rm],[data-up],[data-down],[data-rmday],[data-addcustom]'); if(!b) return;
     if(b.hasAttribute('data-add')){ addStop(b.getAttribute('data-add'),parseInt($('f-add-day').value,10)||0); if(map) map.closePopup(); }
+    else if(b.hasAttribute('data-addcustom')){
+      var day=parseInt(b.getAttribute('data-addcustom'),10), inp=$('custom-'+day);
+      addCustom(inp?inp.value:'',day);
+    }
     else if(b.hasAttribute('data-rm')){ removeStop(b.getAttribute('data-rm')); }
     else if(b.hasAttribute('data-up')){ var id=b.getAttribute('data-up'); shift(id,-1); focusNext={attr:'data-up',id:id}; refresh(); }
     else if(b.hasAttribute('data-down')){ var id2=b.getAttribute('data-down'); shift(id2,1); focusNext={attr:'data-down',id:id2}; refresh(); }
@@ -309,6 +515,13 @@ E.ready(function(){
   $('board').addEventListener('change',function(e){
     var s=e.target.closest('select[data-mv]'); if(!s||s.value==='') return;
     var id=s.getAttribute('data-mv'); focusNext={attr:'data-up',id:id}; moveStop(id,parseInt(s.value,10),null); say('Parada movida al día '+(parseInt(s.value,10)+1)+'.');
+  });
+  $('board').addEventListener('keydown',function(e){
+    if(e.key==='Enter' && e.target && e.target.matches && e.target.matches('input[id^="custom-"]')){
+      e.preventDefault();
+      var day=parseInt(e.target.id.slice(7),10);
+      addCustom(e.target.value,day);
+    }
   });
   /* arrastrar y soltar */
   var dragId=null;
@@ -325,17 +538,24 @@ E.ready(function(){
   $('board').addEventListener('drop',function(e){
     var c=e.target.closest('.col'); if(!c||!dragId) return; e.preventDefault();
     var day=parseInt(c.getAttribute('data-day'),10), li=e.target.closest('li[data-id]'), idx=null;
-    if(li){ idx=st.days[day].indexOf(li.getAttribute('data-id')); if(idx<0) idx=null; }
+    if(li){ idx=indexOfKey(st.days[day],li.getAttribute('data-id')); if(idx<0) idx=null; }
     var id=dragId; dragId=null; focusNext={attr:'data-up',id:id}; moveStop(id,day,idx);
   });
 
-  $('add-day').addEventListener('click',function(){ st.days.push([]); refresh(); say('Día '+st.days.length+' añadido.'); });
   ['f-region','f-type','f-walk','f-season'].forEach(function(id){$(id).addEventListener('change',renderList);});
   $('f-add-day').addEventListener('change',function(){ st.active=parseInt(this.value,10)||0; save(); });
 
+  $('days-update').addEventListener('click',function(){ setDaysCount($('days-count').value); });
+  $('days-minus').addEventListener('click',function(){ setDaysCount(st.days.length-1); });
+  $('days-plus').addEventListener('click',function(){ setDaysCount(st.days.length+1); });
+  $('days-count').addEventListener('keydown',function(e){ if(e.key==='Enter'){ e.preventDefault(); setDaysCount(this.value); } });
+
   function bindField(id,key,cb){ $(id).addEventListener('input',function(){ st[key]=this.value; if(cb) cb(); renderSummary(); save(); }); $(id).addEventListener('change',function(){ st[key]=this.value; if(cb) cb(); renderSummary(); save(); }); }
   bindField('g-group','group',function(){ tip(); renderList(); });
-  bindField('g-pax','pax'); bindField('g-month','month',function(){ renderList(); });
+  bindField('g-month','month',function(){ renderList(); });
+  function syncPax(){ st.pax=(parseInt(st.adults,10)||0)+(parseInt(st.children,10)||0); }
+  bindField('g-adults','adults',syncPax); bindField('g-children','children',syncPax);
+  bindField('g-hotel','hotelCat'); bindField('g-wishes','wishes');
   bindField('c-name','name'); bindField('c-contact','contact'); bindField('c-notes','notes');
   function tip(){
     $('group-tip').textContent=(st.group==='mayores'||st.group==='multigeneracional')?'Te marcaremos las paradas con mucha caminata y te avisaremos si un día queda muy cargado.':(st.group==='familia-ninos'?'Recomendamos como máximo 2 paradas principales por día para que los niños disfruten.':'');
@@ -343,7 +563,6 @@ E.ready(function(){
 
   ['send-wa','send-mail'].forEach(function(id){
     $(id).addEventListener('click',function(e){
-      var f=$('sendform');
       if(!$('c-name').value.trim()||!$('c-contact').value.trim()){ e.preventDefault(); $('copy-msg').textContent='Indica tu nombre y un WhatsApp o email para poder responderte.'; ($('c-name').value.trim()?$('c-contact'):$('c-name')).focus(); }
     });
   });
@@ -355,13 +574,29 @@ E.ready(function(){
   });
   $('reset').addEventListener('click',function(){
     try{ localStorage.removeItem(KEY); }catch(e){}
-    st={group:'',pax:'',month:'',days:[[],[],[]],name:'',contact:'',notes:'',tripId:'',active:0};
-    syncFields(); $('restored').hidden=true; refresh();
+    st={group:'',pax:'',month:'',adults:'',children:'',hotelCat:'',wishes:'',mode:'',screen:'g1',days:[[]],name:'',contact:'',notes:'',tripId:'',active:0};
+    syncFields(); $('restored').hidden=true; showScreen('g1'); refresh();
   });
 
+  /* ---------- navegación entre pantallas ---------- */
+  $('g1-continue').addEventListener('click',function(){ showScreen('decision'); });
+  $('dec-back').addEventListener('click',function(){ showScreen('g1'); });
+  $('opt-propio').addEventListener('click',function(){ st.mode='propio'; showScreen('a'); });
+  $('opt-sugerido').addEventListener('click',function(){ st.mode='sugerido'; showScreen('b'); });
+  $('a-back').addEventListener('click',function(){ showScreen('decision'); });
+  $('a-done').addEventListener('click',function(){ showScreen('result'); });
+  $('result-back').addEventListener('click',function(){ showScreen('a'); });
+  $('result-adjust').addEventListener('click',function(){ showScreen('a'); });
+  $('result-send').addEventListener('click',function(){ showScreen('send'); });
+  $('send-back').addEventListener('click',function(){ showScreen('result'); });
+  $('b-back').addEventListener('click',function(){ showScreen('decision'); });
+
   function syncFields(){
-    $('g-group').value=st.group; $('g-pax').value=st.pax; $('g-month').value=st.month;
+    $('g-group').value=st.group; $('g-month').value=st.month;
+    $('g-adults').value=st.adults; $('g-children').value=st.children;
+    $('g-hotel').value=st.hotelCat; $('g-wishes').value=st.wishes;
     $('c-name').value=st.name; $('c-contact').value=st.contact; $('c-notes').value=st.notes; tip();
+    $('hotel-hint').innerHTML='Todavía no mostramos hoteles concretos por categoría aquí. '+E.todo('lista de hoteles por categoría');
   }
 
   /* ---------- arranque ---------- */
@@ -370,12 +605,15 @@ E.ready(function(){
   if(t0){
     st.tripId=t0.id; st.days=t0.itinerary.map(function(d){return d.stops.filter(function(id){return E.stop(id);});});
     if(!st.days.length) st.days=[[]];
-    restored=false;
+    st.mode='propio'; st.screen='a'; restored=false;
+  }
+  if(addQ && E.stop(addQ) && !inTrip(addQ)){
+    st.days[Math.min(st.active,st.days.length-1)].push(addQ); st.mode='propio'; if(!t0) st.screen='a';
   }
   if(restored) $('restored').hidden=false;
   syncFields();
-  if(addQ && E.stop(addQ)){ if(!inTrip(addQ)) st.days[Math.min(st.active,st.days.length-1)].push(addQ); }
   refresh();
+  showScreen(SCREENS.indexOf(st.screen)>=0?st.screen:'g1',{silent:true});
   if(addQ && E.stop(addQ)) say(E.stop(addQ).name+' añadida a tu viaje.');
 });
 </script>

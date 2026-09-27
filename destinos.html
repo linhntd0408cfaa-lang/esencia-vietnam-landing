@@ -26,7 +26,13 @@
   <div class="container page-head">
     <div class="crumbs"><a href="index.html">Inicio</a> › Destinos</div>
     <h1>Destinos y paradas</h1>
-    <p class="lead">Filtra por región, tipo, nivel de caminata o mes de viaje. Cuando algo te guste, añádelo a tu viaje.</p>
+    <p class="lead">Aquí exploráis, uno a uno, todos los lugares que visitamos en Vietnam.</p>
+    <ul class="checks" style="max-width:640px;margin:14px 0 0">
+      <li>Filtra por región, tipo de lugar, nivel de caminata o mes de viaje.</li>
+      <li>Mira cada parada en el mapa o en la lista.</li>
+      <li>Entra en una parada para ver su foto, duración y qué descubriréis allí.</li>
+      <li>Cuando algo os guste, añadidlo a vuestro viaje desde "Diseña tu viaje".</li>
+    </ul>
   </div>
   <section class="section"><div class="container">
     <form class="filters" id="filters" aria-label="Filtros de paradas" onsubmit="return false">
@@ -108,7 +114,7 @@ E.ready(function(){
     } else if(map){ setTimeout(function(){map.invalidateSize();render();},50); }
   }
   ['f-region','f-type','f-walk','f-month'].forEach(function(id){$(id).addEventListener('change',render);});
-  $('f-reset').addEventListener('click',function(){['f-region','f-type','f-walk','f-month'].forEach(function(id){$(id).value='';});render();});
+  $('f-reset').addEventListener('click',function(){zona='';['f-region','f-type','f-walk','f-month'].forEach(function(id){$(id).value='';});if(history.replaceState)history.replaceState(null,'','destinos.html');render();});
   $('v-map').addEventListener('click',function(){setView('mapa');});
   $('v-list').addEventListener('click',function(){setView('lista');});
   render(); setView('mapa');
